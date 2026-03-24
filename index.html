@@ -134,10 +134,10 @@ html { scroll-behavior: smooth; }
                 <p class="text-xl opacity-60">Quelques projets perso autour de la data et de la finance.</p>
             </div>
             <div class="text-right">
-                <span class="text-9xl font-serif-accent italic text-brand-muted">01/03</span>
+                <span class="text-9xl font-serif-accent italic text-brand-muted">01/04</span>
             </div>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-0">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-0">
 
             <!-- Project 1: Prediction Market Arbitrage -->
             <a href="01-context-and-research.html" class="museum-block lg:border-r-0 fade-in-up block group">
@@ -188,7 +188,31 @@ html { scroll-behavior: smooth; }
                 </div>
             </a>
 
-            <!-- Project 3: Fraud Detection -->
+            <!-- Project 3: Space Weather -->
+            <a href="space-weather-dashboard.html" class="museum-block lg:border-r-0 group fade-in-up block">
+                <div class="mb-16">
+                    <span class="inline-block px-3 py-1 bg-brand-orange text-white text-[10px] font-bold uppercase tracking-widest mb-6">Dashboard</span>
+                    <h3 class="text-3xl mb-6 group-hover:text-brand-indigo transition-colors">Space<br/>Weather</h3>
+                    <p class="opacity-70 leading-relaxed mb-8">27 years of solar &amp; geomagnetic data from NOAA/NASA. Solar cycle analysis, anomaly detection (IQR + Isolation Forest), SARIMA vs Prophet forecasting, and an interactive 4-panel dashboard.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Time Series</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Anomaly Det.</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">SARIMA</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Prophet</span>
+                    </div>
+                </div>
+                <div class="aspect-[4/3] bg-brand-muted relative overflow-hidden">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-40 h-40 border-2 border-brand-orange rounded-full opacity-40"></div>
+                        <div class="w-24 h-24 border-2 border-brand-orange rounded-full opacity-60"></div>
+                        <div class="w-10 h-10 bg-brand-orange rounded-full opacity-80"></div>
+                        <div class="absolute w-full h-[1px] bg-brand-indigo/30 rotate-[20deg]"></div>
+                        <div class="absolute w-full h-[1px] bg-brand-indigo/20 -rotate-[15deg]"></div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Project 4: Fraud Detection -->
             <a href="fraud-detection-rl-vs-rf.html" class="museum-block group fade-in-up block">
                 <div class="mb-16">
                     <span class="inline-block px-3 py-1 bg-gallery-text text-white text-[10px] font-bold uppercase tracking-widest mb-6">RL</span>
@@ -243,6 +267,14 @@ html { scroll-behavior: smooth; }
                 <div class="flex-1">
                     <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Backtest Results &amp; Analysis</h4>
                     <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">Performance evaluation, Monte Carlo simulations, and profit distribution analysis.</p>
+                </div>
+                <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
+            </a>
+            <a href="space-weather-dashboard.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.05</span>
+                <div class="flex-1">
+                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Space Weather Dashboard</h4>
+                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">27 ans de donn&eacute;es solaires &amp; g&eacute;omagn&eacute;tiques : cycles, anomalies, forecasting et dashboard interactif.</p>
                 </div>
                 <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
             </a>
