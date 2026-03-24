@@ -134,7 +134,7 @@ html { scroll-behavior: smooth; }
                 <p class="text-xl opacity-60">A few personal projects around data and finance.</p>
             </div>
             <div class="text-right">
-                <span class="text-9xl font-serif-accent italic text-brand-muted">01/04</span>
+                <span class="text-9xl font-serif-accent italic text-brand-muted">01/05</span>
             </div>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-0">
@@ -234,6 +234,42 @@ html { scroll-behavior: smooth; }
                 </div>
             </a>
 
+            <!-- Project 5: FDA FAERS Pharmacovigilance -->
+            <a href="01-faers-data-pipeline-eda.html" class="museum-block lg:col-span-2 bg-gallery-text text-white border-none group fade-in-up block">
+                <div class="mb-16">
+                    <span class="inline-block px-3 py-1 bg-brand-orange text-white text-[10px] font-bold uppercase tracking-widest mb-6">Healthcare</span>
+                    <h3 class="text-3xl mb-6 group-hover:opacity-80 transition-opacity">FDA Adverse<br/>Event Analysis</h3>
+                    <p class="opacity-80 leading-relaxed mb-8">1.6 million adverse drug event reports from the FDA FAERS database. Full data pipeline, severity classification (XGBoost + SHAP), and pharmacovigilance signal detection using PRR &amp; ROR — the same methods regulators use.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">XGBoost</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">SHAP</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">Pharmacovigilance</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">Signal Detection</span>
+                    </div>
+                </div>
+                <div class="aspect-[5/2] bg-white/10 relative overflow-hidden">
+                    <div class="absolute inset-0 flex items-center justify-center gap-3 p-8">
+                        <div class="flex-1 h-full flex items-end gap-1">
+                            <div class="flex-1 bg-brand-orange h-[70%] opacity-60"></div>
+                            <div class="flex-1 bg-white h-[45%] opacity-40"></div>
+                            <div class="flex-1 bg-brand-orange h-[85%] opacity-60"></div>
+                            <div class="flex-1 bg-white h-[30%] opacity-40"></div>
+                            <div class="flex-1 bg-brand-orange h-[55%] opacity-60"></div>
+                            <div class="flex-1 bg-white h-[65%] opacity-40"></div>
+                            <div class="flex-1 bg-brand-orange h-[40%] opacity-60"></div>
+                            <div class="flex-1 bg-white h-[90%] opacity-40"></div>
+                        </div>
+                        <div class="w-px h-full bg-white/20"></div>
+                        <div class="flex-1 flex items-center justify-center">
+                            <div class="w-20 h-20 border-2 border-brand-orange rounded-full opacity-60 relative">
+                                <div class="absolute inset-2 border border-white/40 rounded-full"></div>
+                                <div class="absolute inset-5 bg-brand-orange/40 rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
         </div>
     </div>
 </section>
@@ -278,11 +314,35 @@ html { scroll-behavior: smooth; }
                 </div>
                 <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
             </a>
-            <a href="bonus-llm-engineering.html" class="group py-12 md:py-16 border-t border-b border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+            <a href="bonus-llm-engineering.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
                 <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">BONUS</span>
                 <div class="flex-1">
                     <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">LLM Engineering</h4>
                     <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">Prompt engineering, structured output parsing, and LLM integration patterns for financial analysis.</p>
+                </div>
+                <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
+            </a>
+            <a href="01-faers-data-pipeline-eda.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.06</span>
+                <div class="flex-1">
+                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">FAERS Data Pipeline &amp; EDA</h4>
+                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">1.6M adverse drug events from the FDA : data loading, merging, deduplication, and exploratory analysis.</p>
+                </div>
+                <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
+            </a>
+            <a href="02-predicting-adverse-event-severity.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.07</span>
+                <div class="flex-1">
+                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Predicting Adverse Event Severity</h4>
+                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">ML classification of serious cases : feature engineering, XGBoost, SHAP feature importance, and error analysis.</p>
+                </div>
+                <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
+            </a>
+            <a href="03-pharmacovigilance-signal-detection.html" class="group py-12 md:py-16 border-t border-b border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.08</span>
+                <div class="flex-1">
+                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Pharmacovigilance Signal Detection</h4>
+                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">PRR &amp; ROR disproportionality analysis : detecting statistically overrepresented drug-reaction pairs.</p>
                 </div>
                 <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
             </a>
