@@ -1,311 +1,317 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
+<html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Leo Didier — Data Science & Quantitative Finance</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@100;200;300;400;500;600&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "deep-space": "#05051a",
-              "nebula-purple": "#2d1b4e",
-              "nebula-blue": "#1a1a4d",
-              "surface": "#0c0e17",
-              "surface-container": "#171924",
-              "surface-bright": "#282b3a",
-              "metallic-gold": "#d4af37",
-              "metallic-silver": "#c0c0c0",
-              "electric-blue": "#81ecff",
-            },
-            fontFamily: {
-              "serif-elegant": ['"Playfair Display"', "serif"],
-              "sans-thin": ["Inter", "sans-serif"],
-            }
-          },
-        },
-      }
-    </script>
-    <style>
-        html { scroll-behavior: smooth; }
-        ::selection { background: rgba(212, 175, 55, 0.3); color: white; }
-        .text-glow { text-shadow: 0 0 40px rgba(255, 255, 255, 0.15); }
-
-        .metallic-gold-border {
-            border: 1px solid #d4af37;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
-        }
-        .metallic-gold-border:hover {
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
-        }
-        .metallic-silver-border {
-            border: 1px solid rgba(192, 192, 192, 0.3);
-            box-shadow: 0 0 15px rgba(192, 192, 192, 0.1);
-        }
-        .metallic-silver-border:hover {
-            border-color: rgba(192, 192, 192, 0.6);
-        }
-        .ghost-border {
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-        .ghost-border:hover {
-            border-color: rgba(212, 175, 55, 0.3);
-        }
-
-        /* Animated nebula background */
-        .nebula-bg { position: relative; overflow: hidden; }
-        .nebula-bg::before {
-            content: '';
-            position: absolute;
-            inset: -50%;
-            width: 200%;
-            height: 200%;
-            background:
-                radial-gradient(ellipse 600px 600px at 20% 30%, rgba(45, 27, 78, 0.6) 0%, transparent 70%),
-                radial-gradient(ellipse 500px 500px at 80% 70%, rgba(26, 26, 77, 0.5) 0%, transparent 70%),
-                radial-gradient(ellipse 300px 300px at 60% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 70%),
-                radial-gradient(ellipse 400px 400px at 40% 80%, rgba(129, 236, 255, 0.05) 0%, transparent 70%);
-            animation: nebula-drift 20s ease-in-out infinite;
-            z-index: 0;
-        }
-        @keyframes nebula-drift {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(2%, -3%) rotate(1deg); }
-            50% { transform: translate(-1%, 2%) rotate(-0.5deg); }
-            75% { transform: translate(3%, 1%) rotate(0.5deg); }
-        }
-
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .fade-in-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .project-card {
-            transition: transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
-        }
-        .project-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        }
-        .notebook-link { transition: color 0.3s, padding-left 0.3s; }
-        .notebook-link:hover { color: #d4af37; padding-left: 0.5rem; }
-
-        @keyframes descend {
-            0%, 100% { opacity: 0.4; transform: translateY(0); }
-            50% { opacity: 0.8; transform: translateY(8px); }
-        }
-        .descend-indicator { animation: descend 2s ease-in-out infinite; }
-    </style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Leo Didier | Data Science & ML</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        "gallery-bg": "#FFFFFF",
+        "gallery-text": "#0A0A0A",
+        "brand-indigo": "#2D31FA",
+        "brand-orange": "#FF4D00",
+        "brand-muted": "#F5F5F5",
+      },
+      fontFamily: {
+        "headline": ["Space Grotesk", "sans-serif"],
+        "serif-accent": ["Instrument Serif", "serif"],
+        "body": ["Space Grotesk", "sans-serif"],
+      },
+    },
+  },
+}
+</script>
+<style type="text/tailwindcss">
+@layer base {
+  body { @apply bg-gallery-bg text-gallery-text font-body antialiased; }
+  h1, h2, h3, h4 { @apply font-headline uppercase tracking-tighter; }
+}
+.museum-block {
+  @apply border border-gallery-text/10 p-8 md:p-12 transition-all duration-500 hover:border-gallery-text;
+}
+.sculpture-gradient {
+  background: linear-gradient(135deg, #2D31FA, #FF4D00);
+  filter: blur(80px);
+  opacity: 0.15;
+}
+.text-sideways {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+</style>
+<style>
+html { scroll-behavior: smooth; }
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
 </head>
-<body class="bg-deep-space font-sans-thin text-slate-300 overflow-x-hidden">
+<body class="selection:bg-brand-orange selection:text-white">
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 bg-deep-space/40 backdrop-blur-xl border-b border-white/5">
-        <div class="flex justify-between items-center px-8 md:px-12 py-5 max-w-7xl mx-auto">
-            <a href="#home" class="text-lg font-light tracking-[0.3em] text-white font-sans-thin">Léo Didier</a>
-            <div class="hidden md:flex items-center space-x-12 text-[10px] uppercase tracking-[0.4em] font-light">
-                <a class="nav-link text-white hover:text-metallic-gold transition-colors duration-500" href="#home">Home</a>
-                <a class="nav-link text-slate-400 hover:text-white transition-colors duration-500" href="#projects">Projects</a>
-                <a class="nav-link text-slate-400 hover:text-white transition-colors duration-500" href="#contact">Contact</a>
-            </div>
-            <div class="md:hidden">
-                <span class="material-symbols-outlined text-white cursor-pointer" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">menu</span>
-            </div>
-        </div>
-        <div id="mobile-nav" class="hidden md:hidden bg-deep-space/95 backdrop-blur-xl border-t border-white/5 px-8 py-6 space-y-4">
-            <a class="block text-[11px] uppercase tracking-[0.3em] text-white" href="#home" onclick="this.parentElement.classList.add('hidden')">Home</a>
-            <a class="block text-[11px] uppercase tracking-[0.3em] text-slate-400" href="#projects" onclick="this.parentElement.classList.add('hidden')">Projects</a>
-            <a class="block text-[11px] uppercase tracking-[0.3em] text-slate-400" href="#contact" onclick="this.parentElement.classList.add('hidden')">Contact</a>
-        </div>
-    </nav>
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md flex justify-between items-center px-8 md:px-16 py-8 border-b border-gallery-text/5">
+    <a href="#home" class="text-xl font-bold tracking-tight">
+        LÉO <span class="text-brand-indigo">DIDIER</span>
+    </a>
+    <div class="hidden md:flex gap-12 items-center text-xs font-bold uppercase tracking-widest">
+        <a class="hover:text-brand-orange transition-colors" href="#projects">Projects</a>
+        <a class="hover:text-brand-orange transition-colors" href="#notebooks">Deep Dives</a>
+        <a class="bg-brand-indigo text-white px-6 py-3 hover:bg-brand-orange transition-all" href="#contact">Get in Touch</a>
+    </div>
+    <div class="md:hidden">
+        <span class="material-symbols-outlined text-gallery-text cursor-pointer" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">menu</span>
+    </div>
+</nav>
+<div id="mobile-nav" class="hidden md:hidden fixed top-[89px] left-0 w-full z-40 bg-white/95 backdrop-blur-xl border-b border-gallery-text/5 px-8 py-6 space-y-4">
+    <a class="block text-xs font-bold uppercase tracking-widest" href="#projects" onclick="this.parentElement.classList.add('hidden')">Projects</a>
+    <a class="block text-xs font-bold uppercase tracking-widest" href="#notebooks" onclick="this.parentElement.classList.add('hidden')">Deep Dives</a>
+    <a class="block text-xs font-bold uppercase tracking-widest text-brand-indigo" href="#contact" onclick="this.parentElement.classList.add('hidden')">Get in Touch</a>
+</div>
 
-    <!-- Hero -->
-    <section id="home" class="relative min-h-screen w-full flex items-center justify-center nebula-bg">
-        <div class="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl">
-            <div class="mb-8">
-                <span class="text-[10px] uppercase tracking-[0.6em] text-metallic-gold border-b border-metallic-gold/30 pb-2">Data Science &amp; Quantitative Finance</span>
-            </div>
-            <h1 class="font-serif-elegant text-5xl md:text-7xl lg:text-8xl text-white mb-8 tracking-tight leading-[1.1] text-glow italic">
-                Quantifying<br/>the Uncertain
-            </h1>
-            <p class="font-sans-thin text-base md:text-lg text-slate-300/70 max-w-2xl leading-relaxed tracking-wide mb-12">
-                Léo Didier. Building quantitative systems that find signal in noise.<br class="hidden md:block"/>
-                <span class="text-white/50">From prediction market arbitrage to machine learning ensembles.</span>
-            </p>
-            <div class="flex flex-col sm:flex-row items-center gap-6">
-                <a href="#projects" class="metallic-gold-border px-10 py-4 bg-transparent text-white text-[11px] uppercase tracking-[0.25em] hover:bg-metallic-gold hover:text-deep-space transition-all duration-700 rounded-sm">
-                    View Projects
-                </a>
-                <a href="#contact" class="metallic-silver-border px-10 py-4 bg-white/5 backdrop-blur-sm text-white text-[11px] uppercase tracking-[0.25em] hover:bg-white/10 transition-all duration-700 rounded-sm">
-                    Get in Touch
-                </a>
-            </div>
-        </div>
-        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center descend-indicator">
-            <span class="text-[9px] uppercase tracking-[0.4em] text-white/40 mb-3">Scroll</span>
-            <div class="w-px h-12 bg-gradient-to-b from-white/30 to-transparent"></div>
-        </div>
-    </section>
+<main class="pt-32">
 
-    <!-- Tech Strip -->
-    <section class="relative bg-surface py-16 border-y border-white/5">
-        <div class="max-w-7xl mx-auto px-8 md:px-12">
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12 items-center opacity-25">
-                <span class="font-serif-elegant italic text-xl md:text-2xl text-center text-white">Python</span>
-                <span class="font-serif-elegant italic text-xl md:text-2xl text-center text-white">Machine Learning</span>
-                <span class="font-serif-elegant italic text-xl md:text-2xl text-center text-white">Polymarket</span>
-                <span class="font-serif-elegant italic text-xl md:text-2xl text-center text-white">LLMs</span>
-                <span class="font-serif-elegant italic text-xl md:text-2xl text-center text-white col-span-2 md:col-span-1">Quant Finance</span>
-            </div>
+<!-- Hero -->
+<section id="home" class="min-h-screen flex flex-col justify-center px-8 md:px-16 relative overflow-hidden">
+    <div class="absolute top-1/4 right-0 w-1/3 h-1/2 sculpture-gradient rounded-full"></div>
+    <div class="relative z-10 max-w-7xl mx-auto w-full">
+        <div class="mb-8">
+            <span class="text-xs font-bold tracking-[0.5em] text-brand-orange uppercase">Data Science &amp; Machine Learning</span>
         </div>
-    </section>
-
-    <!-- Projects -->
-    <section id="projects" class="relative bg-deep-space py-24 md:py-32">
-        <div class="max-w-5xl mx-auto px-8 md:px-12">
-            <div class="mb-16 fade-in-up">
-                <span class="text-[10px] uppercase tracking-[0.5em] text-metallic-gold mb-4 block">Portfolio</span>
-                <h2 class="font-serif-elegant text-3xl md:text-5xl text-white italic">Selected Work</h2>
-            </div>
-
-            <!-- Polymarket Arbitrage -->
-            <div class="project-card ghost-border bg-surface-container/60 backdrop-blur-md rounded-lg p-8 md:p-10 mb-8 fade-in-up">
-                <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-6">
-                    <div>
-                        <h3 class="font-serif-elegant text-2xl md:text-3xl text-white italic mb-3">Prediction Market Arbitrage</h3>
-                        <p class="text-slate-400 leading-relaxed max-w-xl">
-                            $40M of arbitrage found on Polymarket. Using LLM-powered dependency analysis to detect guaranteed-profit opportunities across correlated prediction markets. Full pipeline from research to backtesting.
-                        </p>
-                    </div>
-                    <div class="flex flex-wrap gap-2 md:flex-col md:items-end shrink-0">
-                        <span class="text-[9px] uppercase tracking-[0.2em] bg-electric-blue/10 text-electric-blue/80 px-3 py-1 rounded-full">Python</span>
-                        <span class="text-[9px] uppercase tracking-[0.2em] bg-electric-blue/10 text-electric-blue/80 px-3 py-1 rounded-full">LLM</span>
-                        <span class="text-[9px] uppercase tracking-[0.2em] bg-electric-blue/10 text-electric-blue/80 px-3 py-1 rounded-full">Linear Programming</span>
-                        <span class="text-[9px] uppercase tracking-[0.2em] bg-electric-blue/10 text-electric-blue/80 px-3 py-1 rounded-full">Monte Carlo</span>
-                    </div>
+        <h1 class="text-7xl md:text-[12rem] leading-[0.85] mb-12">
+            Quantifying<br/>
+            <span class="font-serif-accent italic normal-case text-brand-indigo">the</span> Uncertain.
+        </h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-end">
+            <div class="space-y-8">
+                <p class="text-2xl md:text-3xl font-light leading-snug tracking-tight max-w-2xl">
+                    Léo Didier. I build data science projects around topics that interest me : prediction markets, ML ensembles, reinforcement learning.
+                </p>
+                <div class="flex gap-4">
+                    <div class="h-1 w-20 bg-brand-indigo"></div>
+                    <div class="h-1 w-8 bg-brand-orange"></div>
                 </div>
-                <div class="border-t border-white/5 pt-6 space-y-3">
-                    <a href="01-context-and-research.html" class="notebook-link flex items-center text-slate-300 text-sm">
-                        <span class="material-symbols-outlined text-metallic-gold/60 text-base mr-3">article</span>
-                        <span class="text-[10px] uppercase tracking-[0.2em] text-metallic-gold/50 w-8 mr-3">01</span>
-                        Context &amp; Research
-                    </a>
-                    <a href="02-implementation-deep-dive.html" class="notebook-link flex items-center text-slate-300 text-sm">
-                        <span class="material-symbols-outlined text-metallic-gold/60 text-base mr-3">code</span>
-                        <span class="text-[10px] uppercase tracking-[0.2em] text-metallic-gold/50 w-8 mr-3">02</span>
-                        Implementation Deep Dive
-                    </a>
-                    <a href="03-backtest-results-and-analysis.html" class="notebook-link flex items-center text-slate-300 text-sm">
-                        <span class="material-symbols-outlined text-metallic-gold/60 text-base mr-3">analytics</span>
-                        <span class="text-[10px] uppercase tracking-[0.2em] text-metallic-gold/50 w-8 mr-3">03</span>
-                        Backtest Results &amp; Analysis
-                    </a>
-                    <a href="bonus-llm-engineering.html" class="notebook-link flex items-center text-slate-300 text-sm">
-                        <span class="material-symbols-outlined text-metallic-gold/60 text-base mr-3">auto_awesome</span>
-                        <span class="text-[10px] uppercase tracking-[0.2em] text-metallic-gold/50 w-8 mr-3">+</span>
-                        Bonus : LLM Engineering
-                    </a>
+                <div class="flex flex-wrap gap-x-4 gap-y-2 text-[10px] font-bold uppercase tracking-[0.3em] opacity-40">
+                    <span>Python</span><span>·</span>
+                    <span>Machine Learning</span><span>·</span>
+                    <span>Polymarket</span><span>·</span>
+                    <span>LLMs</span>
                 </div>
             </div>
+            <div class="relative aspect-square bg-brand-muted flex items-center justify-center p-12 overflow-hidden border border-gallery-text/5">
+                <div class="relative w-full h-full flex items-center justify-center">
+                    <div class="absolute w-48 h-48 border-2 border-brand-indigo rotate-45 opacity-20"></div>
+                    <div class="absolute w-64 h-64 border border-brand-orange rounded-full opacity-30"></div>
+                    <div class="absolute w-32 h-32 bg-brand-indigo mix-blend-multiply opacity-80"></div>
+                    <div class="w-24 h-80 bg-gallery-text -rotate-12 translate-x-4"></div>
+                    <div class="w-1 h-full bg-brand-orange absolute left-1/2 -translate-x-1/2"></div>
+                </div>
+                <div class="absolute bottom-6 right-6 text-[10px] uppercase tracking-widest font-bold opacity-40">
+                    Polymarket_Arb_2026
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-            <!-- Contextual Stacking -->
-            <a href="stacking-walkthrough.html" class="project-card ghost-border bg-surface-container/60 backdrop-blur-md rounded-lg p-8 md:p-10 mb-8 block fade-in-up group">
-                <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-                    <div>
-                        <h3 class="font-serif-elegant text-2xl md:text-3xl text-white italic mb-3 group-hover:text-metallic-gold transition-colors duration-500">Contextual Stacking for Real Estate</h3>
-                        <p class="text-slate-400 leading-relaxed max-w-xl">
-                            A contextual stacking ensemble (XGBoost + LightGBM + CatBoost) for automated property valuation. Temporal out-of-fold splits, geographic meta-learner, and bootstrap confidence intervals.
-                        </p>
+<!-- Projects: The Collection -->
+<section id="projects" class="px-8 md:px-16 py-40 border-t border-gallery-text/5 bg-white">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-8 fade-in-up">
+            <div>
+                <h2 class="text-5xl md:text-7xl mb-4">The Collection</h2>
+                <p class="text-xl opacity-60">Quelques projets perso autour de la data et de la finance.</p>
+            </div>
+            <div class="text-right">
+                <span class="text-9xl font-serif-accent italic text-brand-muted">01/03</span>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-0">
+
+            <!-- Project 1: Prediction Market Arbitrage -->
+            <a href="01-context-and-research.html" class="museum-block lg:border-r-0 fade-in-up block group">
+                <div class="mb-16">
+                    <span class="inline-block px-3 py-1 bg-brand-indigo text-white text-[10px] font-bold uppercase tracking-widest mb-6">Quant</span>
+                    <h3 class="text-3xl mb-6 group-hover:text-brand-indigo transition-colors">Prediction<br/>Market Arbitrage</h3>
+                    <p class="opacity-70 leading-relaxed mb-8">$40M of arbitrage found on Polymarket. LLM-powered dependency analysis to detect guaranteed-profit opportunities across correlated prediction markets. Full pipeline from research to backtesting.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Python</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">LLM</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Linear Prog.</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Monte Carlo</span>
                     </div>
-                    <div class="flex flex-wrap gap-2 md:flex-col md:items-end shrink-0">
-                        <span class="text-[9px] uppercase tracking-[0.2em] bg-electric-blue/10 text-electric-blue/80 px-3 py-1 rounded-full">XGBoost</span>
-                        <span class="text-[9px] uppercase tracking-[0.2em] bg-electric-blue/10 text-electric-blue/80 px-3 py-1 rounded-full">LightGBM</span>
-                        <span class="text-[9px] uppercase tracking-[0.2em] bg-electric-blue/10 text-electric-blue/80 px-3 py-1 rounded-full">CatBoost</span>
-                        <span class="text-[9px] uppercase tracking-[0.2em] bg-electric-blue/10 text-electric-blue/80 px-3 py-1 rounded-full">Plotly</span>
+                </div>
+                <div class="aspect-[4/3] bg-brand-muted relative overflow-hidden">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-full h-[1px] bg-brand-indigo rotate-12"></div>
+                        <div class="w-full h-[1px] bg-brand-indigo -rotate-45"></div>
+                        <div class="w-24 h-24 border border-brand-orange rounded-full"></div>
                     </div>
                 </div>
             </a>
 
-            <!-- Fraud Detection RL -->
-            <a href="fraud-detection-rl-vs-rf.html" class="project-card ghost-border bg-surface-container/60 backdrop-blur-md rounded-lg p-8 md:p-10 mb-8 block fade-in-up group">
-                <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-                    <div>
-                        <h3 class="font-serif-elegant text-2xl md:text-3xl text-white italic mb-3 group-hover:text-metallic-gold transition-colors duration-500">Fraud Detection : RL vs Random Forest</h3>
-                        <p class="text-slate-400 leading-relaxed max-w-xl">
-                            Can an AI agent learn to catch fraud by trial and error? PPO agent with custom Gymnasium environment vs Random Forest on the IEEE-CIS dataset. 140k transactions, SMOTE balancing, and a striking accuracy-vs-recall trade-off.
-                        </p>
+            <!-- Project 2: Contextual Stacking -->
+            <a href="stacking-walkthrough.html" class="museum-block lg:border-r-0 bg-brand-indigo text-white border-none group fade-in-up block">
+                <div class="mb-16">
+                    <span class="inline-block px-3 py-1 bg-brand-orange text-white text-[10px] font-bold uppercase tracking-widest mb-6">Ensemble</span>
+                    <h3 class="text-3xl mb-6 group-hover:opacity-80 transition-opacity">Contextual<br/>Stacking</h3>
+                    <p class="opacity-80 leading-relaxed mb-8">A contextual stacking ensemble (XGBoost + LightGBM + CatBoost) for automated property valuation. Temporal out-of-fold splits, geographic meta-learner, and bootstrap confidence intervals.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">XGBoost</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">LightGBM</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">CatBoost</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">Plotly</span>
                     </div>
-                    <div class="flex flex-wrap gap-2 md:flex-col md:items-end shrink-0">
-                        <span class="text-[9px] uppercase tracking-[0.2em] bg-electric-blue/10 text-electric-blue/80 px-3 py-1 rounded-full">Reinforcement Learning</span>
-                        <span class="text-[9px] uppercase tracking-[0.2em] bg-electric-blue/10 text-electric-blue/80 px-3 py-1 rounded-full">PPO</span>
-                        <span class="text-[9px] uppercase tracking-[0.2em] bg-electric-blue/10 text-electric-blue/80 px-3 py-1 rounded-full">Random Forest</span>
-                        <span class="text-[9px] uppercase tracking-[0.2em] bg-electric-blue/10 text-electric-blue/80 px-3 py-1 rounded-full">SMOTE</span>
+                </div>
+                <div class="aspect-[4/3] bg-white/10 relative overflow-hidden">
+                    <div class="absolute bottom-0 left-0 w-full h-full p-8 flex items-end">
+                        <div class="grid grid-cols-6 gap-2 w-full h-32 items-end">
+                            <div class="bg-brand-orange h-[20%]"></div>
+                            <div class="bg-white h-[60%]"></div>
+                            <div class="bg-brand-orange h-[40%]"></div>
+                            <div class="bg-white h-[90%]"></div>
+                            <div class="bg-white h-[30%]"></div>
+                            <div class="bg-brand-orange h-[75%]"></div>
+                        </div>
                     </div>
                 </div>
             </a>
 
-            <!-- GitHub link -->
-            <div class="text-center mt-16 fade-in-up">
-                <a href="https://github.com/leodid68" target="_blank" rel="noopener" class="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.3em] text-slate-500 hover:text-metallic-gold transition-colors duration-500">
-                    <span>View all projects on GitHub</span>
-                    <span class="material-symbols-outlined text-base">arrow_forward</span>
-                </a>
-            </div>
-        </div>
-    </section>
+            <!-- Project 3: Fraud Detection -->
+            <a href="fraud-detection-rl-vs-rf.html" class="museum-block group fade-in-up block">
+                <div class="mb-16">
+                    <span class="inline-block px-3 py-1 bg-gallery-text text-white text-[10px] font-bold uppercase tracking-widest mb-6">RL</span>
+                    <h3 class="text-3xl mb-6 group-hover:text-brand-indigo transition-colors">Fraud<br/>Detection</h3>
+                    <p class="opacity-70 leading-relaxed mb-8">Can an AI agent learn to catch fraud by trial and error? PPO agent with custom Gymnasium environment vs Random Forest on the IEEE-CIS dataset. 140k transactions, SMOTE balancing, and a striking accuracy-vs-recall trade-off.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">RL</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">PPO</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Random Forest</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">SMOTE</span>
+                    </div>
+                </div>
+                <div class="aspect-[4/3] bg-brand-muted relative overflow-hidden">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-32 h-32 border border-brand-indigo opacity-30"></div>
+                        <div class="w-32 h-32 border border-brand-indigo rotate-12 opacity-30"></div>
+                        <div class="w-32 h-32 border border-brand-indigo rotate-45 opacity-30"></div>
+                    </div>
+                </div>
+            </a>
 
-    <!-- Contact -->
-    <section id="contact" class="relative bg-surface py-24 md:py-32 border-t border-white/5">
-        <div class="max-w-3xl mx-auto px-8 md:px-12 text-center fade-in-up">
-            <span class="text-[10px] uppercase tracking-[0.5em] text-metallic-gold mb-4 block">Contact</span>
-            <h2 class="font-serif-elegant text-3xl md:text-5xl text-white italic mb-8">Let's Connect</h2>
-            <p class="text-slate-400 leading-relaxed mb-12 max-w-lg mx-auto">
-                Interested in quantitative finance, data science, or prediction markets? Always open to discussing ideas and opportunities.
-            </p>
-            <a href="https://github.com/leodid68" target="_blank" rel="noopener" class="metallic-silver-border px-8 py-4 bg-white/5 backdrop-blur-sm text-white text-[11px] uppercase tracking-[0.25em] hover:bg-white/10 transition-all duration-700 rounded-sm inline-flex items-center gap-3">
-                GitHub
+        </div>
+    </div>
+</section>
+
+<!-- Deep Dives: Polymarket Notebooks -->
+<section id="notebooks" class="px-8 md:px-16 py-40 bg-white border-t border-gallery-text/5">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-32 gap-8 fade-in-up">
+            <h2 class="text-4xl md:text-6xl tracking-tighter">Deep <span class="font-serif-accent italic normal-case text-brand-orange">Dives</span></h2>
+            <a class="text-xs font-bold uppercase tracking-widest border-b-2 border-brand-indigo pb-2 hover:text-brand-indigo transition-all" href="https://github.com/leodid68" target="_blank" rel="noopener">View on GitHub</a>
+        </div>
+        <div class="space-y-0">
+            <a href="01-context-and-research.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.01</span>
+                <div class="flex-1">
+                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Context &amp; Research</h4>
+                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">Polymarket arbitrage : recherche, analyse de marché et identification d'opportunités.</p>
+                </div>
+                <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
+            </a>
+            <a href="02-implementation-deep-dive.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.02</span>
+                <div class="flex-1">
+                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Implementation Deep Dive</h4>
+                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">Pipeline complet : détection de dépendances par LLM, solveur linéaire et moteur d'exécution.</p>
+                </div>
+                <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
+            </a>
+            <a href="03-backtest-results-and-analysis.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.03</span>
+                <div class="flex-1">
+                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Backtest Results &amp; Analysis</h4>
+                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">Performance evaluation, Monte Carlo simulations, and profit distribution analysis.</p>
+                </div>
+                <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
+            </a>
+            <a href="bonus-llm-engineering.html" class="group py-12 md:py-16 border-t border-b border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">BONUS</span>
+                <div class="flex-1">
+                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">LLM Engineering</h4>
+                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">Prompt engineering, structured output parsing, and LLM integration patterns for financial analysis.</p>
+                </div>
+                <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
             </a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="w-full py-12 bg-deep-space border-t border-white/5">
-        <div class="flex flex-col md:flex-row justify-between items-center px-8 md:px-12 max-w-7xl mx-auto gap-6">
-            <span class="text-sm font-serif-elegant tracking-[0.2em] text-white uppercase italic">Léo Didier</span>
-            <p class="text-slate-600 uppercase tracking-[0.3em] text-[9px]">&copy; 2026</p>
+<!-- Contact -->
+<section id="contact" class="px-8 md:px-16 py-40 bg-gallery-text text-white relative">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-20 items-center fade-in-up">
+        <div class="w-full md:w-1/2">
+            <h2 class="text-5xl md:text-7xl mb-8 leading-none">Let's<br/>Connect.</h2>
+            <div class="w-12 h-1 bg-brand-orange mb-8"></div>
+            <p class="opacity-60 font-light text-xl leading-relaxed">Un projet, une question, une idée ? N'hésitez pas.</p>
         </div>
-    </footer>
+        <div class="w-full md:w-1/2 md:text-right">
+            <a href="https://github.com/leodid68" target="_blank" rel="noopener" class="inline-block px-12 py-4 bg-white text-gallery-text font-bold uppercase tracking-widest text-xs hover:bg-brand-orange hover:text-white transition-all">
+                GitHub Profile
+            </a>
+        </div>
+    </div>
+</section>
 
-    <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+<!-- Footer -->
+<footer class="bg-gallery-bg px-8 md:px-16 py-24 border-t border-gallery-text/5">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+        <div class="space-y-6">
+            <div class="text-3xl font-bold tracking-tighter">LÉO <span class="text-brand-indigo">DIDIER</span></div>
+            <p class="text-xs font-bold uppercase tracking-[0.3em] opacity-40">&copy; 2026</p>
+        </div>
+        <div class="max-w-md md:text-right">
+            <p class="text-2xl font-light mb-8">Data Science &amp; Machine Learning</p>
+            <div class="flex gap-8 text-[10px] font-bold uppercase tracking-widest md:justify-end">
+                <a class="hover:text-brand-indigo transition-colors" href="https://github.com/leodid68" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </div>
+    </div>
+</footer>
 
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.nav-link');
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
-            navLinks.forEach(link => {
-                const active = link.getAttribute('href') === '#' + current;
-                link.classList.toggle('text-white', active);
-                link.classList.toggle('text-slate-400', !active);
-            });
-        });
-    </script>
+</main>
+
+<!-- Sideways text -->
+<div class="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden lg:block">
+    <div class="text-sideways text-[10px] font-bold uppercase tracking-[0.8em] opacity-20 hover:opacity-100 transition-opacity cursor-default pb-8">
+        DATA SCIENCE &amp; ML
+    </div>
+</div>
+
+<!-- Scroll-to-top button -->
+<a href="#home" class="fixed bottom-12 right-12 w-20 h-20 bg-brand-orange text-white rounded-full flex items-center justify-center hover:scale-95 transition-all shadow-2xl z-50 overflow-hidden group">
+    <span class="material-symbols-outlined text-3xl group-hover:-translate-y-1 transition-transform">arrow_upward</span>
+</a>
+
+<script>
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
