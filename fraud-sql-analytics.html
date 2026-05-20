@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Banking Fraud Detection — SQL Analytics | Léo Didier</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        "gallery-bg": "#FFFFFF",
+        "gallery-text": "#0A0A0A",
+        "brand-indigo": "#2D31FA",
+        "brand-orange": "#FF4D00",
+        "brand-muted": "#F5F5F5",
+      },
+      fontFamily: {
+        "headline": ["Space Grotesk", "sans-serif"],
+        "serif-accent": ["Instrument Serif", "serif"],
+        "body": ["Space Grotesk", "sans-serif"],
+      },
+    },
+  },
+}
+</script>
+<style type="text/tailwindcss">
+@layer base {
+  body { @apply bg-gallery-bg text-gallery-text font-body antialiased; }
+  h1, h2, h3, h4 { @apply font-headline uppercase tracking-tighter; }
+}
+.museum-block {
+  @apply border border-gallery-text/10 p-8 md:p-12 transition-all duration-500 hover:border-gallery-text;
+}
+.sculpture-gradient {
+  background: linear-gradient(135deg, #2D31FA, #FF4D00);
+  filter: blur(80px);
+  opacity: 0.15;
+}
+</style>
+<style>
+html { scroll-behavior: smooth; }
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Code blocks */
+.hljs {
+  background: #0A0A0A !important;
+  color: #e8e8e8 !important;
+  border-radius: 0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.hljs-keyword { color: #2D31FA !important; font-weight: 600; }
+.hljs-title.function_, .hljs-built_in { color: #FF4D00 !important; }
+.hljs-string { color: #a5d6a7 !important; }
+.hljs-number { color: #FFD700 !important; }
+.hljs-comment { color: #666 !important; font-style: italic; }
+.hljs-operator, .hljs-punctuation { color: #ccc !important; }
+
+/* KPI cards */
+.kpi-card {
+  border-left: 3px solid #2D31FA;
+  padding: 1.5rem 2rem;
+  background: #F5F5F5;
+}
+.kpi-card.orange { border-left-color: #FF4D00; }
+
+/* Dashboard badge */
+.dash-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  border: 1px solid currentColor;
+}
+
+/* Analysis number */
+.analysis-num {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-size: 5rem;
+  line-height: 1;
+  color: #F5F5F5;
+  position: absolute;
+  top: -1rem;
+  right: 1rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Metric row */
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(10,10,10,0.08);
+  font-size: 14px;
+}
+.metric-row:last-child { border-bottom: none; }
+
+/* Bar chart inline */
+.bar-fill {
+  height: 6px;
+  background: #2D31FA;
+  border-radius: 0;
+  transition: width 1s ease;
+}
+.bar-fill.orange { background: #FF4D00; }
+</style>
+</head>
+<body class="selection:bg-brand-orange selection:text-white">
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md flex justify-between items-center px-8 md:px-16 py-8 border-b border-gallery-text/5">
+  <a href="index.html" class="text-xl font-bold tracking-tight">
+    LÉO <span class="text-brand-indigo">DIDIER</span>
+  </a>
+  <div class="hidden md:flex gap-12 items-center text-xs font-bold uppercase tracking-widest">
+    <a class="hover:text-brand-orange transition-colors" href="index.html#projects">Projects</a>
+    <a class="hover:text-brand-orange transition-colors" href="index.html#notebooks">Deep Dives</a>
+    <a class="bg-brand-indigo text-white px-6 py-3 hover:bg-brand-orange transition-all" href="index.html#contact">Get in Touch</a>
+  </div>
+</nav>
+
+<main class="pt-32">
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <section class="min-h-[70vh] flex flex-col justify-center px-8 md:px-16 relative overflow-hidden border-b border-gallery-text/5">
+    <div class="absolute top-1/4 right-0 w-1/3 h-1/2 sculpture-gradient rounded-full pointer-events-none"></div>
+    <div class="relative z-10 max-w-7xl mx-auto w-full">
+
+      <div class="mb-6 flex items-center gap-4 flex-wrap">
+        <span class="text-xs font-bold tracking-[0.5em] text-brand-orange uppercase">SQL · PostgreSQL · Looker Studio</span>
+        <span class="text-gallery-text/20">|</span>
+        <span class="text-xs font-bold tracking-[0.4em] text-gallery-text/40 uppercase">Portfolio Project — VILNIUS</span>
+      </div>
+
+      <h1 class="text-6xl md:text-[9rem] leading-[0.85] mb-12">
+        Banking<br/>
+        <span class="font-serif-accent italic normal-case text-brand-indigo">Fraud</span><br/>
+        Detection.
+      </h1>
+
+      <!-- KPI strip -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-0 mb-12 border border-gallery-text/10">
+        <div class="kpi-card border-r border-gallery-text/10">
+          <div class="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-2">Transactions</div>
+          <div class="text-3xl font-bold tracking-tight">480,733</div>
+        </div>
+        <div class="kpi-card border-r border-gallery-text/10">
+          <div class="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-2">Fraud cases</div>
+          <div class="text-3xl font-bold tracking-tight">242</div>
+        </div>
+        <div class="kpi-card orange border-r border-gallery-text/10">
+          <div class="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-2">Volume (EUR)</div>
+          <div class="text-3xl font-bold tracking-tight">32.8M</div>
+        </div>
+        <div class="kpi-card orange">
+          <div class="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-2">Fraud rate</div>
+          <div class="text-3xl font-bold tracking-tight">0.01%</div>
+        </div>
+      </div>
+
+      <!-- CTA row -->
+      <div class="flex flex-wrap gap-4 items-center">
+        <a href="https://datastudio.google.com/s/n3Pt2w_imAA" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-3 bg-brand-indigo text-white px-8 py-4 font-bold text-xs uppercase tracking-widest hover:bg-brand-orange transition-all">
+          <span class="material-symbols-outlined text-base">bar_chart</span>
+          Open Live Dashboards
+        </a>
+        <a href="https://github.com/leodid68" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-3 border border-gallery-text px-8 py-4 font-bold text-xs uppercase tracking-widest hover:bg-gallery-text hover:text-white transition-all">
+          <span class="material-symbols-outlined text-base">code</span>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── The Big Idea ──────────────────────────────────────────────────── -->
+  <section class="px-8 md:px-16 py-32 bg-gallery-text text-white fade-in-up">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-xs font-bold tracking-[0.5em] text-brand-orange uppercase mb-8">Key Insight</div>
+      <p class="text-3xl md:text-5xl font-light leading-tight max-w-5xl">
+        <span class="font-bold text-white">97% of financial losses</span> come from
+        <span class="font-serif-accent italic text-brand-orange">30%</span> of fraud cases —
+        concentrated on wire transfers (mule, account takeover, sim swap).
+        On card fraud, <span class="font-bold">92% of cases bypassed 3D Secure.</span>
+      </p>
+      <div class="mt-12 pt-12 border-t border-white/10 grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div>
+          <div class="text-5xl font-bold text-brand-orange mb-3">€321k</div>
+          <div class="text-sm opacity-60">Lost on wire/transfer alone<br/>(74% of all losses)</div>
+        </div>
+        <div>
+          <div class="text-5xl font-bold text-brand-indigo mb-3">Sat 00–03h</div>
+          <div class="text-sm opacity-60">Peak fraud window<br/>22 cases in a single time slot</div>
+        </div>
+        <div>
+          <div class="text-5xl font-bold text-white mb-3">3DS</div>
+          <div class="text-sm opacity-60">Eliminates 92% of card fraud<br/>1 pattern immune by design</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 5 Dashboards ──────────────────────────────────────────────────── -->
+  <section class="px-8 md:px-16 py-32 border-t border-gallery-text/5">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8 fade-in-up">
+        <div>
+          <div class="text-xs font-bold tracking-[0.5em] text-brand-orange uppercase mb-4">Looker Studio</div>
+          <h2 class="text-5xl md:text-7xl">5 Live<br/>Dashboards</h2>
+        </div>
+        <a href="https://datastudio.google.com/s/n3Pt2w_imAA" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-3 bg-brand-indigo text-white px-8 py-4 font-bold text-xs uppercase tracking-widest hover:bg-brand-orange transition-all shrink-0">
+          <span class="material-symbols-outlined text-base">open_in_new</span>
+          Open Dashboards
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 fade-in-up">
+
+        <!-- D1: Executive Overview -->
+        <div class="museum-block md:border-r-0">
+          <span class="inline-block px-3 py-1 bg-brand-indigo text-white text-[10px] font-bold uppercase tracking-widest mb-6">D1</span>
+          <h3 class="text-2xl mb-4">Executive<br/>Overview</h3>
+          <p class="opacity-60 text-sm leading-relaxed mb-6">KPI scorecards, transactions & fraud timelines (24 months), fraud type breakdown, and a geographic heatmap of confirmed cases.</p>
+          <div class="space-y-3">
+            <div class="metric-row">
+              <span class="opacity-60 text-xs uppercase tracking-widest">Key insight</span>
+              <span class="text-xs font-bold">97% losses = 31% cases</span>
+            </div>
+            <div class="metric-row">
+              <span class="opacity-60 text-xs uppercase tracking-widest">Top fraud type</span>
+              <span class="text-xs font-bold">card_testing 37.6%</span>
+            </div>
+            <div class="metric-row">
+              <span class="opacity-60 text-xs uppercase tracking-widest">Fraud rate</span>
+              <span class="text-xs font-bold text-brand-orange">0.01%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- D2: Fraud Patterns -->
+        <div class="museum-block lg:border-r-0">
+          <span class="inline-block px-3 py-1 bg-brand-orange text-white text-[10px] font-bold uppercase tracking-widest mb-6">D2</span>
+          <h3 class="text-2xl mb-4">Fraud Patterns<br/>Analysis</h3>
+          <p class="opacity-60 text-sm leading-relaxed mb-6">Day×hour heatmap, 3DS effectiveness by fraud type, and merchant category breakdown — from wire/transfer to direct marketing.</p>
+          <div class="space-y-3">
+            <div class="metric-row">
+              <span class="opacity-60 text-xs uppercase tracking-widest">Peak window</span>
+              <span class="text-xs font-bold">Sat 00–03h (22 cases)</span>
+            </div>
+            <div class="metric-row">
+              <span class="opacity-60 text-xs uppercase tracking-widest">3DS effectiveness</span>
+              <span class="text-xs font-bold text-brand-indigo">Blocks 92% of card fraud</span>
+            </div>
+            <div class="metric-row">
+              <span class="opacity-60 text-xs uppercase tracking-widest">Top merchant loss</span>
+              <span class="text-xs font-bold">wire/transfer €321k</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- D3: Geographic -->
+        <div class="museum-block">
+          <span class="inline-block px-3 py-1 bg-gallery-text text-white text-[10px] font-bold uppercase tracking-widest mb-6">D3</span>
+          <h3 class="text-2xl mb-4">Geographic<br/>Analysis</h3>
+          <p class="opacity-60 text-sm leading-relaxed mb-6">Choropleth + table of top 10 countries by total loss and avg loss per case — surfacing the France concentration and Portugal outlier.</p>
+          <div class="space-y-3">
+            <div class="metric-row">
+              <span class="opacity-60 text-xs uppercase tracking-widest">FR (114 cases)</span>
+              <span class="text-xs font-bold text-brand-orange">€203k — 47% of total</span>
+            </div>
+            <div class="metric-row">
+              <span class="opacity-60 text-xs uppercase tracking-widest">PT (1 case)</span>
+              <span class="text-xs font-bold">€6,726 avg — highest</span>
+            </div>
+            <div class="metric-row">
+              <span class="opacity-60 text-xs uppercase tracking-widest">Countries tracked</span>
+              <span class="text-xs font-bold">10 (EU focus)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- D4: Customer Risk -->
+        <div class="museum-block md:border-r-0 md:border-t-0">
+          <span class="inline-block px-3 py-1 bg-brand-indigo text-white text-[10px] font-bold uppercase tracking-widest mb-6">D4</span>
+          <h3 class="text-2xl mb-4">Customer<br/>Risk Profile</h3>
+          <p class="opacity-60 text-sm leading-relaxed mb-6">Fraud by card tier, income bracket, and age group. Crosses volume with avg loss to distinguish between who gets targeted vs. who loses the most.</p>
+          <div class="space-y-3">
+            <div class="metric-row">
+              <span class="opacity-60 text-xs uppercase tracking-widest">Most targeted age</span>
+              <span class="text-xs font-bold">45–54 (68 cases)</span>
+            </div>
+            <div class="metric-row">
+              <span class="opacity-60 text-xs uppercase tracking-widest">Highest avg loss</span>
+              <span class="text-xs font-bold text-brand-orange">High income €4,120</span>
+            </div>
+            <div class="metric-row">
+              <span class="opacity-60 text-xs uppercase tracking-widest">Standard card</span>
+              <span class="text-xs font-bold">~86% of all fraud cases</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- D5: Investigation -->
+        <div class="museum-block md:col-span-1 md:border-t-0 lg:col-span-2">
+          <span class="inline-block px-3 py-1 bg-brand-orange text-white text-[10px] font-bold uppercase tracking-widest mb-6">D5</span>
+          <h3 class="text-2xl mb-4">Customer Investigation<br/>Tool</h3>
+          <p class="opacity-60 text-sm leading-relaxed mb-6">Drill-down per customer: legitimate vs. fraudulent transaction overlay, disputed amounts, and fraud timeline. Designed to show the anomaly detection story at the individual level.</p>
+          <div class="bg-gallery-text text-white p-6 mt-4">
+            <div class="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-4">Case study — Customer #101067</div>
+            <div class="grid grid-cols-3 gap-6">
+              <div>
+                <div class="text-2xl font-bold text-brand-orange">€45,488</div>
+                <div class="text-xs opacity-60 mt-1">Stolen in 72 hours</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold">8 months</div>
+                <div class="text-xs opacity-60 mt-1">Normal activity €5–50/tx</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold text-brand-indigo">5 mule tx</div>
+                <div class="text-xs opacity-60 mt-1">Jan 15–17, 2025</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Fraud type breakdown ──────────────────────────────────────────── -->
+  <section class="px-8 md:px-16 py-24 bg-brand-muted border-t border-gallery-text/5 fade-in-up">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-4xl md:text-5xl mb-16">Fraud Repartition</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+
+        <!-- By volume -->
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest opacity-40 mb-8">By volume (cases)</div>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs font-bold uppercase tracking-widest mb-2">
+                <span>card_testing</span><span class="text-brand-indigo">37.6%</span>
+              </div>
+              <div class="h-1.5 bg-gallery-text/10"><div class="bar-fill" style="width:37.6%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-bold uppercase tracking-widest mb-2">
+                <span>mule</span><span class="text-brand-indigo">24.3%</span>
+              </div>
+              <div class="h-1.5 bg-gallery-text/10"><div class="bar-fill" style="width:24.3%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-bold uppercase tracking-widest mb-2">
+                <span>velocity</span><span class="text-brand-indigo">23.1%</span>
+              </div>
+              <div class="h-1.5 bg-gallery-text/10"><div class="bar-fill" style="width:23.1%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-bold uppercase tracking-widest mb-2">
+                <span>card_not_present</span><span>4.7%</span>
+              </div>
+              <div class="h-1.5 bg-gallery-text/10"><div class="bar-fill" style="width:4.7%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-bold uppercase tracking-widest mb-2">
+                <span>account_takeover</span><span>4.7%</span>
+              </div>
+              <div class="h-1.5 bg-gallery-text/10"><div class="bar-fill" style="width:4.7%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-bold uppercase tracking-widest mb-2">
+                <span>friendly_fraud</span><span>3.9%</span>
+              </div>
+              <div class="h-1.5 bg-gallery-text/10"><div class="bar-fill" style="width:3.9%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-bold uppercase tracking-widest mb-2">
+                <span>sim_swap</span><span>1.6%</span>
+              </div>
+              <div class="h-1.5 bg-gallery-text/10"><div class="bar-fill" style="width:1.6%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- By loss — three regimes -->
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest opacity-40 mb-8">Three economic regimes</div>
+          <div class="space-y-4">
+
+            <div class="p-6 bg-brand-orange text-white">
+              <div class="text-[10px] font-bold uppercase tracking-widest opacity-80 mb-2">Big Game — 31% of cases</div>
+              <div class="text-3xl font-bold mb-1">~97%</div>
+              <div class="text-sm opacity-80">of total financial losses</div>
+              <div class="mt-3 text-xs opacity-70">account_takeover · mule · sim_swap · avg €4,000–8,400/case</div>
+            </div>
+
+            <div class="p-6 bg-gallery-text/5 border border-gallery-text/10">
+              <div class="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-2">Mid-Range — 32% of cases</div>
+              <div class="text-3xl font-bold mb-1">~1.5%</div>
+              <div class="text-sm opacity-60">of total financial losses</div>
+              <div class="mt-3 text-xs opacity-50">velocity · friendly_fraud · card_not_present · avg €380–1,900/case</div>
+            </div>
+
+            <div class="p-6 bg-gallery-text/5 border border-gallery-text/10">
+              <div class="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-2">Spray & Pray — 37% of cases</div>
+              <div class="text-3xl font-bold mb-1">~1.5%</div>
+              <div class="text-sm opacity-60">of total financial losses</div>
+              <div class="mt-3 text-xs opacity-50">card_testing · avg €80/case · high volume, low cost</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 6 SQL Analyses ────────────────────────────────────────────────── -->
+  <section class="px-8 md:px-16 py-32 border-t border-gallery-text/5">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-20 fade-in-up">
+        <div class="text-xs font-bold tracking-[0.5em] text-brand-orange uppercase mb-4">SQL Portfolio</div>
+        <h2 class="text-5xl md:text-7xl">6 Signature<br/>Analyses</h2>
+      </div>
+
+      <!-- Analysis 1 -->
+      <div class="border-t border-gallery-text/10 py-16 fade-in-up relative">
+        <div class="analysis-num">01</div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div>
+            <span class="inline-block px-3 py-1 bg-brand-indigo text-white text-[10px] font-bold uppercase tracking-widest mb-6">3D Secure Impact</span>
+            <h3 class="text-3xl mb-4">3DS neutralises 7 typologies out of 8</h3>
+            <p class="opacity-60 leading-relaxed mb-6">92% of card fraud bypassed 3DS. The only pattern immune by design: friendly fraud — the victim authenticates the transaction they will later dispute.</p>
+            <div class="space-y-2 mb-6">
+              <div class="flex justify-between text-xs py-2 border-b border-gallery-text/8">
+                <span class="font-bold uppercase tracking-widest">card_testing (no 3DS)</span><span class="text-brand-orange">137 cases · avg €80</span>
+              </div>
+              <div class="flex justify-between text-xs py-2 border-b border-gallery-text/8">
+                <span class="font-bold uppercase tracking-widest">velocity (no 3DS)</span><span class="text-brand-orange">83 cases · avg €470</span>
+              </div>
+              <div class="flex justify-between text-xs py-2 border-b border-gallery-text/8">
+                <span class="font-bold uppercase tracking-widest">friendly_fraud (3DS on)</span><span class="text-brand-indigo">19 cases · avg €375</span>
+              </div>
+            </div>
+            <div class="text-xs font-bold uppercase tracking-widest opacity-40">Techniques: triple JOIN · GROUP BY multi-dim · ROUND · AVG</div>
+          </div>
+          <div class="bg-gallery-text rounded-none overflow-hidden">
+            <div class="px-4 py-3 border-b border-white/10 flex items-center gap-2">
+              <div class="w-2 h-2 rounded-full bg-brand-orange"></div>
+              <span class="text-white/40 text-xs font-mono">analysis_01_3ds.sql</span>
+            </div>
+            <pre class="overflow-x-auto"><code class="language-sql">SELECT
+    ROUND(AVG(fr.amount_disputed), 0) AS avg_loss,
+    t.is_3ds_authenticated,
+    c.card_tier,
+    fr.investigator_notes      AS pattern,
+    COUNT(*)                   AS n_cas
+FROM fraud_reports fr
+JOIN transactions t ON t.transaction_id = fr.transaction_id
+JOIN cards c        ON c.card_id        = t.card_id
+GROUP BY
+    fr.investigator_notes,
+    c.card_tier,
+    t.is_3ds_authenticated
+ORDER BY n_cas DESC;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analysis 2 -->
+      <div class="border-t border-gallery-text/10 py-16 fade-in-up relative">
+        <div class="analysis-num">02</div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div>
+            <span class="inline-block px-3 py-1 bg-brand-orange text-white text-[10px] font-bold uppercase tracking-widest mb-6">Volume vs Cost</span>
+            <h3 class="text-3xl mb-4">The Volume / Cost Paradox</h3>
+            <p class="opacity-60 leading-relaxed mb-6">Card testing floods the queue (37% of cases) while generating almost no financial loss. Wire fraud does the opposite: 31% of cases, 97% of the money. Three distinct economic worlds, three distinct defences needed.</p>
+            <div class="text-xs font-bold uppercase tracking-widest opacity-40">Techniques: window function SUM(COUNT(*)) OVER() · GROUP BY multi-dim · LEFT JOIN</div>
+          </div>
+          <div class="bg-gallery-text rounded-none overflow-hidden">
+            <div class="px-4 py-3 border-b border-white/10 flex items-center gap-2">
+              <div class="w-2 h-2 rounded-full bg-brand-indigo"></div>
+              <span class="text-white/40 text-xs font-mono">analysis_02_regimes.sql</span>
+            </div>
+            <pre class="overflow-x-auto"><code class="language-sql">SELECT
+    fr.fraud_type,
+    COUNT(*)                                     AS n_cas,
+    ROUND(
+      100.0 * COUNT(*) / SUM(COUNT(*)) OVER (),
+    1)                                           AS pct_volume,
+    c.card_tier,
+    ROUND(AVG(fr.amount_disputed), 0)            AS avg_loss
+FROM fraud_reports fr
+JOIN transactions t  ON fr.transaction_id = t.transaction_id
+LEFT JOIN cards c    ON t.card_id = c.card_id
+WHERE fr.status = 'confirmed'
+GROUP BY fr.fraud_type, c.card_tier
+ORDER BY avg_loss DESC;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analysis 3 -->
+      <div class="border-t border-gallery-text/10 py-16 fade-in-up relative">
+        <div class="analysis-num">03</div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div>
+            <span class="inline-block px-3 py-1 bg-gallery-text text-white text-[10px] font-bold uppercase tracking-widest mb-6">Card Tier</span>
+            <h3 class="text-3xl mb-4">Card fraud is opportunistic, not targeted</h3>
+            <p class="opacity-60 leading-relaxed mb-6">Fraud distribution across card tiers mirrors the natural population split almost exactly. Fraudsters draw at random — which means tier-based rules are the wrong defence. Behavioural signals (velocity, geography) are the right ones.</p>
+            <div class="text-xs font-bold uppercase tracking-widest opacity-40">Techniques: COALESCE · LEFT JOIN · comparison with reference dataset</div>
+          </div>
+          <div class="bg-gallery-text rounded-none overflow-hidden">
+            <div class="px-4 py-3 border-b border-white/10 flex items-center gap-2">
+              <div class="w-2 h-2 rounded-full bg-brand-orange"></div>
+              <span class="text-white/40 text-xs font-mono">analysis_03_card_tier.sql</span>
+            </div>
+            <pre class="overflow-x-auto"><code class="language-sql">SELECT
+    COALESCE(c.card_tier, 'wire') AS tier,
+    COUNT(*)                      AS n_cas,
+    ROUND(AVG(fr.amount_disputed), 0) AS avg_loss
+FROM fraud_reports fr
+JOIN transactions tr ON tr.transaction_id = fr.transaction_id
+LEFT JOIN cards c    ON c.card_id = tr.card_id
+WHERE fr.status = 'confirmed'
+GROUP BY c.card_tier;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analysis 4 -->
+      <div class="border-t border-gallery-text/10 py-16 fade-in-up relative">
+        <div class="analysis-num">04</div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div>
+            <span class="inline-block px-3 py-1 bg-brand-indigo text-white text-[10px] font-bold uppercase tracking-widest mb-6">Merchant Categories</span>
+            <h3 class="text-3xl mb-4">Digital goods concentrate 38% of card fraud</h3>
+            <p class="opacity-60 leading-relaxed mb-6">Direct marketing, streaming, tickets, gaming — 38% of card fraud cases. The fraud economy favours instant delivery, no reversal, no physical trace.</p>
+            <div class="space-y-2 mb-6">
+              <div class="flex justify-between text-xs py-2 border-b border-gallery-text/8">
+                <span class="font-bold">wire/transfer</span><span class="text-brand-orange">78 cases · €321k · avg €4,120</span>
+              </div>
+              <div class="flex justify-between text-xs py-2 border-b border-gallery-text/8">
+                <span class="font-bold">direct_mkt</span><span>30 cases · €11.5k · avg €382</span>
+              </div>
+              <div class="flex justify-between text-xs py-2 border-b border-gallery-text/8">
+                <span class="font-bold">gambling</span><span>11 cases · €4.5k · avg €410</span>
+              </div>
+            </div>
+            <div class="text-xs font-bold uppercase tracking-widest opacity-40">Techniques: LEFT JOIN with NULL handling · COALESCE · multi-aggregation</div>
+          </div>
+          <div class="bg-gallery-text rounded-none overflow-hidden">
+            <div class="px-4 py-3 border-b border-white/10 flex items-center gap-2">
+              <div class="w-2 h-2 rounded-full bg-brand-indigo"></div>
+              <span class="text-white/40 text-xs font-mono">analysis_04_merchants.sql</span>
+            </div>
+            <pre class="overflow-x-auto"><code class="language-sql">SELECT
+    COALESCE(m.subcategory, 'wire/transfer') AS subcategory,
+    COUNT(*)                                 AS n_cas,
+    ROUND(SUM(fr.amount_disputed), 0)        AS total_lost_eur,
+    ROUND(AVG(fr.amount_disputed), 0)        AS avg_loss
+FROM fraud_reports fr
+JOIN transactions t   ON fr.transaction_id = t.transaction_id
+LEFT JOIN merchants m ON t.merchant_id = m.merchant_id
+WHERE fr.status = 'confirmed'
+GROUP BY m.subcategory
+ORDER BY n_cas DESC
+LIMIT 10;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analysis 5 -->
+      <div class="border-t border-gallery-text/10 py-16 fade-in-up relative">
+        <div class="analysis-num">05</div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div>
+            <span class="inline-block px-3 py-1 bg-brand-orange text-white text-[10px] font-bold uppercase tracking-widest mb-6">Account Takeover</span>
+            <h3 class="text-3xl mb-4">The change precedes the fraud</h3>
+            <p class="opacity-60 leading-relaxed mb-6">A significant share of wire frauds (ATO, sim_swap, mule) is preceded by an email/phone/password change in the 24h window — a powerful early-warning signal that pure transaction monitoring misses.</p>
+            <div class="text-xs font-bold uppercase tracking-widest opacity-40">Techniques: CTE · COUNT FILTER (WHERE EXISTS) · INTERVAL · correlated subquery · NULLIF</div>
+          </div>
+          <div class="bg-gallery-text rounded-none overflow-hidden">
+            <div class="px-4 py-3 border-b border-white/10 flex items-center gap-2">
+              <div class="w-2 h-2 rounded-full bg-brand-orange"></div>
+              <span class="text-white/40 text-xs font-mono">analysis_05_ato_signal.sql</span>
+            </div>
+            <pre class="overflow-x-auto"><code class="language-sql">WITH fraud_tx AS (
+    SELECT
+        fr.fraud_id, fr.customer_id, fr.fraud_type,
+        fr.amount_disputed,
+        t.transaction_timestamp AS fraud_time
+    FROM fraud_reports fr
+    JOIN transactions t ON t.transaction_id = fr.transaction_id
+    WHERE fr.status = 'confirmed'
+      AND fr.fraud_type IN ('account_takeover','sim_swap','mule')
+)
+SELECT
+    ft.fraud_type,
+    COUNT(DISTINCT ft.fraud_id) AS total_fraud,
+    COUNT(DISTINCT ft.fraud_id) FILTER (WHERE EXISTS (
+        SELECT 1 FROM customer_changes cc
+        WHERE cc.customer_id = ft.customer_id
+          AND cc.field_name IN ('email','phone','password')
+          AND cc.changed_at
+              BETWEEN ft.fraud_time - INTERVAL '24 hours'
+                  AND ft.fraud_time
+    ))                          AS preceded_by_change
+FROM fraud_tx ft
+GROUP BY ft.fraud_type
+ORDER BY preceded_by_change DESC;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analysis 6 -->
+      <div class="border-t border-gallery-text/10 py-16 fade-in-up relative">
+        <div class="analysis-num">06</div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div>
+            <span class="inline-block px-3 py-1 bg-gallery-text text-white text-[10px] font-bold uppercase tracking-widest mb-6">Risk Scoring</span>
+            <h3 class="text-3xl mb-4">Multi-signal risk score — no ML needed</h3>
+            <p class="opacity-60 leading-relaxed mb-6">5 independent signals (no 3DS, anonymous IP, foreign country, >500km from home, amount anomaly) combined into a 0–5 score that classifies transactions from <em>safe</em> to <em>critical</em> without any machine learning.</p>
+            <div class="space-y-2 mb-6">
+              <div class="flex justify-between text-xs py-2 border-b border-gallery-text/8">
+                <span class="font-bold uppercase tracking-widest">score ≥ 4 → CRITICAL</span>
+                <span class="text-brand-orange">tx #700191870 · €1,971</span>
+              </div>
+              <div class="flex justify-between text-xs py-2 border-b border-gallery-text/8">
+                <span class="font-bold uppercase tracking-widest">score = 3 → HIGH</span>
+                <span>multiple tx flagged</span>
+              </div>
+            </div>
+            <div class="text-xs font-bold uppercase tracking-widest opacity-40">Techniques: stacked CTEs · AVG() OVER (PARTITION BY) · arithmetic scoring · CASE WHEN classification</div>
+          </div>
+          <div class="bg-gallery-text rounded-none overflow-hidden">
+            <div class="px-4 py-3 border-b border-white/10 flex items-center gap-2">
+              <div class="w-2 h-2 rounded-full bg-brand-indigo"></div>
+              <span class="text-white/40 text-xs font-mono">analysis_06_risk_score.sql</span>
+            </div>
+            <pre class="overflow-x-auto"><code class="language-sql">WITH scored AS (
+    SELECT
+        tr.transaction_id, tr.customer_id,
+        tr.amount_eur, tr.transaction_timestamp,
+        CASE WHEN NOT tr.is_3ds_authenticated         THEN 1 ELSE 0 END AS flag_no_3ds,
+        CASE WHEN ls.is_vpn OR ls.is_tor              THEN 1 ELSE 0 END AS flag_anon_ip,
+        CASE WHEN tr.ip_country &lt;&gt; c.country          THEN 1 ELSE 0 END AS flag_foreign,
+        CASE WHEN tr.distance_from_home_km &gt; 500      THEN 1 ELSE 0 END AS flag_far,
+        CASE WHEN tr.amount_eur &gt; 3 * AVG(tr.amount_eur)
+                    OVER (PARTITION BY tr.customer_id) THEN 1 ELSE 0 END AS flag_amount
+    FROM transactions tr
+    JOIN customers c ON c.customer_id = tr.customer_id
+    LEFT JOIN login_sessions ls ON ls.session_id = tr.session_id
+),
+risked AS (
+    SELECT *,
+        (flag_no_3ds + flag_anon_ip + flag_foreign
+         + flag_far + flag_amount) AS risk_score
+    FROM scored
+)
+SELECT transaction_id, amount_eur, risk_score,
+    CASE
+        WHEN risk_score >= 4 THEN 'critical'
+        WHEN risk_score  = 3 THEN 'high'
+        WHEN risk_score  = 2 THEN 'medium'
+        ELSE                      'low'
+    END AS risk_level
+FROM risked WHERE risk_score >= 2
+ORDER BY risk_score DESC, amount_eur DESC;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── SQL Skills table ──────────────────────────────────────────────── -->
+  <section class="px-8 md:px-16 py-24 bg-brand-muted border-t border-gallery-text/5 fade-in-up">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-4xl md:text-5xl mb-16">SQL Skills Demonstrated</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0">
+
+        <div class="museum-block md:border-r-0">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-4">Joins</div>
+          <p class="text-sm opacity-70 leading-relaxed">INNER JOIN, LEFT JOIN (with deliberate NULL interpretation), triple JOIN across 3 tables, self-join for sequential analysis.</p>
+        </div>
+
+        <div class="museum-block lg:border-r-0">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-4">Window Functions</div>
+          <p class="text-sm opacity-70 leading-relaxed"><code class="bg-white px-1">SUM(COUNT(*)) OVER()</code>, <code class="bg-white px-1">AVG() OVER (PARTITION BY)</code>, <code class="bg-white px-1">LAG()</code>, <code class="bg-white px-1">ROW_NUMBER()</code>.</p>
+        </div>
+
+        <div class="museum-block">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-4">CTEs</div>
+          <p class="text-sm opacity-70 leading-relaxed">Simple CTEs and stacked multi-layer pipelines (scored → risked → classified) for readable, testable SQL.</p>
+        </div>
+
+        <div class="museum-block md:border-r-0 border-t-0">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-4">NULL Handling</div>
+          <p class="text-sm opacity-70 leading-relaxed">COALESCE, NULLIF, IS DISTINCT FROM — and understanding why LEFT JOIN is needed when FK columns can be NULL.</p>
+        </div>
+
+        <div class="museum-block lg:border-r-0 border-t-0">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-4">Date Arithmetic</div>
+          <p class="text-sm opacity-70 leading-relaxed">INTERVAL, BETWEEN for time windows, EXTRACT(EPOCH FROM ...), AGE(), DATE_TRUNC() for period grouping.</p>
+        </div>
+
+        <div class="museum-block border-t-0">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-4">Correlated Subqueries</div>
+          <p class="text-sm opacity-70 leading-relaxed">EXISTS() pattern with temporal correlation — "for each fraud, did a credential change happen in the prior 24h?"</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Stack & Links ─────────────────────────────────────────────────── -->
+  <section class="px-8 md:px-16 py-32 bg-gallery-text text-white fade-in-up">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-4xl md:text-5xl mb-16">Stack & Links</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-0 mb-16">
+        <div class="border border-white/10 p-10">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-6">Database</div>
+          <div class="text-2xl font-bold mb-2">PostgreSQL 17</div>
+          <div class="text-sm opacity-40">Supabase cloud · eu-west-1<br/>earthdistance · cube · JSONB · INET</div>
+        </div>
+        <div class="border border-white/10 border-l-0 p-10">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-6">IDE</div>
+          <div class="text-2xl font-bold mb-2">DataGrip</div>
+          <div class="text-sm opacity-40">Connection pooler Supabase<br/>9 analytical views deployed</div>
+        </div>
+        <div class="border border-white/10 border-l-0 p-10">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-6">Visualisation</div>
+          <div class="text-2xl font-bold mb-2">Looker Studio</div>
+          <div class="text-sm opacity-40">5 dashboards<br/>9 views as data sources</div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-4">
+        <a href="https://datastudio.google.com/s/n3Pt2w_imAA" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-3 bg-brand-orange text-white px-10 py-5 font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-gallery-text transition-all">
+          <span class="material-symbols-outlined text-base">bar_chart</span>
+          Open Live Dashboards
+        </a>
+        <a href="https://github.com/leodid68" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-3 border border-white/30 text-white px-10 py-5 font-bold text-xs uppercase tracking-widest hover:border-white hover:bg-white hover:text-gallery-text transition-all">
+          <span class="material-symbols-outlined text-base">code</span>
+          Source Code — GitHub
+        </a>
+        <a href="index.html" class="inline-flex items-center gap-3 border border-white/20 text-white/40 px-10 py-5 font-bold text-xs uppercase tracking-widest hover:border-white/60 hover:text-white transition-all">
+          <span class="material-symbols-outlined text-base">arrow_back</span>
+          Back to Portfolio
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-gallery-bg px-8 md:px-16 py-24 border-t border-gallery-text/5">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+    <div class="space-y-6">
+      <a href="index.html" class="text-3xl font-bold tracking-tighter block">LÉO <span class="text-brand-indigo">DIDIER</span></a>
+      <p class="text-xs font-bold uppercase tracking-[0.3em] opacity-40">&copy; 2026</p>
+    </div>
+    <div class="max-w-md md:text-right">
+      <p class="text-2xl font-light mb-8">Banking Fraud Detection — SQL Analytics</p>
+      <div class="flex gap-8 text-[10px] font-bold uppercase tracking-widest md:justify-end">
+        <a class="hover:text-brand-indigo transition-colors" href="https://github.com/leodid68" target="_blank" rel="noopener">GitHub</a>
+        <a class="hover:text-brand-indigo transition-colors" href="https://datastudio.google.com/s/n3Pt2w_imAA" target="_blank" rel="noopener">Looker</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Scroll-to-top -->
+<a href="#" class="fixed bottom-12 right-12 w-20 h-20 bg-brand-orange text-white rounded-full flex items-center justify-center hover:scale-95 transition-all shadow-2xl z-50 overflow-hidden group">
+  <span class="material-symbols-outlined text-3xl group-hover:-translate-y-1 transition-transform">arrow_upward</span>
+</a>
+
+<script>
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+// Highlight.js
+document.addEventListener('DOMContentLoaded', () => {
+  hljs.highlightAll();
+});
+</script>
+</body>
+</html>

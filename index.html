@@ -106,6 +106,7 @@ html { scroll-behavior: smooth; }
                     <span>Python</span><span>·</span>
                     <span>Machine Learning</span><span>·</span>
                     <span>Polymarket</span><span>·</span>
+                    <span>SQL</span><span>·</span>
                     <span>LLMs</span>
                 </div>
             </div>
@@ -134,7 +135,7 @@ html { scroll-behavior: smooth; }
                 <p class="text-xl opacity-60">A few personal projects around data and finance.</p>
             </div>
             <div class="text-right">
-                <span class="text-9xl font-serif-accent italic text-brand-muted">01/05</span>
+                <span class="text-9xl font-serif-accent italic text-brand-muted">01/06</span>
             </div>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-0">
@@ -212,7 +213,7 @@ html { scroll-behavior: smooth; }
                 </div>
             </a>
 
-            <!-- Project 4: Fraud Detection -->
+            <!-- Project 4: Fraud Detection RL -->
             <a href="fraud-detection-rl-vs-rf.html" class="museum-block group fade-in-up block">
                 <div class="mb-16">
                     <span class="inline-block px-3 py-1 bg-gallery-text text-white text-[10px] font-bold uppercase tracking-widest mb-6">RL</span>
@@ -266,6 +267,54 @@ html { scroll-behavior: smooth; }
                                 <div class="absolute inset-5 bg-brand-orange/40 rounded-full"></div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Project 6: Banking Fraud Detection SQL -->
+            <a href="fraud-sql-analytics.html" class="museum-block lg:col-span-2 group fade-in-up block">
+                <div class="mb-16">
+                    <span class="inline-block px-3 py-1 bg-brand-indigo text-white text-[10px] font-bold uppercase tracking-widest mb-6">SQL</span>
+                    <h3 class="text-3xl mb-6 group-hover:text-brand-indigo transition-colors">Banking Fraud<br/>Detection SQL</h3>
+                    <p class="opacity-70 leading-relaxed mb-8">480k transactions, 9 relational tables, 8 fraud patterns. Multi-CTE pipelines, window functions and geographic scoring to surface €430k in losses — 97% concentrated in 31% of cases. 5 live Looker Studio dashboards on Supabase.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">PostgreSQL</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Supabase</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Looker Studio</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Window Functions</span>
+                    </div>
+                </div>
+                <div class="aspect-[5/2] bg-brand-muted relative overflow-hidden">
+                    <!-- Abstract SQL / data viz representation -->
+                    <div class="absolute inset-0 flex items-end gap-0 p-8">
+                        <!-- Mini bar chart representing fraud distribution -->
+                        <div class="flex-1 flex items-end gap-1 h-full">
+                            <div class="flex-1 bg-brand-indigo opacity-80" style="height:37.6%"></div>
+                            <div class="flex-1 bg-brand-indigo opacity-60" style="height:24.3%"></div>
+                            <div class="flex-1 bg-brand-indigo opacity-40" style="height:23.1%"></div>
+                            <div class="flex-1 bg-brand-orange opacity-90" style="height:4.7%"></div>
+                            <div class="flex-1 bg-brand-orange opacity-70" style="height:4.7%"></div>
+                            <div class="flex-1 bg-brand-orange opacity-50" style="height:3.9%"></div>
+                            <div class="flex-1 bg-brand-orange opacity-40" style="height:1.6%"></div>
+                        </div>
+                        <!-- Vertical separator -->
+                        <div class="w-px h-full bg-gallery-text/10 mx-4"></div>
+                        <!-- KPI snapshot -->
+                        <div class="shrink-0 flex flex-col justify-center gap-3 pb-2">
+                            <div class="text-right">
+                                <div class="text-3xl font-bold text-brand-indigo leading-none">97%</div>
+                                <div class="text-[9px] font-bold uppercase tracking-widest opacity-40">losses</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-3xl font-bold text-brand-orange leading-none">31%</div>
+                                <div class="text-[9px] font-bold uppercase tracking-widest opacity-40">cases</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Looker badge -->
+                    <div class="absolute top-6 right-6 flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest opacity-40">
+                        <span class="material-symbols-outlined text-sm">bar_chart</span>
+                        5 Live Dashboards
                     </div>
                 </div>
             </a>
