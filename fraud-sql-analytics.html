@@ -193,6 +193,11 @@ html { scroll-behavior: smooth; }
           <span class="material-symbols-outlined text-base">code</span>
           View on GitHub
         </a>
+        <a href="fraud-dashboards.pdf" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-3 border border-gallery-text px-8 py-4 font-bold text-xs uppercase tracking-widest hover:bg-gallery-text hover:text-white transition-all">
+          <span class="material-symbols-outlined text-base">picture_as_pdf</span>
+          Download PDF Export
+        </a>
       </div>
     </div>
   </section>
@@ -347,6 +352,78 @@ html { scroll-behavior: smooth; }
               </div>
             </div>
           </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Heatmap + Geographic data tables ──────────────────────────────── -->
+  <section class="px-8 md:px-16 py-32 border-t border-gallery-text/5 fade-in-up">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-16">
+        <div class="text-xs font-bold tracking-[0.5em] text-brand-orange uppercase mb-4">From the PDF export</div>
+        <h2 class="text-4xl md:text-5xl">Patterns &amp; Geography — Raw Numbers</h2>
+        <p class="opacity-60 max-w-3xl mt-6 leading-relaxed">The visuals below are extracted from the Looker Studio dashboards. They sit behind the headlines: which day &amp; hour the fraud actually clusters, and where the losses concentrate.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+        <!-- Heatmap day × hour -->
+        <div class="border border-gallery-text/10 p-8">
+          <div class="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-2">Dashboard 2 · Fraud Patterns</div>
+          <h3 class="text-2xl mb-2">Heatmap · day × hour</h3>
+          <p class="text-sm opacity-60 mb-6">Peak window: <span class="text-brand-orange font-bold">Saturday 00–03h (22 cases)</span> — automated fraud exploits the low-supervision window.</p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs">
+              <thead>
+                <tr class="border-b border-gallery-text/20 text-[10px] uppercase tracking-widest opacity-60">
+                  <th class="text-left py-2 pr-3">Hour</th>
+                  <th class="text-right py-2 px-2">Mon</th><th class="text-right py-2 px-2">Tue</th>
+                  <th class="text-right py-2 px-2">Wed</th><th class="text-right py-2 px-2">Thu</th>
+                  <th class="text-right py-2 px-2">Fri</th><th class="text-right py-2 px-2">Sat</th>
+                  <th class="text-right py-2 px-2">Sun</th>
+                </tr>
+              </thead>
+              <tbody class="font-mono">
+                <tr class="border-b border-gallery-text/5"><td class="py-2 pr-3 font-bold">00–03h</td><td class="text-right">12</td><td class="text-right">8</td><td class="text-right">2</td><td class="text-right">1</td><td class="text-right">4</td><td class="text-right text-brand-orange font-bold">22</td><td class="text-right">3</td></tr>
+                <tr class="border-b border-gallery-text/5"><td class="py-2 pr-3 font-bold">04–07h</td><td class="text-right">9</td><td class="text-right">2</td><td class="text-right">13</td><td class="text-right">2</td><td class="text-right">3</td><td class="text-right text-brand-orange font-bold">17</td><td class="text-right">2</td></tr>
+                <tr class="border-b border-gallery-text/5"><td class="py-2 pr-3 font-bold">08–11h</td><td class="text-right">10</td><td class="text-right">3</td><td class="text-right">6</td><td class="text-right">–</td><td class="text-right">5</td><td class="text-right">10</td><td class="text-right">4</td></tr>
+                <tr class="border-b border-gallery-text/5"><td class="py-2 pr-3 font-bold">12–15h</td><td class="text-right">10</td><td class="text-right">5</td><td class="text-right">8</td><td class="text-right">1</td><td class="text-right">1</td><td class="text-right">8</td><td class="text-right">2</td></tr>
+                <tr class="border-b border-gallery-text/5"><td class="py-2 pr-3 font-bold">16–19h</td><td class="text-right">10</td><td class="text-right">12</td><td class="text-right">–</td><td class="text-right">2</td><td class="text-right text-brand-orange font-bold">19</td><td class="text-right">4</td><td class="text-right">3</td></tr>
+                <tr><td class="py-2 pr-3 font-bold">20–23h</td><td class="text-right">1</td><td class="text-right">–</td><td class="text-right">10</td><td class="text-right">3</td><td class="text-right">7</td><td class="text-right">8</td><td class="text-right">3</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Geographic top 10 -->
+        <div class="border border-gallery-text/10 p-8">
+          <div class="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-2">Dashboard 3 · Geographic</div>
+          <h3 class="text-2xl mb-2">Top 10 countries by loss</h3>
+          <p class="text-sm opacity-60 mb-6">France absorbs <span class="text-brand-orange font-bold">47% of total losses (€203k, 114 cases)</span>. Portugal: single case but €6,726 — the outlier basket.</p>
+          <table class="w-full text-xs">
+            <thead>
+              <tr class="border-b border-gallery-text/20 text-[10px] uppercase tracking-widest opacity-60">
+                <th class="text-left py-2">Country</th>
+                <th class="text-right py-2">Cases</th>
+                <th class="text-right py-2">Total lost (€)</th>
+                <th class="text-right py-2">Avg / case (€)</th>
+              </tr>
+            </thead>
+            <tbody class="font-mono">
+              <tr class="border-b border-gallery-text/5"><td class="py-2 font-bold">FR</td><td class="text-right">114</td><td class="text-right text-brand-orange font-bold">203,094</td><td class="text-right">1,782</td></tr>
+              <tr class="border-b border-gallery-text/5"><td class="py-2 font-bold">ES</td><td class="text-right">25</td><td class="text-right">47,936</td><td class="text-right">1,917</td></tr>
+              <tr class="border-b border-gallery-text/5"><td class="py-2 font-bold">IT</td><td class="text-right">23</td><td class="text-right">36,053</td><td class="text-right">1,568</td></tr>
+              <tr class="border-b border-gallery-text/5"><td class="py-2 font-bold">BE</td><td class="text-right">37</td><td class="text-right">25,037</td><td class="text-right">677</td></tr>
+              <tr class="border-b border-gallery-text/5"><td class="py-2 font-bold">LU</td><td class="text-right">15</td><td class="text-right">24,017</td><td class="text-right">1,601</td></tr>
+              <tr class="border-b border-gallery-text/5"><td class="py-2 font-bold">GB</td><td class="text-right">15</td><td class="text-right">17,604</td><td class="text-right">1,174</td></tr>
+              <tr class="border-b border-gallery-text/5"><td class="py-2 font-bold">DE</td><td class="text-right">13</td><td class="text-right">10,634</td><td class="text-right">818</td></tr>
+              <tr class="border-b border-gallery-text/5"><td class="py-2 font-bold">PT</td><td class="text-right">1</td><td class="text-right">6,726</td><td class="text-right text-brand-orange font-bold">6,726</td></tr>
+              <tr class="border-b border-gallery-text/5"><td class="py-2 font-bold">NL</td><td class="text-right">8</td><td class="text-right">3,868</td><td class="text-right">484</td></tr>
+              <tr><td class="py-2 font-bold">CH</td><td class="text-right">4</td><td class="text-right">828</td><td class="text-right">207</td></tr>
+            </tbody>
+          </table>
         </div>
 
       </div>
@@ -692,6 +769,89 @@ SELECT transaction_id, amount_eur, risk_score,
     END AS risk_level
 FROM risked WHERE risk_score >= 2
 ORDER BY risk_score DESC, amount_eur DESC;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Methodology & Limitations ─────────────────────────────────────── -->
+  <section class="px-8 md:px-16 py-32 border-t border-gallery-text/5 fade-in-up">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-16">
+        <div class="text-xs font-bold tracking-[0.5em] text-brand-orange uppercase mb-4">From the EDA notebook</div>
+        <h2 class="text-4xl md:text-5xl">Methodology &amp; Honest Limitations</h2>
+        <p class="opacity-60 max-w-3xl mt-6 leading-relaxed">The notebook captures the full exploration trail: 4 phases of EDA, the hypotheses tested, the dead-ends, and — critical for honesty — the biases discovered in the synthetic dataset.</p>
+      </div>
+
+      <!-- 4 Phases -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 mb-16">
+        <div class="museum-block lg:border-r-0">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-brand-indigo mb-3">Phase 1</div>
+          <h3 class="text-xl mb-3">Volumetry</h3>
+          <p class="text-sm opacity-60 leading-relaxed">Card tier and account type distributions establish the population baseline before any fraud overlay.</p>
+        </div>
+        <div class="museum-block lg:border-r-0">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-brand-indigo mb-3">Phase 2</div>
+          <h3 class="text-xl mb-3">Descriptive</h3>
+          <p class="text-sm opacity-60 leading-relaxed">Transaction subtypes, root causes, detection methods, average baskets — what does normal look like?</p>
+        </div>
+        <div class="museum-block lg:border-r-0">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-3">Phase 3</div>
+          <h3 class="text-xl mb-3">Investigations</h3>
+          <p class="text-sm opacity-60 leading-relaxed">Crossed dimensions: 3DS × tier × fraud type, merchant subcategory loss, reporting delays, victim profile.</p>
+        </div>
+        <div class="museum-block">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-3">Phase 4</div>
+          <h3 class="text-xl mb-3">Advanced</h3>
+          <p class="text-sm opacity-60 leading-relaxed">Window functions, CTEs, geographic impossibility (LAG), weighted risk score, top-N per partition.</p>
+        </div>
+      </div>
+
+      <!-- Limitations & extensions -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
+        <div class="bg-gallery-text text-white p-10">
+          <div class="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-4">Known dataset biases</div>
+          <h3 class="text-2xl mb-6">What the data <span class="text-brand-orange italic font-serif-accent normal-case">cannot</span> tell us</h3>
+          <ul class="space-y-4 text-sm opacity-80 leading-relaxed">
+            <li class="flex gap-3"><span class="text-brand-orange">▸</span><span><strong>root_cause</strong> drawn uniformly at random — uncorrelated with fraud type. Any variance is noise.</span></li>
+            <li class="flex gap-3"><span class="text-brand-orange">▸</span><span><strong>mobile_country_code</strong> not aligned with nationality — useless as an anti-fraud signal.</span></li>
+            <li class="flex gap-3"><span class="text-brand-orange">▸</span><span><strong>detection_method</strong> generated independently — flatness in distribution is artificial.</span></li>
+            <li class="flex gap-3"><span class="text-brand-orange">▸</span><span><strong>No card-present fraud</strong> modelled (no skimming or physical theft) — 100% of fraud is CNP.</span></li>
+            <li class="flex gap-3"><span class="text-brand-orange">▸</span><span><strong>Retail-banking skew</strong>: 70% checking accounts — premium tiers under-represented in the population.</span></li>
+          </ul>
+        </div>
+        <div class="border border-gallery-text/10 p-10">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-brand-indigo mb-4">Extensions on the roadmap</div>
+          <h3 class="text-2xl mb-6">What comes <span class="italic font-serif-accent normal-case text-brand-indigo">next</span></h3>
+          <ul class="space-y-4 text-sm opacity-70 leading-relaxed">
+            <li class="flex gap-3"><span class="text-brand-indigo">▸</span><span><strong>ML layer</strong> — scikit-learn logistic regression on the same features, benchmarked against the SQL rules to quantify added value.</span></li>
+            <li class="flex gap-3"><span class="text-brand-indigo">▸</span><span><strong>dbt models</strong> — encapsulate the 9 analytical views into versioned, tested transformations.</span></li>
+            <li class="flex gap-3"><span class="text-brand-indigo">▸</span><span><strong>Streaming detection</strong> — Kafka + ksqlDB to translate the batch risk score into real-time decisions.</span></li>
+            <li class="flex gap-3"><span class="text-brand-indigo">▸</span><span><strong>Reinforcement learning</strong> — adaptive thresholds learned from analyst feedback (linked project below).</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Recommendations callout -->
+      <div class="mt-16 p-10 bg-brand-muted border-l-4 border-brand-orange">
+        <div class="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-4">3 chiffrées recommendations</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <div class="text-3xl font-bold mb-2">~92%</div>
+            <div class="text-xs opacity-60 uppercase tracking-widest mb-2">Card fraud eliminated</div>
+            <p class="text-sm opacity-70 leading-relaxed">Mandate 3DS above €200 — 234 / 253 card fraud cases would be blocked.</p>
+          </div>
+          <div>
+            <div class="text-3xl font-bold mb-2">~95%</div>
+            <div class="text-xs opacity-60 uppercase tracking-widest mb-2">Total losses avoided</div>
+            <p class="text-sm opacity-70 leading-relaxed">Step-up authentication on wires &gt;€5,000 (out-of-band, 24h cooling on new beneficiaries).</p>
+          </div>
+          <div>
+            <div class="text-3xl font-bold mb-2">~38%</div>
+            <div class="text-xs opacity-60 uppercase tracking-widest mb-2">Card cases targeted</div>
+            <p class="text-sm opacity-70 leading-relaxed">Velocity rules + auto-3DS on digital MCCs (direct mkt, streaming, gaming, tickets, gambling).</p>
           </div>
         </div>
       </div>
