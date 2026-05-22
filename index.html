@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Leo Didier | Data Science & ML</title>
+<title>Leo Didier | Data Analysis</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -66,7 +66,8 @@ html { scroll-behavior: smooth; }
         LÉO <span class="text-brand-indigo">DIDIER</span>
     </a>
     <div class="hidden md:flex gap-12 items-center text-xs font-bold uppercase tracking-widest">
-        <a class="hover:text-brand-orange transition-colors" href="#projects">Projects</a>
+        <a class="hover:text-brand-orange transition-colors" href="#projects">Analytics</a>
+        <a class="hover:text-brand-orange transition-colors" href="#other-projects">Other Projects</a>
         <a class="hover:text-brand-orange transition-colors" href="#notebooks">Deep Dives</a>
         <a class="bg-brand-indigo text-white px-6 py-3 hover:bg-brand-orange transition-all" href="#contact">Get in Touch</a>
     </div>
@@ -75,7 +76,8 @@ html { scroll-behavior: smooth; }
     </div>
 </nav>
 <div id="mobile-nav" class="hidden md:hidden fixed top-[89px] left-0 w-full z-40 bg-white/95 backdrop-blur-xl border-b border-gallery-text/5 px-8 py-6 space-y-4">
-    <a class="block text-xs font-bold uppercase tracking-widest" href="#projects" onclick="this.parentElement.classList.add('hidden')">Projects</a>
+    <a class="block text-xs font-bold uppercase tracking-widest" href="#projects" onclick="this.parentElement.classList.add('hidden')">Analytics</a>
+    <a class="block text-xs font-bold uppercase tracking-widest" href="#other-projects" onclick="this.parentElement.classList.add('hidden')">Other Projects</a>
     <a class="block text-xs font-bold uppercase tracking-widest" href="#notebooks" onclick="this.parentElement.classList.add('hidden')">Deep Dives</a>
     <a class="block text-xs font-bold uppercase tracking-widest text-brand-indigo" href="#contact" onclick="this.parentElement.classList.add('hidden')">Get in Touch</a>
 </div>
@@ -87,16 +89,16 @@ html { scroll-behavior: smooth; }
     <div class="absolute top-1/4 right-0 w-1/3 h-1/2 sculpture-gradient rounded-full"></div>
     <div class="relative z-10 max-w-7xl mx-auto w-full">
         <div class="mb-8">
-            <span class="text-xs font-bold tracking-[0.5em] text-brand-orange uppercase">Data Science &amp; Machine Learning</span>
+            <span class="text-xs font-bold tracking-[0.5em] text-brand-orange uppercase">Data Analysis &amp; Insights</span>
         </div>
         <h1 class="text-7xl md:text-[12rem] leading-[0.85] mb-12">
-            Quantifying<br/>
-            <span class="font-serif-accent italic normal-case text-brand-indigo">the</span> Uncertain.
+            Stories<br/>
+            <span class="font-serif-accent italic normal-case text-brand-indigo">hidden in</span> Data.
         </h1>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-end">
             <div class="space-y-8">
                 <p class="text-2xl md:text-3xl font-light leading-snug tracking-tight max-w-2xl">
-                    Léo Didier. I build data science projects around topics that interest me : prediction markets, ML ensembles, reinforcement learning.
+                    Léo Didier. I turn messy datasets into clear narratives — activation funnels, SQL fraud pipelines, geographic segmentations, dashboards a stakeholder can actually use.
                 </p>
                 <div class="flex gap-4">
                     <div class="h-1 w-20 bg-brand-indigo"></div>
@@ -104,44 +106,184 @@ html { scroll-behavior: smooth; }
                 </div>
                 <div class="flex flex-wrap gap-x-4 gap-y-2 text-[10px] font-bold uppercase tracking-[0.3em] opacity-40">
                     <span>Python</span><span>·</span>
-                    <span>Machine Learning</span><span>·</span>
-                    <span>Polymarket</span><span>·</span>
                     <span>SQL</span><span>·</span>
-                    <span>LLMs</span>
+                    <span>Pandas</span><span>·</span>
+                    <span>Plotly</span><span>·</span>
+                    <span>Tableau</span><span>·</span>
+                    <span>Looker</span>
                 </div>
             </div>
             <div class="relative aspect-square bg-brand-muted flex items-center justify-center p-12 overflow-hidden border border-gallery-text/5">
                 <div class="relative w-full h-full flex items-center justify-center">
-                    <div class="absolute w-48 h-48 border-2 border-brand-indigo rotate-45 opacity-20"></div>
-                    <div class="absolute w-64 h-64 border border-brand-orange rounded-full opacity-30"></div>
-                    <div class="absolute w-32 h-32 bg-brand-indigo mix-blend-multiply opacity-80"></div>
-                    <div class="w-24 h-80 bg-gallery-text -rotate-12 translate-x-4"></div>
-                    <div class="w-1 h-full bg-brand-orange absolute left-1/2 -translate-x-1/2"></div>
+                    <!-- Funnel-inspired hero art -->
+                    <div class="absolute top-[10%] left-[10%] right-[10%] h-4 bg-brand-indigo opacity-90"></div>
+                    <div class="absolute top-[28%] left-[18%] right-[18%] h-4 bg-brand-indigo opacity-70"></div>
+                    <div class="absolute top-[46%] left-[28%] right-[28%] h-4 bg-brand-orange opacity-80"></div>
+                    <div class="absolute top-[64%] left-[38%] right-[38%] h-4 bg-brand-orange opacity-60"></div>
+                    <div class="absolute top-[82%] left-[45%] right-[45%] h-4 bg-gallery-text opacity-80"></div>
                 </div>
                 <div class="absolute bottom-6 right-6 text-[10px] uppercase tracking-widest font-bold opacity-40">
-                    Polymarket_Arb_2026
+                    C2C_Activation_2026
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Projects: The Collection -->
+<!-- Featured Projects: Analytics -->
 <section id="projects" class="px-8 md:px-16 py-40 border-t border-gallery-text/5 bg-white">
     <div class="max-w-7xl mx-auto">
         <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-8 fade-in-up">
             <div>
+                <span class="text-xs font-bold tracking-[0.5em] text-brand-orange uppercase mb-4 block">Featured · Analytics</span>
                 <h2 class="text-5xl md:text-7xl mb-4">The Collection</h2>
-                <p class="text-xl opacity-60">A few personal projects around data and finance.</p>
+                <p class="text-xl opacity-60">Data analysis projects — story-driven EDAs, SQL pipelines, dashboards, and signal detection.</p>
             </div>
             <div class="text-right">
-                <span class="text-9xl font-serif-accent italic text-brand-muted">01/06</span>
+                <span class="text-9xl font-serif-accent italic text-brand-muted">01/04</span>
             </div>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-0">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
 
-            <!-- Project 1: Prediction Market Arbitrage -->
-            <a href="01-context-and-research.html" class="museum-block lg:border-r-0 fade-in-up block group">
+            <!-- Project 1: C2C Fashion Marketplace EDA (NEW) -->
+            <a href="01-the-ghost-marketplace.html" class="museum-block lg:border-r-0 bg-brand-indigo text-white border-none group fade-in-up block">
+                <div class="mb-16">
+                    <span class="inline-block px-3 py-1 bg-brand-orange text-white text-[10px] font-bold uppercase tracking-widest mb-6">EDA · New</span>
+                    <h3 class="text-3xl mb-6 group-hover:opacity-80 transition-opacity">C2C Fashion<br/>Marketplace</h3>
+                    <p class="opacity-80 leading-relaxed mb-8">98,913 users from a French C2C fashion marketplace. Activation funnel, six behavioural segments, geographic disparities, and the "Ghost Marketplace" finding — 98% of registered users never sold anything. Two-part EDA shipped as a Tableau-ready dataset.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">Pandas</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">Plotly</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">Segmentation</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">Tableau</span>
+                    </div>
+                </div>
+                <div class="aspect-[4/3] bg-white/10 relative overflow-hidden">
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end gap-2">
+                        <div class="bg-white h-3 w-[95%] opacity-90"></div>
+                        <div class="bg-white h-3 w-[78%] opacity-80"></div>
+                        <div class="bg-brand-orange h-3 w-[16%] opacity-90"></div>
+                        <div class="bg-brand-orange h-3 w-[5%] opacity-90"></div>
+                        <div class="bg-white h-3 w-[5%] opacity-60"></div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Project 2: Banking Fraud Detection SQL -->
+            <a href="fraud-sql-analytics.html" class="museum-block group fade-in-up block">
+                <div class="mb-16">
+                    <span class="inline-block px-3 py-1 bg-brand-indigo text-white text-[10px] font-bold uppercase tracking-widest mb-6">SQL</span>
+                    <h3 class="text-3xl mb-6 group-hover:text-brand-indigo transition-colors">Banking Fraud<br/>Detection SQL</h3>
+                    <p class="opacity-70 leading-relaxed mb-8">480k transactions, 9 relational tables, 8 fraud patterns. Multi-CTE pipelines, window functions and geographic scoring to surface €430k in losses — 97% concentrated in 31% of cases. 5 live Looker Studio dashboards on Supabase.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">PostgreSQL</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Supabase</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Looker Studio</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Window Functions</span>
+                    </div>
+                </div>
+                <div class="aspect-[4/3] bg-brand-muted relative overflow-hidden">
+                    <div class="absolute inset-0 flex items-end gap-0 p-8">
+                        <div class="flex-1 flex items-end gap-1 h-full">
+                            <div class="flex-1 bg-brand-indigo opacity-80" style="height:37.6%"></div>
+                            <div class="flex-1 bg-brand-indigo opacity-60" style="height:24.3%"></div>
+                            <div class="flex-1 bg-brand-indigo opacity-40" style="height:23.1%"></div>
+                            <div class="flex-1 bg-brand-orange opacity-90" style="height:4.7%"></div>
+                            <div class="flex-1 bg-brand-orange opacity-70" style="height:4.7%"></div>
+                            <div class="flex-1 bg-brand-orange opacity-50" style="height:3.9%"></div>
+                            <div class="flex-1 bg-brand-orange opacity-40" style="height:1.6%"></div>
+                        </div>
+                        <div class="w-px h-full bg-gallery-text/10 mx-4"></div>
+                        <div class="shrink-0 flex flex-col justify-center gap-3 pb-2">
+                            <div class="text-right">
+                                <div class="text-3xl font-bold text-brand-indigo leading-none">97%</div>
+                                <div class="text-[9px] font-bold uppercase tracking-widest opacity-40">losses</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-3xl font-bold text-brand-orange leading-none">31%</div>
+                                <div class="text-[9px] font-bold uppercase tracking-widest opacity-40">cases</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute top-6 right-6 flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest opacity-40">
+                        <span class="material-symbols-outlined text-sm">bar_chart</span>
+                        5 Live Dashboards
+                    </div>
+                </div>
+            </a>
+
+            <!-- Project 3: Space Weather -->
+            <a href="space-weather-dashboard.html" class="museum-block lg:border-r-0 lg:border-t-0 group fade-in-up block">
+                <div class="mb-16">
+                    <span class="inline-block px-3 py-1 bg-brand-orange text-white text-[10px] font-bold uppercase tracking-widest mb-6">Dashboard</span>
+                    <h3 class="text-3xl mb-6 group-hover:text-brand-indigo transition-colors">Space<br/>Weather</h3>
+                    <p class="opacity-70 leading-relaxed mb-8">27 years of solar &amp; geomagnetic data from NOAA/NASA. Solar cycle analysis, anomaly detection (IQR + Isolation Forest), SARIMA vs Prophet forecasting, and an interactive 4-panel dashboard.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Time Series</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Anomaly Det.</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">SARIMA</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Prophet</span>
+                    </div>
+                </div>
+                <div class="aspect-[4/3] bg-brand-muted relative overflow-hidden">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-40 h-40 border-2 border-brand-orange rounded-full opacity-40"></div>
+                        <div class="w-24 h-24 border-2 border-brand-orange rounded-full opacity-60"></div>
+                        <div class="w-10 h-10 bg-brand-orange rounded-full opacity-80"></div>
+                        <div class="absolute w-full h-[1px] bg-brand-indigo/30 rotate-[20deg]"></div>
+                        <div class="absolute w-full h-[1px] bg-brand-indigo/20 -rotate-[15deg]"></div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Project 4: FDA FAERS -->
+            <a href="01-faers-data-pipeline-eda.html" class="museum-block lg:border-t-0 bg-gallery-text text-white border-none group fade-in-up block">
+                <div class="mb-16">
+                    <span class="inline-block px-3 py-1 bg-brand-orange text-white text-[10px] font-bold uppercase tracking-widest mb-6">Healthcare</span>
+                    <h3 class="text-3xl mb-6 group-hover:opacity-80 transition-opacity">FDA Adverse<br/>Event Analysis</h3>
+                    <p class="opacity-80 leading-relaxed mb-8">1.6 million adverse drug event reports from the FDA FAERS database. Full data pipeline, severity classification (XGBoost + SHAP), and pharmacovigilance signal detection using PRR &amp; ROR — the same methods regulators use.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">Data Pipeline</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">SHAP</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">Pharmacovigilance</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">Signal Detection</span>
+                    </div>
+                </div>
+                <div class="aspect-[4/3] bg-white/10 relative overflow-hidden">
+                    <div class="absolute inset-0 flex items-end gap-1 p-6">
+                        <div class="flex-1 bg-brand-orange h-[70%] opacity-60"></div>
+                        <div class="flex-1 bg-white h-[45%] opacity-40"></div>
+                        <div class="flex-1 bg-brand-orange h-[85%] opacity-60"></div>
+                        <div class="flex-1 bg-white h-[30%] opacity-40"></div>
+                        <div class="flex-1 bg-brand-orange h-[55%] opacity-60"></div>
+                        <div class="flex-1 bg-white h-[65%] opacity-40"></div>
+                        <div class="flex-1 bg-brand-orange h-[40%] opacity-60"></div>
+                        <div class="flex-1 bg-white h-[90%] opacity-40"></div>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</section>
+
+<!-- Other Projects: ML / Quant -->
+<section id="other-projects" class="px-8 md:px-16 py-40 border-t border-gallery-text/5 bg-brand-muted/40">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-8 fade-in-up">
+            <div>
+                <span class="text-xs font-bold tracking-[0.5em] text-brand-indigo uppercase mb-4 block">Other Projects · ML &amp; Quant</span>
+                <h2 class="text-5xl md:text-7xl mb-4">On the Side</h2>
+                <p class="text-xl opacity-60">Where I left the analyst hat for a bit and built something heavier.</p>
+            </div>
+            <div class="text-right">
+                <span class="text-9xl font-serif-accent italic text-white">05/07</span>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-0">
+
+            <!-- Project 5: Prediction Market Arbitrage -->
+            <a href="01-context-and-research.html" class="museum-block lg:border-r-0 fade-in-up block group bg-white">
                 <div class="mb-16">
                     <span class="inline-block px-3 py-1 bg-brand-indigo text-white text-[10px] font-bold uppercase tracking-widest mb-6">Quant</span>
                     <h3 class="text-3xl mb-6 group-hover:text-brand-indigo transition-colors">Prediction<br/>Market Arbitrage</h3>
@@ -162,7 +304,7 @@ html { scroll-behavior: smooth; }
                 </div>
             </a>
 
-            <!-- Project 2: Contextual Stacking -->
+            <!-- Project 6: Contextual Stacking -->
             <a href="stacking-walkthrough.html" class="museum-block lg:border-r-0 bg-brand-indigo text-white border-none group fade-in-up block">
                 <div class="mb-16">
                     <span class="inline-block px-3 py-1 bg-brand-orange text-white text-[10px] font-bold uppercase tracking-widest mb-6">Ensemble</span>
@@ -189,32 +331,8 @@ html { scroll-behavior: smooth; }
                 </div>
             </a>
 
-            <!-- Project 3: Space Weather -->
-            <a href="space-weather-dashboard.html" class="museum-block lg:border-r-0 group fade-in-up block">
-                <div class="mb-16">
-                    <span class="inline-block px-3 py-1 bg-brand-orange text-white text-[10px] font-bold uppercase tracking-widest mb-6">Dashboard</span>
-                    <h3 class="text-3xl mb-6 group-hover:text-brand-indigo transition-colors">Space<br/>Weather</h3>
-                    <p class="opacity-70 leading-relaxed mb-8">27 years of solar &amp; geomagnetic data from NOAA/NASA. Solar cycle analysis, anomaly detection (IQR + Isolation Forest), SARIMA vs Prophet forecasting, and an interactive 4-panel dashboard.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Time Series</span>
-                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Anomaly Det.</span>
-                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">SARIMA</span>
-                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Prophet</span>
-                    </div>
-                </div>
-                <div class="aspect-[4/3] bg-brand-muted relative overflow-hidden">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="w-40 h-40 border-2 border-brand-orange rounded-full opacity-40"></div>
-                        <div class="w-24 h-24 border-2 border-brand-orange rounded-full opacity-60"></div>
-                        <div class="w-10 h-10 bg-brand-orange rounded-full opacity-80"></div>
-                        <div class="absolute w-full h-[1px] bg-brand-indigo/30 rotate-[20deg]"></div>
-                        <div class="absolute w-full h-[1px] bg-brand-indigo/20 -rotate-[15deg]"></div>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Project 4: Fraud Detection RL -->
-            <a href="fraud-detection-rl-vs-rf.html" class="museum-block group fade-in-up block">
+            <!-- Project 7: Fraud Detection RL -->
+            <a href="fraud-detection-rl-vs-rf.html" class="museum-block group fade-in-up block bg-white">
                 <div class="mb-16">
                     <span class="inline-block px-3 py-1 bg-gallery-text text-white text-[10px] font-bold uppercase tracking-widest mb-6">RL</span>
                     <h3 class="text-3xl mb-6 group-hover:text-brand-indigo transition-colors">Fraud<br/>Detection</h3>
@@ -235,95 +353,11 @@ html { scroll-behavior: smooth; }
                 </div>
             </a>
 
-            <!-- Project 5: FDA FAERS Pharmacovigilance -->
-            <a href="01-faers-data-pipeline-eda.html" class="museum-block lg:col-span-2 bg-gallery-text text-white border-none group fade-in-up block">
-                <div class="mb-16">
-                    <span class="inline-block px-3 py-1 bg-brand-orange text-white text-[10px] font-bold uppercase tracking-widest mb-6">Healthcare</span>
-                    <h3 class="text-3xl mb-6 group-hover:opacity-80 transition-opacity">FDA Adverse<br/>Event Analysis</h3>
-                    <p class="opacity-80 leading-relaxed mb-8">1.6 million adverse drug event reports from the FDA FAERS database. Full data pipeline, severity classification (XGBoost + SHAP), and pharmacovigilance signal detection using PRR &amp; ROR — the same methods regulators use.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">XGBoost</span>
-                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">SHAP</span>
-                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">Pharmacovigilance</span>
-                        <span class="text-[9px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1">Signal Detection</span>
-                    </div>
-                </div>
-                <div class="aspect-[5/2] bg-white/10 relative overflow-hidden">
-                    <div class="absolute inset-0 flex items-center justify-center gap-3 p-8">
-                        <div class="flex-1 h-full flex items-end gap-1">
-                            <div class="flex-1 bg-brand-orange h-[70%] opacity-60"></div>
-                            <div class="flex-1 bg-white h-[45%] opacity-40"></div>
-                            <div class="flex-1 bg-brand-orange h-[85%] opacity-60"></div>
-                            <div class="flex-1 bg-white h-[30%] opacity-40"></div>
-                            <div class="flex-1 bg-brand-orange h-[55%] opacity-60"></div>
-                            <div class="flex-1 bg-white h-[65%] opacity-40"></div>
-                            <div class="flex-1 bg-brand-orange h-[40%] opacity-60"></div>
-                            <div class="flex-1 bg-white h-[90%] opacity-40"></div>
-                        </div>
-                        <div class="w-px h-full bg-white/20"></div>
-                        <div class="flex-1 flex items-center justify-center">
-                            <div class="w-20 h-20 border-2 border-brand-orange rounded-full opacity-60 relative">
-                                <div class="absolute inset-2 border border-white/40 rounded-full"></div>
-                                <div class="absolute inset-5 bg-brand-orange/40 rounded-full"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Project 6: Banking Fraud Detection SQL -->
-            <a href="fraud-sql-analytics.html" class="museum-block lg:col-span-2 group fade-in-up block">
-                <div class="mb-16">
-                    <span class="inline-block px-3 py-1 bg-brand-indigo text-white text-[10px] font-bold uppercase tracking-widest mb-6">SQL</span>
-                    <h3 class="text-3xl mb-6 group-hover:text-brand-indigo transition-colors">Banking Fraud<br/>Detection SQL</h3>
-                    <p class="opacity-70 leading-relaxed mb-8">480k transactions, 9 relational tables, 8 fraud patterns. Multi-CTE pipelines, window functions and geographic scoring to surface €430k in losses — 97% concentrated in 31% of cases. 5 live Looker Studio dashboards on Supabase.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">PostgreSQL</span>
-                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Supabase</span>
-                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Looker Studio</span>
-                        <span class="text-[9px] font-bold uppercase tracking-widest bg-brand-muted px-3 py-1">Window Functions</span>
-                    </div>
-                </div>
-                <div class="aspect-[5/2] bg-brand-muted relative overflow-hidden">
-                    <!-- Abstract SQL / data viz representation -->
-                    <div class="absolute inset-0 flex items-end gap-0 p-8">
-                        <!-- Mini bar chart representing fraud distribution -->
-                        <div class="flex-1 flex items-end gap-1 h-full">
-                            <div class="flex-1 bg-brand-indigo opacity-80" style="height:37.6%"></div>
-                            <div class="flex-1 bg-brand-indigo opacity-60" style="height:24.3%"></div>
-                            <div class="flex-1 bg-brand-indigo opacity-40" style="height:23.1%"></div>
-                            <div class="flex-1 bg-brand-orange opacity-90" style="height:4.7%"></div>
-                            <div class="flex-1 bg-brand-orange opacity-70" style="height:4.7%"></div>
-                            <div class="flex-1 bg-brand-orange opacity-50" style="height:3.9%"></div>
-                            <div class="flex-1 bg-brand-orange opacity-40" style="height:1.6%"></div>
-                        </div>
-                        <!-- Vertical separator -->
-                        <div class="w-px h-full bg-gallery-text/10 mx-4"></div>
-                        <!-- KPI snapshot -->
-                        <div class="shrink-0 flex flex-col justify-center gap-3 pb-2">
-                            <div class="text-right">
-                                <div class="text-3xl font-bold text-brand-indigo leading-none">97%</div>
-                                <div class="text-[9px] font-bold uppercase tracking-widest opacity-40">losses</div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-3xl font-bold text-brand-orange leading-none">31%</div>
-                                <div class="text-[9px] font-bold uppercase tracking-widest opacity-40">cases</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Looker badge -->
-                    <div class="absolute top-6 right-6 flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest opacity-40">
-                        <span class="material-symbols-outlined text-sm">bar_chart</span>
-                        5 Live Dashboards
-                    </div>
-                </div>
-            </a>
-
         </div>
     </div>
 </section>
 
-<!-- Deep Dives: Polymarket Notebooks -->
+<!-- Deep Dives: Notebooks index -->
 <section id="notebooks" class="px-8 md:px-16 py-40 bg-white border-t border-gallery-text/5">
     <div class="max-w-7xl mx-auto">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-32 gap-8 fade-in-up">
@@ -331,48 +365,41 @@ html { scroll-behavior: smooth; }
             <a class="text-xs font-bold uppercase tracking-widest border-b-2 border-brand-indigo pb-2 hover:text-brand-indigo transition-all" href="https://github.com/leodid68" target="_blank" rel="noopener">View on GitHub</a>
         </div>
         <div class="space-y-0">
-            <a href="01-context-and-research.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+            <!-- C2C notebooks first -->
+            <a href="01-the-ghost-marketplace.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
                 <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.01</span>
                 <div class="flex-1">
-                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Context &amp; Research</h4>
-                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">Polymarket arbitrage : research, market analysis and opportunity detection.</p>
+                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">The Ghost Marketplace</h4>
+                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">C2C fashion EDA : 99k users, activation funnel, six segments, and the 0.4% power users who carry the platform.</p>
                 </div>
                 <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
             </a>
-            <a href="02-implementation-deep-dive.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+            <a href="02-geography-gender-app.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
                 <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.02</span>
                 <div class="flex-1">
-                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Implementation Deep Dive</h4>
-                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">Full pipeline : LLM dependency detection, linear programming solver and execution engine.</p>
+                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Geography, Gender &amp; the App Effect</h4>
+                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">Choropleth, gender behavioural splits, and the 8× engagement multiplier of the mobile app — finishing with a Tableau-ready dataset.</p>
                 </div>
                 <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
             </a>
-            <a href="03-backtest-results-and-analysis.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+            <a href="fraud-sql-analytics.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
                 <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.03</span>
                 <div class="flex-1">
-                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Backtest Results &amp; Analysis</h4>
-                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">Performance evaluation, Monte Carlo simulations, and profit distribution analysis.</p>
+                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Banking Fraud Detection SQL</h4>
+                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">480k transactions, 9 tables, 8 fraud patterns. CTEs, window functions, geographic scoring — €430k of losses surfaced into 5 live Looker dashboards.</p>
                 </div>
                 <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
             </a>
             <a href="space-weather-dashboard.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
-                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.05</span>
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.04</span>
                 <div class="flex-1">
                     <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Space Weather Dashboard</h4>
                     <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">27 years of solar &amp; geomagnetic data : cycles, anomalies, forecasting and interactive dashboard.</p>
                 </div>
                 <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
             </a>
-            <a href="bonus-llm-engineering.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
-                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">BONUS</span>
-                <div class="flex-1">
-                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">LLM Engineering</h4>
-                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">Prompt engineering, structured output parsing, and LLM integration patterns for financial analysis.</p>
-                </div>
-                <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
-            </a>
             <a href="01-faers-data-pipeline-eda.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
-                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.06</span>
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.05</span>
                 <div class="flex-1">
                     <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">FAERS Data Pipeline &amp; EDA</h4>
                     <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">1.6M adverse drug events from the FDA : data loading, merging, deduplication, and exploratory analysis.</p>
@@ -380,18 +407,50 @@ html { scroll-behavior: smooth; }
                 <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
             </a>
             <a href="02-predicting-adverse-event-severity.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
-                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.07</span>
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.06</span>
                 <div class="flex-1">
                     <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Predicting Adverse Event Severity</h4>
                     <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">ML classification of serious cases : feature engineering, XGBoost, SHAP feature importance, and error analysis.</p>
                 </div>
                 <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
             </a>
-            <a href="03-pharmacovigilance-signal-detection.html" class="group py-12 md:py-16 border-t border-b border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
-                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.08</span>
+            <a href="03-pharmacovigilance-signal-detection.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.07</span>
                 <div class="flex-1">
                     <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Pharmacovigilance Signal Detection</h4>
                     <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">PRR &amp; ROR disproportionality analysis : detecting statistically overrepresented drug-reaction pairs.</p>
+                </div>
+                <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
+            </a>
+            <a href="01-context-and-research.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.08</span>
+                <div class="flex-1">
+                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Polymarket — Context &amp; Research</h4>
+                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">Prediction-market arbitrage : research, market analysis and opportunity detection.</p>
+                </div>
+                <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
+            </a>
+            <a href="02-implementation-deep-dive.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.09</span>
+                <div class="flex-1">
+                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Polymarket — Implementation Deep Dive</h4>
+                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">Full pipeline : LLM dependency detection, linear programming solver and execution engine.</p>
+                </div>
+                <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
+            </a>
+            <a href="03-backtest-results-and-analysis.html" class="group py-12 md:py-16 border-t border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">NB.10</span>
+                <div class="flex-1">
+                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">Polymarket — Backtest Results</h4>
+                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">Performance evaluation, Monte Carlo simulations, and profit distribution analysis.</p>
+                </div>
+                <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
+            </a>
+            <a href="bonus-llm-engineering.html" class="group py-12 md:py-16 border-t border-b border-gallery-text/10 flex flex-col md:flex-row gap-6 md:gap-12 items-baseline hover:bg-brand-muted px-4 md:px-8 transition-colors fade-in-up">
+                <span class="text-brand-orange font-bold text-sm tracking-widest shrink-0">BONUS</span>
+                <div class="flex-1">
+                    <h4 class="text-3xl md:text-5xl group-hover:text-brand-indigo transition-colors mb-4">LLM Engineering</h4>
+                    <p class="text-lg md:text-xl opacity-60 max-w-3xl font-light">Prompt engineering, structured output parsing, and LLM integration patterns for financial analysis.</p>
                 </div>
                 <span class="material-symbols-outlined text-brand-indigo opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">arrow_forward</span>
             </a>
@@ -423,7 +482,7 @@ html { scroll-behavior: smooth; }
             <p class="text-xs font-bold uppercase tracking-[0.3em] opacity-40">&copy; 2026</p>
         </div>
         <div class="max-w-md md:text-right">
-            <p class="text-2xl font-light mb-8">Data Science &amp; Machine Learning</p>
+            <p class="text-2xl font-light mb-8">Data Analysis &amp; Insights</p>
             <div class="flex gap-8 text-[10px] font-bold uppercase tracking-widest md:justify-end">
                 <a class="hover:text-brand-indigo transition-colors" href="https://github.com/leodid68" target="_blank" rel="noopener">GitHub</a>
             </div>
@@ -436,7 +495,7 @@ html { scroll-behavior: smooth; }
 <!-- Sideways text -->
 <div class="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden lg:block">
     <div class="text-sideways text-[10px] font-bold uppercase tracking-[0.8em] opacity-20 hover:opacity-100 transition-opacity cursor-default pb-8">
-        DATA SCIENCE &amp; ML
+        DATA ANALYSIS
     </div>
 </div>
 
