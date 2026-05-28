@@ -1,4 +1,4 @@
-# Banking Fraud Detection — Portfolio Showcase
+# Banking Fraud Detection : Portfolio Showcase
 
 > Sélection curatée des analyses les plus probantes du projet VILNIUS. Pour le carnet de bord complet (toutes les requêtes EDA, hypothèses testées, fausses pistes, méthodologie détaillée), voir [`07_EDA_notes_VILNIUS.md`](./07_EDA_notes_VILNIUS.md).
 
@@ -6,24 +6,24 @@
 
 ## La Big Idea
 
-**97% des pertes financières viennent de 30% des cas de fraude — concentrés sur les virements (mule, account takeover, sim swap). Sur la fraude par carte, 92% des cas ont contourné le 3D Secure. Recommandation : rendre 3DS obligatoire au-dessus de 200€ sur les cartes ET renforcer l'authentification sur les virements >5 000€ → élimination théorique de plus de 95% du coût de la fraude.**
+**97% des pertes financières viennent de 30% des cas de fraude, concentrés sur les virements (mule, account takeover, sim swap). Sur la fraude par carte, 92% des cas ont contourné le 3D Secure. Recommandation : rendre 3DS obligatoire au-dessus de 200€ sur les cartes ET renforcer l'authentification sur les virements >5 000€, soit une élimination théorique de plus de 95% du coût de la fraude.**
 
 ---
 
 ## Méthodologie
 
 - **Dataset** : 5 000 clients, 501 134 transactions sur 24 mois (mai 2024 → avril 2026), 372 cas de fraude confirmés couvrant 7 typologies (card_testing, mule, velocity, account_takeover, card_not_present, friendly_fraud, sim_swap).
-- **Stack** : PostgreSQL (Supabase cloud), DataGrip, Looker Studio — 9 vues analytiques déployées en production.
-- **Approche** : EDA progressive en 4 phases — volumétrie de base, analyses descriptives, investigations croisées, requêtes avancées (window functions, CTE, scoring).
+- **Stack** : PostgreSQL (Supabase cloud), DataGrip, Looker Studio. 9 vues analytiques déployées en production.
+- **Approche** : EDA progressive en 4 phases : volumétrie de base, analyses descriptives, investigations croisées, requêtes avancées (window functions, CTE, scoring).
 - **Livrables** : 6 requêtes portfolio (ci-dessous) + 9 vues Supabase + 5 dashboards Looker Studio.
 
 ---
 
 ## Les 6 analyses-phares
 
-### Analyse 1 — 3D Secure neutralise 7 typologies sur 8
+### Analyse 1 : 3D Secure neutralise 7 typologies sur 8
 
-> **Insight** : 92% des fraudes carte ont contourné 3DS. La seule typologie immune à 3DS est le friendly fraud — par construction, puisque la victime authentifie elle-même la transaction qu'elle contestera ensuite.
+> **Insight** : 92% des fraudes carte ont contourné 3DS. La seule typologie immune à 3DS est le friendly fraud, et par construction, puisque la victime authentifie elle-même la transaction qu'elle contestera ensuite.
 
 ```sql
 SELECT
@@ -54,7 +54,7 @@ ORDER BY n_cas DESC;
 
 ---
 
-### Analyse 2 — Le paradoxe volume / coût : 3 régimes économiques distincts
+### Analyse 2. Le paradoxe volume / coût : 3 régimes économiques distincts
 
 > **Insight** : la fraude bancaire n'est pas un phénomène unifié mais trois mondes économiques différents qui demandent chacun une défense spécifique.
 
@@ -85,7 +85,7 @@ ORDER BY avg_loss DESC;
 
 ---
 
-### Analyse 3 — La fraude carte est opportuniste, pas ciblée
+### Analyse 3 : La fraude carte est opportuniste, pas ciblée
 
 > **Insight** : la distribution des fraudes carte par tier suit quasi-exactement la distribution naturelle des cartes émises. Les fraudeurs tirent au hasard.
 
@@ -116,7 +116,7 @@ GROUP BY c.card_tier;
 
 ---
 
-### Analyse 4 — Les biens digitaux concentrent 38% de la fraude carte
+### Analyse 4 : Les biens digitaux concentrent 38% de la fraude carte
 
 > **Insight** : les catégories digitales (direct marketing, streaming, tickets, gaming) cumulent 38% des cas de fraude carte. Cohérent avec une économie de la fraude qui privilégie la livraison immédiate.
 
@@ -150,9 +150,9 @@ LIMIT 10;
 
 ---
 
-### Analyse 5 — Signature Account Takeover : le changement précède la fraude
+### Analyse 5. Signature Account Takeover : le changement précède la fraude
 
-> **Insight** : une proportion significative des fraudes wire (account_takeover, sim_swap, mule) est précédée d'un changement d'email ou de téléphone dans les 24h — signal d'alerte puissant.
+> **Insight** : une proportion significative des fraudes wire (account_takeover, sim_swap, mule) est précédée d'un changement d'email ou de téléphone dans les 24h, un signal d'alerte puissant.
 
 ```sql
 WITH fraud_tx AS (
@@ -191,7 +191,7 @@ ORDER BY pct_preceded DESC;
 
 ---
 
-### Analyse 6 — Score de risque multi-signal (le morceau de bravoure)
+### Analyse 6 : Score de risque multi-signal (le morceau de bravoure)
 
 > **Insight** : en combinant 5 signaux indépendants (3DS off, IP anonyme, pays différent, distance >500km, montant anomalie), on peut classifier chaque transaction de "safe" à "critical" sans ML.
 
@@ -286,7 +286,7 @@ ORDER BY risk_score DESC, amount_eur DESC;
 
 - **Base de données** : PostgreSQL 17 (Supabase cloud, région eu-west-1)
 - **IDE** : DataGrip (connexion via connection pooler Supabase)
-- **Visualisation** : Looker Studio — 5 dashboards (Executive Overview, Fraud Patterns, Geographic, Customer Risk, Investigation Tool)
+- **Visualisation** : Looker Studio, 5 dashboards (Executive Overview, Fraud Patterns, Geographic, Customer Risk, Investigation Tool)
 - **Lien Looker Studio** : https://datastudio.google.com/s/n3Pt2w_imAA
 - **Vues analytiques** : 9 vues déployées (`mv_monthly_kpis`, `v_fraud_by_type`, `v_fraud_by_country`, `v_fraud_by_merchant`, `v_fraud_heatmap`, `v_3ds_impact`, `v_fraud_amount_hour`, `v_customer_risk`, `v_risk_score`)
 
@@ -307,9 +307,9 @@ ORDER BY risk_score DESC, amount_eur DESC;
 
 ## Préparation entretien
 
-1. **Commencer par l'Analyse 2** (les 3 régimes) — c'est la grande idée du projet, elle capte l'attention.
-2. **Puis l'Analyse 1** (3DS) — recommandation chiffrée, montre l'impact business.
-3. **Puis l'Analyse 6** (score de risque) — démontre la maîtrise technique avancée.
+1. **Commencer par l'Analyse 2** (les 3 régimes), c'est la grande idée du projet, elle capte l'attention.
+2. **Puis l'Analyse 1** (3DS), recommandation chiffrée qui montre l'impact business.
+3. **Puis l'Analyse 6** (score de risque), elle démontre la maîtrise technique avancée.
 4. Laisser l'intervieweur conduire vers les autres analyses selon ses intérêts.
 
-Ne pas montrer tous les dashboards d'emblée — commencer par le Dashboard 1 (exec), puis proposer d'aller plus profond.
+Ne pas montrer tous les dashboards d'emblée : commencer par le Dashboard 1 (exec), puis proposer d'aller plus profond.

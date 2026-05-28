@@ -1,4 +1,4 @@
-# Projet VILNIUS — EDA SQL & Investigations Fraude
+# Projet VILNIUS : EDA SQL & Investigations Fraude
 
 > **Carnet de bord d'exploration.** Ce fichier capture l'intégralité de la démarche d'EDA et d'investigation menée sur le dataset fraude bancaire. Pour la version "portfolio" focalisée sur les analyses-phares, voir [`08_portfolio_showcase.md`](./08_portfolio_showcase.md).
 
@@ -11,11 +11,11 @@
 - [Limitations connues du dataset](#limitations-connues-du-dataset)
 - [Techniques SQL démontrées](#techniques-sql-démontrées)
 - [Vues analytiques créées](#vues-analytiques-créées)
-- [Phase 1 — Volumétrie de base](#phase-1--volumétrie-de-base)
-- [Phase 2 — Analyses descriptives transactionnelles](#phase-2--analyses-descriptives-transactionnelles)
-- [Phase 3 — Investigations approfondies](#phase-3--investigations-approfondies)
-- [Phase 4 — Requêtes avancées](#phase-4--requêtes-avancées)
-- [Synthèse — Les 5 insights actionables](#synthèse--les-5-insights-actionables)
+- [Phase 1 : Volumétrie de base](#phase-1--volumétrie-de-base)
+- [Phase 2 : Analyses descriptives transactionnelles](#phase-2--analyses-descriptives-transactionnelles)
+- [Phase 3 : Investigations approfondies](#phase-3--investigations-approfondies)
+- [Phase 4 : Requêtes avancées](#phase-4--requêtes-avancées)
+- [Synthèse : Les 5 insights actionables](#synthèse--les-5-insights-actionables)
 
 ---
 
@@ -46,15 +46,15 @@ Toutes les vues ci-dessous sont déployées sur Supabase (projet `fraudsql`) et 
 
 | Vue | Usage | Techniques clés |
 | :--- | :--- | :--- |
-| `mv_monthly_kpis` | Dashboard 1 — timeline transactions vs fraudes | DATE_TRUNC, COUNT FILTER, EXISTS |
-| `v_fraud_by_type` | Dashboard 1 — donut répartition typologies | Window function SUM() OVER () |
-| `v_fraud_by_country` | Dashboard 1 & 3 — choroplèthe | JOIN, GROUP BY multi-dim |
-| `v_fraud_by_merchant` | Dashboard 1 & 2 — catégories marchands | LEFT JOIN, COALESCE |
-| `v_fraud_heatmap` | Dashboard 2 — heatmap heure × jour | EXTRACT, double GROUP BY |
-| `v_3ds_impact` | Dashboard 2 — impact 3DS | LEFT JOIN, multi-dim |
-| `v_fraud_amount_hour` | Dashboard 2 — montant × heure | CASE WHEN buckets, EXTRACT |
-| `v_customer_risk` | Dashboard 4 — profil risque client | AGE(), CASE WHEN, LEFT JOIN |
-| `v_risk_score` | Dashboard 5 — scoring transaction | CTE empilées, AVG() OVER PARTITION BY |
+| `mv_monthly_kpis` | Dashboard 1 : timeline transactions vs fraudes | DATE_TRUNC, COUNT FILTER, EXISTS |
+| `v_fraud_by_type` | Dashboard 1 : donut répartition typologies | Window function SUM() OVER () |
+| `v_fraud_by_country` | Dashboard 1 & 3 : choroplèthe | JOIN, GROUP BY multi-dim |
+| `v_fraud_by_merchant` | Dashboard 1 & 2 : catégories marchands | LEFT JOIN, COALESCE |
+| `v_fraud_heatmap` | Dashboard 2 : heatmap heure × jour | EXTRACT, double GROUP BY |
+| `v_3ds_impact` | Dashboard 2 : impact 3DS | LEFT JOIN, multi-dim |
+| `v_fraud_amount_hour` | Dashboard 2 : montant × heure | CASE WHEN buckets, EXTRACT |
+| `v_customer_risk` | Dashboard 4 : profil risque client | AGE(), CASE WHEN, LEFT JOIN |
+| `v_risk_score` | Dashboard 5 : scoring transaction | CTE empilées, AVG() OVER PARTITION BY |
 
 ---
 
@@ -66,13 +66,13 @@ Avant toute analyse, il est essentiel de noter les biais et imperfections identi
 - **`root_cause`** : tiré uniformément au hasard, sans lien avec le type de fraude. Toute variation observée relève du bruit statistique.
 - **`detection_method`** : également non corrélé à la nature de la fraude.
 - **Distribution des comptes** : majoritairement courant (checking), reflète un profil de banque de détail classique.
-- **Pas de fraude card-present** : 100% des fraudes sont CNP — le dataset ne modélise pas le skimming ou le vol physique.
+- **Pas de fraude card-present** : 100% des fraudes sont CNP, le dataset ne modélise pas le skimming ou le vol physique.
 
 ---
 
-## Phase 1 — Volumétrie de base
+## Phase 1 : Volumétrie de base
 
-### 1.1 — Distribution des cartes par tier
+### 1.1 : Distribution des cartes par tier
 
 ```sql
 SELECT cards.card_tier, COUNT(*) AS count
@@ -94,7 +94,7 @@ ORDER BY cards.card_tier;
 
 ---
 
-### 1.2 — Distribution des comptes par type
+### 1.2 : Distribution des comptes par type
 
 ```sql
 SELECT account_type, COUNT(*)
@@ -114,9 +114,9 @@ ORDER BY account_type ASC;
 
 ---
 
-## Phase 2 — Analyses descriptives transactionnelles
+## Phase 2 : Analyses descriptives transactionnelles
 
-### 2.1 — Origines déclarées de la fraude (`root_cause`)
+### 2.1 : Origines déclarées de la fraude (`root_cause`)
 
 ```sql
 SELECT fraud_reports.root_cause, COUNT(*)
@@ -133,11 +133,11 @@ ORDER BY COUNT(*) DESC;
 | device_compromise | 68 |
 | phishing | 67 |
 
-**Observation** : Distribution anormalement uniforme — révèle que `root_cause` est généré aléatoirement. Conservé comme illustration de l'importance du contrôle qualité préalable sur chaque colonne.
+**Observation** : Distribution anormalement uniforme, ce qui révèle que `root_cause` est généré aléatoirement. Conservé comme illustration de l'importance du contrôle qualité préalable sur chaque colonne.
 
 ---
 
-### 2.2 — Montant moyen par sous-type de transaction
+### 2.2 : Montant moyen par sous-type de transaction
 
 ```sql
 SELECT AVG(amount), transaction_subtype
@@ -153,11 +153,11 @@ ORDER BY AVG(amount) DESC;
 | 65.34 | atm |
 | 64.98 | card_present |
 
-**Observation** : Le panier moyen d'un wire est ~70× supérieur à celui d'un paiement carte — contamination par les fraudes mule/ATO/sim_swap qui génèrent des virements de plusieurs milliers d'euros.
+**Observation** : Le panier moyen d'un wire est ~70× supérieur à celui d'un paiement carte, à cause de la contamination par les fraudes mule/ATO/sim_swap qui génèrent des virements de plusieurs milliers d'euros.
 
 ---
 
-### 2.3 — Méthodes de détection par présence carte
+### 2.3 : Méthodes de détection par présence carte
 
 ```sql
 SELECT
@@ -176,13 +176,13 @@ GROUP BY fr.detection_method, t.is_card_present;
 | external_alert | 9 | false |
 | rule_based | 91 | false |
 
-**Observation** : 100% des fraudes confirmées ont `is_card_present = FALSE`. 64% détectées via signalement client — le client reste la dernière ligne de défense.
+**Observation** : 100% des fraudes confirmées ont `is_card_present = FALSE`. 64% détectées via signalement client, le client reste la dernière ligne de défense.
 
 ---
 
-## Phase 3 — Investigations approfondies
+## Phase 3 : Investigations approfondies
 
-### 3.1 — Délai entre transaction et signalement
+### 3.1 : Délai entre transaction et signalement
 
 ```sql
 SELECT
@@ -205,11 +205,11 @@ ORDER BY avg_delay_hours DESC;
 | unknown | 46 | 87.7 | 3.66 |
 | phishing | 42 | 72.4 | 3.02 |
 
-**Observation** : Écarts non significatifs statistiquement (root_cause généré aléatoirement). Démonstration de méthode — sur donnée réelle, social engineering devrait avoir le délai le plus long.
+**Observation** : Écarts non significatifs statistiquement (root_cause généré aléatoirement). Démonstration de méthode, sur donnée réelle, social engineering devrait avoir le délai le plus long.
 
 ---
 
-### 3.2 — Utilisation du VPN
+### 3.2 : Utilisation du VPN
 
 ```sql
 SELECT
@@ -229,7 +229,7 @@ ORDER BY COUNT(*) DESC;
 
 ---
 
-### 3.3 — Catégories de marchands ciblées
+### 3.3 : Catégories de marchands ciblées
 
 ```sql
 SELECT m.subcategory,
@@ -246,7 +246,7 @@ ORDER BY count DESC;
 
 ---
 
-### 3.4 — Pertes par tier de carte
+### 3.4 : Pertes par tier de carte
 
 ```sql
 SELECT
@@ -271,7 +271,7 @@ GROUP BY c.card_tier;
 
 ---
 
-### 3.5 — Matrice fraud_type × card_tier
+### 3.5 : Matrice fraud_type × card_tier
 
 ```sql
 SELECT fr.fraud_type,
@@ -289,7 +289,7 @@ ORDER BY avg_amount_disputed DESC;
 
 ---
 
-### 3.6 — Matrice 3DS × card_tier × fraud_type
+### 3.6 : Matrice 3DS × card_tier × fraud_type
 
 ```sql
 SELECT
@@ -308,7 +308,7 @@ GROUP BY fr.investigator_notes, c.card_tier, t.is_3ds_authenticated;
 
 ---
 
-### 3.7 — Pondération des typologies (window function)
+### 3.7 : Pondération des typologies (window function)
 
 ```sql
 SELECT
@@ -331,13 +331,13 @@ ORDER BY n_cas DESC;
 | friendly_fraud | 10 | 3.9% |
 | sim_swap | 4 | 1.6% |
 
-**Technique** : `SUM(COUNT(*)) OVER ()` — calcule le total sans sous-requête, idiome standard pour % du total en une passe.
+**Technique** : `SUM(COUNT(*)) OVER ()`, calcule le total sans sous-requête, idiome standard pour % du total en une passe.
 
 ---
 
-## Phase 4 — Requêtes avancées
+## Phase 4 : Requêtes avancées
 
-### 4.1 — Heatmap temporelle : heure × jour de la semaine
+### 4.1 : Heatmap temporelle : heure × jour de la semaine
 
 **Question** : La fraude a-t-elle une signature temporelle ? Pic nocturne attendu (2h-4h du matin).
 
@@ -353,11 +353,11 @@ GROUP BY day_of_week, hour_of_day
 ORDER BY day_of_week, hour_of_day;
 ```
 
-**Observation** : Pics visibles le vendredi (jour 5) à 3h du matin (19 cas) et 4h (10 cas). Le samedi (jour 6) est le plus calme — cohérent avec un profil de fraude automatisée qui exploite les fenêtres de faible surveillance opérationnelle. **Technique** : double `EXTRACT`, double `GROUP BY`.
+**Observation** : Pics visibles le vendredi (jour 5) à 3h du matin (19 cas) et 4h (10 cas). Le samedi (jour 6) est le plus calme, cohérent avec un profil de fraude automatisée qui exploite les fenêtres de faible surveillance opérationnelle. **Technique** : double `EXTRACT`, double `GROUP BY`.
 
 ---
 
-### 4.2 — Impossibilité géographique (LAG + window function)
+### 4.2 : Impossibilité géographique (LAG + window function)
 
 **Question** : Détecter deux transactions sur la même carte à plus de 500 km de distance en moins d'une heure.
 
@@ -403,7 +403,7 @@ LIMIT 20;
 
 ---
 
-### 4.3 — Anomalie vs baseline client (CTE + AVG OVER PARTITION BY)
+### 4.3 : Anomalie vs baseline client (CTE + AVG OVER PARTITION BY)
 
 **Question** : Pour chaque transaction, est-ce que le montant dépasse 3× la moyenne historique du client ?
 
@@ -448,7 +448,7 @@ LIMIT 20;
 
 ---
 
-### 4.4 — Signature Account Takeover : changement sensible précédant la fraude
+### 4.4 : Signature Account Takeover : changement sensible précédant la fraude
 
 **Question** : Combien de fraudes confirmées sont précédées d'un changement d'email/phone dans les 24h ?
 
@@ -493,7 +493,7 @@ ORDER BY pct_preceded DESC;
 
 ---
 
-### 4.5 — Score de risque combiné (CTE empilées + scoring pondéré)
+### 4.5 : Score de risque combiné (CTE empilées + scoring pondéré)
 
 **Question** : Construire un score 0-5 par transaction en agrégeant 5 signaux, puis classer par niveau de risque.
 
@@ -558,7 +558,7 @@ LIMIT 100;
 
 ---
 
-### 4.6 — Top fraude par client (ROW_NUMBER + CTE)
+### 4.6 : Top fraude par client (ROW_NUMBER + CTE)
 
 **Question** : Pour les fraudes sous investigation, quelle est la plus grosse par client ?
 
@@ -579,15 +579,15 @@ WHERE rn = 1
 ORDER BY amount_disputed DESC;
 ```
 
-**Technique** : `ROW_NUMBER() OVER (PARTITION BY ... ORDER BY ...)` — pattern classique "top N par groupe".
+**Technique** : `ROW_NUMBER() OVER (PARTITION BY ... ORDER BY ...)`, pattern classique "top N par groupe".
 
 ---
 
-## Synthèse — Les 5 insights actionables
+## Synthèse : Les 5 insights actionables
 
 1. **3DS = la mesure de mitigation la plus efficace.** ~92% des fraudes carte ont bypassé 3DS. Le rendre obligatoire au-dessus de 200€ éliminerait théoriquement 7 typologies sur 8.
 
-2. **97% des pertes financières viennent des fraudes wire.** Les trois typologies sans carte (mule, account_takeover, sim_swap) génèrent l'essentiel du coût — alors qu'elles ne représentent que 32% des cas.
+2. **97% des pertes financières viennent des fraudes wire.** Les trois typologies sans carte (mule, account_takeover, sim_swap) génèrent l'essentiel du coût, alors qu'elles ne représentent que 32% des cas.
 
 3. **La fraude carte est opportuniste, pas ciblée par tier.** La distribution des victimes suit la distribution naturelle des cartes émises. Mitigation comportementale > mitigation par segment.
 
