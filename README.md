@@ -12,9 +12,6 @@ Found pricing inconsistencies across 1,289 correlated prediction market pairs. U
 **[Contextual Stacking for Real Estate Valuation](https://leodid68.github.io/stacking-walkthrough.html)**
 Ensemble approach to property pricing using XGBoost, LightGBM and CatBoost with geographic context in the meta-learner. Temporal out-of-fold validation + bootstrap confidence intervals. Tested on 359k real transactions across Île-de-France.
 
-**[Space Weather Dashboard](https://leodid68.github.io/space-weather-dashboard.html)**
-27 years of solar and geomagnetic data: cycle analysis, anomaly detection, SARIMA vs Prophet forecasting, and an interactive 4-panel dashboard. You start with sunspot counts and somehow end up reading about the 2003 Halloween storms.
-
 **[Fraud Detection: RL vs Random Forest](https://leodid68.github.io/fraud-detection-rl-vs-rf.html)**
 Trained a PPO reinforcement learning agent to catch fraud on the IEEE-CIS dataset (140k transactions), then compared it head-to-head with a Random Forest. Interesting accuracy-vs-recall trade-off between the two approaches.
 
