@@ -165,9 +165,9 @@ if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.M
 
 <section id="when-the-sun-throws-a-tantrum" class="level2">
 <h2 class="anchored" data-anchor-id="when-the-sun-throws-a-tantrum">1. When the Sun Throws a Tantrum</h2>
-<p>On October 28, 2003, the Sun threw a tantrum so violent it rewrote the textbooks. A colossal X17.2 flare, one of the most powerful ever recorded, erupted from sunspot region 486, hurling a wall of magnetized plasma toward Earth at over 2,000 km/s. Within hours, airline flights were rerouted over the poles, satellites tumbled out of orientation, and the Swedish power grid went dark. Astronauts aboard the International Space Station retreated to shielded modules. Auroras, normally confined to the Arctic, painted the skies as far south as Florida and Texas.</p>
-<p>That week, known as the <strong>Halloween Solar Storms</strong>, was not an anomaly. It was a reminder: our star is not the calm, steady lantern it appears to be. It breathes, it cycles, it rages, and our increasingly electrified civilization sits squarely in the blast zone.</p>
-<p>This notebook explores <strong>27 years of space weather data</strong> (1997–2024), spanning nearly three complete solar cycles. We will trace the Sun’s heartbeat through sunspot counts and radio flux, decode the geomagnetic tremors it sends rippling through Earth’s magnetosphere, and hunt for the patterns that connect solar fury to terrestrial disruption.</p>
+<p>On October 28, 2003, the Sun produced an event so violent that it changed the textbooks. A colossal X17.2 flare, one of the most powerful ever recorded, erupted from sunspot region 486, hurling a wall of magnetized plasma toward Earth at over 2,000 km/s. Within hours, airline flights were rerouted over the poles, satellites tumbled out of orientation, and the Swedish power grid went dark. Astronauts aboard the International Space Station retreated to shielded modules. Auroras, normally confined to the Arctic, painted the skies as far south as Florida and Texas.</p>
+<p>That week, known as the <strong>Halloween Solar Storms</strong>, was not an anomaly. It was a reminder that our star is not the calm and steady lamp that it appears to be. It changes, it follows cycles, it becomes violent, and our increasingly electrified civilization sits directly in the affected zone.</p>
+<p>This notebook explores <strong>27 years of space weather data</strong> (1997–2024), spanning nearly three complete solar cycles. We will trace the Sun’s heartbeat through sunspot counts and radio flux, decode the geomagnetic tremors it sends rippling through Earth’s magnetosphere, and search for the patterns that connect solar activity to disruptions on Earth.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -186,7 +186,7 @@ if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.M
 <li><strong>Astronaut safety</strong>, solar energetic particles pose a serious radiation hazard</li>
 <li><strong>Aviation</strong>, high-latitude flights receive increased radiation doses during solar storms</li>
 </ul>
-<p>Understanding space weather is not just academic curiosity, it is critical infrastructure protection.</p>
+<p>Understanding space weather is not only an academic curiosity, it is critical infrastructure protection.</p>
 </div>
 </div>
 <section id="loading-and-cleaning-the-data" class="level3">
@@ -456,7 +456,7 @@ if (outputEl) {{
 </section>
 <section id="the-solar-heartbeat-11-year-cycles" class="level2">
 <h2 class="anchored" data-anchor-id="the-solar-heartbeat-11-year-cycles">2. The Solar Heartbeat: 11-Year Cycles</h2>
-<p>The Sun is not a static ball of fire, it is a churning, magnetized dynamo with a pulse. Roughly every <strong>11 years</strong>, the Sun’s magnetic field undergoes a dramatic reversal: its north and south magnetic poles flip. This magnetic cycle drives the rise and fall of sunspot activity, flare frequency, and coronal mass ejections.</p>
+<p>The Sun is not a fixed ball of fire, it is a turning magnetized dynamo that has a pulse. Roughly every <strong>11 years</strong>, the Sun’s magnetic field undergoes a dramatic reversal: its north and south magnetic poles flip. This magnetic cycle drives the rise and fall of sunspot activity, flare frequency, and coronal mass ejections.</p>
 <p>Our dataset spans the tail end of <strong>Solar Cycle 23</strong> (which peaked around 2000–2002), the entirety of the unusually weak <strong>Cycle 24</strong> (peak ~2014), and the ascending phase of <strong>Cycle 25</strong> (currently underway, with activity ramping up sharply since 2022).</p>
 <div id="2ebf8303" class="cell" data-execution_count="6">
 <details open="" class="code-fold">
@@ -658,7 +658,7 @@ if (outputEl) {{
                         })                };            </script>        </div>
 </div>
 </div>
-<p>The cyclic pattern is unmistakable. Each cycle rises over ~4 years, peaks, then declines over ~7 years. Notice how Cycle 24’s peak (annual mean SSN around 80–110) was roughly half the amplitude of Cycle 23, and how Cycle 25 has already surpassed Cycle 24’s maximum, defying the conservative forecasts issued at its onset.</p>
+<p>The cyclic pattern is very clear. Each cycle rises over ~4 years, peaks, then declines over ~7 years. Notice how Cycle 24’s peak (annual mean SSN around 80–110) was roughly half the amplitude of Cycle 23, and how Cycle 25 has already surpassed Cycle 24’s maximum, defying the conservative forecasts issued at its onset.</p>
 </section>
 <section id="the-sun-earth-connection-multi-variable-correlation" class="level2">
 <h2 class="anchored" data-anchor-id="the-sun-earth-connection-multi-variable-correlation">3. The Sun-Earth Connection: Multi-Variable Correlation</h2>
@@ -851,7 +851,7 @@ if (outputEl) {{
                         })                };            </script>        </div>
 </div>
 </div>
-<p>Three stories emerge:</p>
+<p>Three observations come out:</p>
 <ul>
 <li><strong>SSN vs F10.7 Flux</strong> shows a remarkably tight linear relationship, these two indices are nearly interchangeable proxies for solar activity.</li>
 <li><strong>X-class Flares vs K Mean</strong> reveals a weaker but meaningful link between extreme solar events and geomagnetic disturbance. The scatter is wide because not every flare produces an Earth-directed CME.</li>
@@ -1128,7 +1128,7 @@ if (outputEl) {{
 </section>
 <section id="anomaly-detection-finding-extreme-space-weather" class="level2">
 <h2 class="anchored" data-anchor-id="anomaly-detection-finding-extreme-space-weather">5. Anomaly Detection: Finding Extreme Space Weather</h2>
-<p>Extreme space weather events are rare but consequential. The Carrington Event of 1859 remains the most powerful recorded geomagnetic storm, if it happened today, it could cause trillions of dollars in damage. Can we systematically detect anomalous days in our dataset?</p>
+<p>Extreme space weather events are rare but they have important consequences. The Carrington Event of 1859 remains the most powerful geomagnetic storm ever recorded, if it happened today, it could cause trillions of dollars in damage. Can we systematically detect anomalous days in our dataset?</p>
 <p>We compare two approaches: a <strong>classical statistical method</strong> (IQR) and a <strong>machine learning method</strong> (Isolation Forest).</p>
 <section id="iqr-method-statistical-baseline" class="level3">
 <h3 class="anchored" data-anchor-id="iqr-method-statistical-baseline">5.1 IQR Method (Statistical Baseline)</h3>
@@ -1339,7 +1339,7 @@ if (outputEl) {{
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Both methods used here are <strong>unsupervised</strong>, they don’t require labelled examples of “extreme events.”</p>
+<p>The two methods used here are both <strong>unsupervised</strong>, they don’t require labelled examples of “extreme events.”</p>
 <ul>
 <li><strong>IQR method</strong>: Purely statistical; assumes anomalies are values far from the central distribution. Simple and interpretable, but considers only one variable at a time.</li>
 <li><strong>Isolation Forest</strong>: A tree-based algorithm that isolates observations by randomly selecting features and split values. Anomalies, being rare and different, require fewer splits to isolate. It naturally handles multivariate interactions.</li>
@@ -1351,7 +1351,7 @@ if (outputEl) {{
 </section>
 <section id="time-series-forecasting-predicting-solar-activity" class="level2">
 <h2 class="anchored" data-anchor-id="time-series-forecasting-predicting-solar-activity">6. Time-Series Forecasting: Predicting Solar Activity</h2>
-<p>Can we predict solar activity? The ~11-year solar cycle provides a strong periodic signal, but the <em>amplitude</em> and <em>timing</em> of each cycle are notoriously difficult to forecast. Let’s test two approaches on monthly-averaged sunspot numbers: a classical <strong>SARIMA</strong> model and Facebook’s <strong>Prophet</strong>.</p>
+<p>Can we predict solar activity? The ~11-year solar cycle provides a strong periodic signal, but the <em>amplitude</em> and <em>timing</em> of each cycle are very difficult to forecast. Let’s test two approaches on monthly-averaged sunspot numbers: a classical <strong>SARIMA</strong> model and Facebook’s <strong>Prophet</strong>.</p>
 <section id="stationarity-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="stationarity-analysis">6.1 Stationarity Analysis</h3>
 <div id="ac0d60c1" class="cell" data-execution_count="17">
@@ -1640,11 +1640,11 @@ FORECAST PERFORMANCE COMPARISON
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The solar dynamo is a <strong>chaotic, nonlinear</strong> system. While the ~11-year periodicity is robust, the <em>amplitude</em> of each cycle varies dramatically. Key challenges:</p>
+<p>The solar dynamo is a <strong>chaotic, nonlinear</strong> system. While the ~11-year periodicity is reliable, the <em>amplitude</em> of each cycle varies dramatically. Key challenges:</p>
 <ol type="1">
 <li><strong>No perfect periodicity</strong>: Cycle lengths range from 9 to 14 years, making seasonal modelling imprecise.</li>
 <li><strong>Amplitude unpredictability</strong>: Physical models of the solar dynamo still struggle to predict the strength of the next cycle years in advance.</li>
-<li><strong>Stochastic bursts</strong>: Individual flares and CMEs are essentially unpredictable more than a few days out.</li>
+<li><strong>Stochastic bursts</strong>: Individual flares and CMEs are basically unpredictable more than a few days in advance.</li>
 </ol>
 <p>State-of-the-art predictions combine statistical models with <strong>physics-based solar dynamo simulations</strong> and <strong>precursor methods</strong> (using polar magnetic field measurements to predict the next cycle’s strength).</p>
 </div>
@@ -2335,11 +2335,11 @@ if (outputEl) {{
 <span id="cb31-71"><a href="#cb31-71"></a></span>
 <span id="cb31-72"><a href="#cb31-72"></a><span class="fu">## 1. When the Sun Throws a Tantrum</span></span>
 <span id="cb31-73"><a href="#cb31-73"></a></span>
-<span id="cb31-74"><a href="#cb31-74"></a>On October 28, 2003, the Sun threw a tantrum so violent it rewrote the textbooks. A colossal X17.2 flare --- one of the most powerful ever recorded --- erupted from sunspot region 486, hurling a wall of magnetized plasma toward Earth at over 2,000 km/s. Within hours, airline flights were rerouted over the poles, satellites tumbled out of orientation, and the Swedish power grid went dark. Astronauts aboard the International Space Station retreated to shielded modules. Auroras --- normally confined to the Arctic --- painted the skies as far south as Florida and Texas.</span>
+<span id="cb31-74"><a href="#cb31-74"></a>On October 28, 2003, the Sun produced an event so violent that it changed the textbooks. A colossal X17.2 flare --- one of the most powerful ever recorded --- erupted from sunspot region 486, hurling a wall of magnetized plasma toward Earth at over 2,000 km/s. Within hours, airline flights were rerouted over the poles, satellites tumbled out of orientation, and the Swedish power grid went dark. Astronauts aboard the International Space Station retreated to shielded modules. Auroras --- normally confined to the Arctic --- painted the skies as far south as Florida and Texas.</span>
 <span id="cb31-75"><a href="#cb31-75"></a></span>
-<span id="cb31-76"><a href="#cb31-76"></a>That week, known as the **Halloween Solar Storms**, was not an anomaly. It was a reminder: our star is not the calm, steady lantern it appears to be. It breathes, it cycles, it rages --- and our increasingly electrified civilization sits squarely in the blast zone.</span>
+<span id="cb31-76"><a href="#cb31-76"></a>That week, known as the **Halloween Solar Storms**, was not an anomaly. It was a reminder that our star is not the calm and steady lamp that it appears to be. It changes, it follows cycles, it becomes violent --- and our increasingly electrified civilization sits directly in the affected zone.</span>
 <span id="cb31-77"><a href="#cb31-77"></a></span>
-<span id="cb31-78"><a href="#cb31-78"></a>This notebook explores **27 years of space weather data** (1997--2024), spanning nearly three complete solar cycles. We will trace the Sun's heartbeat through sunspot counts and radio flux, decode the geomagnetic tremors it sends rippling through Earth's magnetosphere, and hunt for the patterns that connect solar fury to terrestrial disruption.</span>
+<span id="cb31-78"><a href="#cb31-78"></a>This notebook explores **27 years of space weather data** (1997--2024), spanning nearly three complete solar cycles. We will trace the Sun's heartbeat through sunspot counts and radio flux, decode the geomagnetic tremors it sends rippling through Earth's magnetosphere, and search for the patterns that connect solar activity to disruptions on Earth.</span>
 <span id="cb31-79"><a href="#cb31-79"></a></span>
 <span id="cb31-80"><a href="#cb31-80"></a>::: {.callout-note}</span>
 <span id="cb31-81"><a href="#cb31-81"></a><span class="fu">## What is Space Weather?</span></span>
@@ -2352,7 +2352,7 @@ if (outputEl) {{
 <span id="cb31-88"><a href="#cb31-88"></a><span class="ss">- </span>**Astronaut safety** --- solar energetic particles pose a serious radiation hazard</span>
 <span id="cb31-89"><a href="#cb31-89"></a><span class="ss">- </span>**Aviation** --- high-latitude flights receive increased radiation doses during solar storms</span>
 <span id="cb31-90"><a href="#cb31-90"></a></span>
-<span id="cb31-91"><a href="#cb31-91"></a>Understanding space weather is not just academic curiosity --- it is critical infrastructure protection.</span>
+<span id="cb31-91"><a href="#cb31-91"></a>Understanding space weather is not only an academic curiosity --- it is critical infrastructure protection.</span>
 <span id="cb31-92"><a href="#cb31-92"></a>:::</span>
 <span id="cb31-93"><a href="#cb31-93"></a></span>
 <span id="cb31-94"><a href="#cb31-94"></a><span class="fu">### Loading and Cleaning the Data</span></span>
@@ -2536,7 +2536,7 @@ if (outputEl) {{
 <span id="cb31-280"><a href="#cb31-280"></a></span>
 <span id="cb31-281"><a href="#cb31-281"></a><span class="fu">## 2. The Solar Heartbeat: 11-Year Cycles</span></span>
 <span id="cb31-282"><a href="#cb31-282"></a></span>
-<span id="cb31-283"><a href="#cb31-283"></a>The Sun is not a static ball of fire --- it is a churning, magnetized dynamo with a pulse. Roughly every **11 years**, the Sun's magnetic field undergoes a dramatic reversal: its north and south magnetic poles flip. This magnetic cycle drives the rise and fall of sunspot activity, flare frequency, and coronal mass ejections.</span>
+<span id="cb31-283"><a href="#cb31-283"></a>The Sun is not a fixed ball of fire --- it is a turning magnetized dynamo that has a pulse. Roughly every **11 years**, the Sun's magnetic field undergoes a dramatic reversal: its north and south magnetic poles flip. This magnetic cycle drives the rise and fall of sunspot activity, flare frequency, and coronal mass ejections.</span>
 <span id="cb31-284"><a href="#cb31-284"></a></span>
 <span id="cb31-285"><a href="#cb31-285"></a>Our dataset spans the tail end of **Solar Cycle 23** (which peaked around 2000--2002), the entirety of the unusually weak **Cycle 24** (peak ~2014), and the ascending phase of **Cycle 25** (currently underway, with activity ramping up sharply since 2022).</span>
 <span id="cb31-286"><a href="#cb31-286"></a></span>
@@ -2675,7 +2675,7 @@ if (outputEl) {{
 <span id="cb31-423"><a href="#cb31-423"></a>fig_yearly.show()</span>
 <span id="cb31-424"><a href="#cb31-424"></a><span class="in">```</span></span>
 <span id="cb31-425"><a href="#cb31-425"></a></span>
-<span id="cb31-426"><a href="#cb31-426"></a>The cyclic pattern is unmistakable. Each cycle rises over ~4 years, peaks, then declines over ~7 years. Notice how Cycle 24's peak (annual mean SSN around 80--110) was roughly half the amplitude of Cycle 23 --- and how Cycle 25 has already surpassed Cycle 24's maximum, defying the conservative forecasts issued at its onset.</span>
+<span id="cb31-426"><a href="#cb31-426"></a>The cyclic pattern is very clear. Each cycle rises over ~4 years, peaks, then declines over ~7 years. Notice how Cycle 24's peak (annual mean SSN around 80--110) was roughly half the amplitude of Cycle 23 --- and how Cycle 25 has already surpassed Cycle 24's maximum, defying the conservative forecasts issued at its onset.</span>
 <span id="cb31-427"><a href="#cb31-427"></a></span>
 <span id="cb31-428"><a href="#cb31-428"></a><span class="fu">## 3. The Sun-Earth Connection: Multi-Variable Correlation</span></span>
 <span id="cb31-429"><a href="#cb31-429"></a></span>
@@ -2801,7 +2801,7 @@ if (outputEl) {{
 <span id="cb31-553"><a href="#cb31-553"></a>fig_scatter.show()</span>
 <span id="cb31-554"><a href="#cb31-554"></a><span class="in">```</span></span>
 <span id="cb31-555"><a href="#cb31-555"></a></span>
-<span id="cb31-556"><a href="#cb31-556"></a>Three stories emerge:</span>
+<span id="cb31-556"><a href="#cb31-556"></a>Three observations come out:</span>
 <span id="cb31-557"><a href="#cb31-557"></a></span>
 <span id="cb31-558"><a href="#cb31-558"></a><span class="ss">- </span>**SSN vs F10.7 Flux** shows a remarkably tight linear relationship --- these two indices are nearly interchangeable proxies for solar activity.</span>
 <span id="cb31-559"><a href="#cb31-559"></a><span class="ss">- </span>**X-class Flares vs K Mean** reveals a weaker but meaningful link between extreme solar events and geomagnetic disturbance. The scatter is wide because not every flare produces an Earth-directed CME.</span>
@@ -2958,7 +2958,7 @@ if (outputEl) {{
 <span id="cb31-716"><a href="#cb31-716"></a></span>
 <span id="cb31-717"><a href="#cb31-717"></a><span class="fu">## 5. Anomaly Detection: Finding Extreme Space Weather</span></span>
 <span id="cb31-718"><a href="#cb31-718"></a></span>
-<span id="cb31-719"><a href="#cb31-719"></a>Extreme space weather events are rare but consequential. The Carrington Event of 1859 remains the most powerful recorded geomagnetic storm --- if it happened today, it could cause trillions of dollars in damage. Can we systematically detect anomalous days in our dataset?</span>
+<span id="cb31-719"><a href="#cb31-719"></a>Extreme space weather events are rare but they have important consequences. The Carrington Event of 1859 remains the most powerful geomagnetic storm ever recorded --- if it happened today, it could cause trillions of dollars in damage. Can we systematically detect anomalous days in our dataset?</span>
 <span id="cb31-720"><a href="#cb31-720"></a></span>
 <span id="cb31-721"><a href="#cb31-721"></a>We compare two approaches: a **classical statistical method** (IQR) and a **machine learning method** (Isolation Forest).</span>
 <span id="cb31-722"><a href="#cb31-722"></a></span>
@@ -3099,7 +3099,7 @@ if (outputEl) {{
 <span id="cb31-865"><a href="#cb31-865"></a>::: {.callout-note}</span>
 <span id="cb31-866"><a href="#cb31-866"></a><span class="fu">## Supervised vs. Unsupervised Anomaly Detection</span></span>
 <span id="cb31-867"><a href="#cb31-867"></a></span>
-<span id="cb31-868"><a href="#cb31-868"></a>Both methods used here are **unsupervised** --- they don't require labelled examples of "extreme events."</span>
+<span id="cb31-868"><a href="#cb31-868"></a>The two methods used here are both **unsupervised** --- they don't require labelled examples of "extreme events."</span>
 <span id="cb31-869"><a href="#cb31-869"></a></span>
 <span id="cb31-870"><a href="#cb31-870"></a><span class="ss">- </span>**IQR method**: Purely statistical; assumes anomalies are values far from the central distribution. Simple and interpretable, but considers only one variable at a time.</span>
 <span id="cb31-871"><a href="#cb31-871"></a><span class="ss">- </span>**Isolation Forest**: A tree-based algorithm that isolates observations by randomly selecting features and split values. Anomalies --- being rare and different --- require fewer splits to isolate. It naturally handles multivariate interactions.</span>
@@ -3109,7 +3109,7 @@ if (outputEl) {{
 <span id="cb31-875"><a href="#cb31-875"></a></span>
 <span id="cb31-876"><a href="#cb31-876"></a><span class="fu">## 6. Time-Series Forecasting: Predicting Solar Activity</span></span>
 <span id="cb31-877"><a href="#cb31-877"></a></span>
-<span id="cb31-878"><a href="#cb31-878"></a>Can we predict solar activity? The ~11-year solar cycle provides a strong periodic signal, but the *amplitude* and *timing* of each cycle are notoriously difficult to forecast. Let's test two approaches on monthly-averaged sunspot numbers: a classical **SARIMA** model and Facebook's **Prophet**.</span>
+<span id="cb31-878"><a href="#cb31-878"></a>Can we predict solar activity? The ~11-year solar cycle provides a strong periodic signal, but the *amplitude* and *timing* of each cycle are very difficult to forecast. Let's test two approaches on monthly-averaged sunspot numbers: a classical **SARIMA** model and Facebook's **Prophet**.</span>
 <span id="cb31-879"><a href="#cb31-879"></a></span>
 <span id="cb31-880"><a href="#cb31-880"></a><span class="fu">### 6.1 Stationarity Analysis</span></span>
 <span id="cb31-881"><a href="#cb31-881"></a></span>
@@ -3304,11 +3304,11 @@ if (outputEl) {{
 <span id="cb31-1080"><a href="#cb31-1080"></a>::: {.callout-tip}</span>
 <span id="cb31-1081"><a href="#cb31-1081"></a><span class="fu">## Why Solar Cycle Prediction is Hard</span></span>
 <span id="cb31-1082"><a href="#cb31-1082"></a></span>
-<span id="cb31-1083"><a href="#cb31-1083"></a>The solar dynamo is a **chaotic, nonlinear** system. While the ~11-year periodicity is robust, the *amplitude* of each cycle varies dramatically. Key challenges:</span>
+<span id="cb31-1083"><a href="#cb31-1083"></a>The solar dynamo is a **chaotic, nonlinear** system. While the ~11-year periodicity is reliable, the *amplitude* of each cycle varies dramatically. Key challenges:</span>
 <span id="cb31-1084"><a href="#cb31-1084"></a></span>
 <span id="cb31-1085"><a href="#cb31-1085"></a><span class="ss">1. </span>**No perfect periodicity**: Cycle lengths range from 9 to 14 years, making seasonal modelling imprecise.</span>
 <span id="cb31-1086"><a href="#cb31-1086"></a><span class="ss">2. </span>**Amplitude unpredictability**: Physical models of the solar dynamo still struggle to predict the strength of the next cycle years in advance.</span>
-<span id="cb31-1087"><a href="#cb31-1087"></a><span class="ss">3. </span>**Stochastic bursts**: Individual flares and CMEs are essentially unpredictable more than a few days out.</span>
+<span id="cb31-1087"><a href="#cb31-1087"></a><span class="ss">3. </span>**Stochastic bursts**: Individual flares and CMEs are basically unpredictable more than a few days in advance.</span>
 <span id="cb31-1088"><a href="#cb31-1088"></a></span>
 <span id="cb31-1089"><a href="#cb31-1089"></a>State-of-the-art predictions combine statistical models with **physics-based solar dynamo simulations** and **precursor methods** (using polar magnetic field measurements to predict the next cycle's strength).</span>
 <span id="cb31-1090"><a href="#cb31-1090"></a>:::</span>
