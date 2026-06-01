@@ -1,36 +1,41 @@
 # Hey, I'm Léo
 
-I used to count money for private equity funds. Now I build models instead, and honestly I like it a lot more.
+I spent several years in finance, mostly in accounting, where my job was to produce the numbers. What I really wanted was the other side of that work: to interpret data and turn it into decisions. So I changed direction and moved into data, and I haven't looked back.
 
-After 3+ years in fund accounting (NAV calculations, investor allocations, distribution waterfalls across ~30 PE funds), I switched to data science. I didn't go the classic CS way. I did a certification at Mines ParisTech, spent a lot of late nights with PyTorch, and built projects I actually wanted to build.
+I didn't take the classic CS route. I did a Level 7 (Master-equivalent) Data Science certification with Mines ParisTech × DataScientest, a probability and statistics certification at the LSE, and then spent a lot of time building projects on real datasets to learn the way the job actually works.
 
 ## What I've been working on
 
-**[Prediction Market Arbitrage on Polymarket](https://leodid68.github.io/01-context-and-research.html)** (3-part series + LLM bonus)
-Found pricing inconsistencies across 1,289 correlated prediction market pairs. Used DeepSeek R1 for dependency analysis, linear programming for consistency checks, and Kelly criterion for portfolio sizing. Backtested across 1,166 markets. Not trading advice, just a fun rabbit hole that ended up touching NLP, optimization and Monte Carlo simulation at the same time.
+What I care about most is analytics: taking a messy dataset, finding the question that actually matters, and turning it into something a stakeholder can act on.
 
-**[Contextual Stacking for Real Estate Valuation](https://leodid68.github.io/stacking-walkthrough.html)**
-Ensemble approach to property pricing using XGBoost, LightGBM and CatBoost with geographic context in the meta-learner. Temporal out-of-fold validation + bootstrap confidence intervals. Tested on 359k real transactions across Île-de-France.
+**[The Ghost Marketplace — C2C Fashion EDA](https://leodid68.github.io/01-the-ghost-marketplace.html)**
+98,913 users on a French C2C fashion marketplace. Activation funnel, six behavioural segments, and the finding that a "registered users" metric hides almost everything that matters: around 0.5% of users carry most of the activity. Shipped as a Tableau-ready dataset.
 
-**[Fraud Detection: RL vs Random Forest](https://leodid68.github.io/fraud-detection-rl-vs-rf.html)**
-Trained a PPO reinforcement learning agent to catch fraud on the IEEE-CIS dataset (140k transactions), then compared it head-to-head with a Random Forest. Interesting accuracy-vs-recall trade-off between the two approaches.
+**[Banking Fraud Detection — SQL](https://leodid68.github.io/fraud-sql-analytics.html)**
+480,000 transactions across 9 PostgreSQL tables and 8 fraud patterns. Multi-CTE pipelines, window functions and a rule-based risk score, ending in 5 live Looker Studio dashboards on Supabase. One of the clearer results: 3D Secure blocks 92% of card fraud.
+
+### On the side (ML & quant)
+
+When I want something heavier, I build these:
+
+- **[Real Estate Valuation — Contextual Stacking](https://leodid68.github.io/stacking-walkthrough.html)** — an XGBoost / LightGBM / CatBoost ensemble on ~360,000 French property transactions, with temporal out-of-fold validation, SHAP explanations and about 12% median error.
+- **[FDA Adverse Event Analysis](https://leodid68.github.io/01-faers-data-pipeline-eda.html)** — 1.6M FDA adverse drug event reports, severity classification (XGBoost + SHAP), and pharmacovigilance signal detection with PRR & ROR.
+- **[Prediction Market Arbitrage](https://leodid68.github.io/01-context-and-research.html)** and **[Fraud Detection: RL vs Random Forest](https://leodid68.github.io/fraud-detection-rl-vs-rf.html)** — a couple of rabbit holes into LLM dependency analysis, optimization, and reinforcement learning.
 
 ## Stack
 
-Python (daily driver) · SQL · scikit-learn · PyTorch · pandas · Sentence-Transformers · XGBoost · Streamlit · Docker · Power BI · Git
-
-Also messing around with: LLM engineering (prompt design, structured output parsing, multi-model pipelines), time series forecasting, and whatever catches my attention on arXiv.
+Python (pandas, NumPy) · SQL / PostgreSQL (window functions, CTEs, JSONB) · Looker Studio · Tableau · Plotly · scikit-learn · XGBoost / LightGBM / CatBoost · SHAP · Excel · Git
 
 ## Background
 
-- **Data Science & AI**, RNCP Level 7 (Master equiv.), Mines ParisTech x DataScientest
-- **Probability & Statistics**, Micro-certification, LSE
-- **Fund Accounting**, Alter Domus (Luxembourg) and Veraltis (Paris), PE / asset management / LuxGAAP / IFRS
+- **Data Science & AI**, Level 7 (Master equivalent), Mines ParisTech × DataScientest
+- **Probability & Statistics**, LSE (micro-certification)
+- **Finance & accounting**, including fund accounting at Alter Domus (Luxembourg): NAV calculations, capital calls, distribution waterfalls and investor allocations across ~30 PE funds
 
 ## Currently
 
-Looking for my first data role (analyst / scientist / decision scientist), ideally somewhere in the Baltics or remote in Europe. EU citizen, available now, happy to relocate.
+Looking for my first data role (analyst / decision scientist), in the Baltics or remote in Europe. EU citizen, available now, set on relocating.
 
-If you're hiring, or you just want to chat about prediction markets, ensemble methods, or why fund accounting is secretly good training for data work, feel free to reach out.
+Happy to talk data, SQL, or why fund accounting is secretly decent training for analytics work.
 
-**leo.didier68@proton.me** · [linkedin.com/in/leo-didier](https://linkedin.com/in/leo-didier) · [portfolio](https://leodid68.github.io)
+**leo.didier68@proton.me** · [LinkedIn](https://linkedin.com/in/leodidierfr) · [Portfolio](https://leodid68.github.io)
