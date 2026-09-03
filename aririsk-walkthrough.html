@@ -74,7 +74,7 @@ html { scroll-behavior: smooth; }
         <div class="kpi-card"><div class="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-2">Focus</div><div class="text-3xl font-bold tracking-tight">PD</div></div>
       </div>
       <p class="text-2xl md:text-3xl font-light leading-snug tracking-tight max-w-3xl">
-        An early-warning engine on <span class="text-brand-indigo">375,000+ Estonian companies</span>. Not just code — anticipating payment defaults before they happen. SQL first, then a probability-of-default model.
+        A probability-of-default model on <span class="text-brand-indigo">375,000+ Estonian companies</span>. The queries are the analysis; the model comes after.
       </p>
     </div>
   </section>
@@ -90,20 +90,57 @@ html { scroll-behavior: smooth; }
         <span class="inline-block px-3 py-1 bg-brand-muted text-gallery-text/50 text-[10px] font-bold uppercase tracking-widest ml-2">Step 1</span>
       </div>
       <h3 class="text-3xl md:text-4xl mb-2">Data Profiling <span class="italic font-serif-accent normal-case text-brand-orange">· frame the scope first</span></h3>
-      <p class="text-lg font-light opacity-70 mb-8 max-w-3xl">The analyst reflex: check volumes, time bounds, coverage and quality before touching a model. The constraints shape everything — a single tax-arrears snapshot, not a time series. Knowing your data's limits from the start is what separates an analysis from an opinion.</p>
+      <p class="text-lg font-light opacity-70 mb-8 max-w-3xl">The analyst reflex: check volumes, time bounds, coverage and quality before touching a model. The main constraint is that tax arrears is a single snapshot, not a time series — so the analysis leans on the annual reports.</p>
       <div class="mb-6"><span class="inline-block px-3 py-1 bg-white/10 text-[9px] font-bold uppercase tracking-widest mr-2 mt-2">Volumes + time range</span><span class="inline-block px-3 py-1 bg-white/10 text-[9px] font-bold uppercase tracking-widest mr-2 mt-2">Coverage per company</span><span class="inline-block px-3 py-1 bg-white/10 text-[9px] font-bold uppercase tracking-widest mr-2 mt-2">Report density</span></div>
       <div class="border border-gallery-text/10"><pre class="overflow-x-auto"><code class="language-sql">-- =========================================================================
 -- 01 — DATA PROFILE : frame the scope
--- One row per metric (UNION ALL) : the same counts, flat and readable.
+-- 1.1 Overview : one row per metric (UNION ALL), flat and readable.
+-- 1.2-1.5 : the breakdown analyses (GROUP BY) that give the scope its shape.
 -- =========================================================================
-SELECT 'companies'         AS metric, COUNT(*) AS value FROM raw.companies
-UNION ALL SELECT 'annual_reports', COUNT(*)       FROM raw.annual_reports
+
+-- 1.1 --- Overview : volumes + temporal bounds ----------------------------
+SELECT 'companies'                 AS metric, COUNT(*) AS value FROM raw.companies
+UNION ALL SELECT 'annual_reports', COUNT(*)              FROM raw.annual_reports
 UNION ALL SELECT 'firms_with_reports', COUNT(DISTINCT reg_code) FROM raw.annual_reports
-UNION ALL SELECT 'firms_distressed', COUNT(*)       FROM marts.distress_label WHERE is_distressed
-UNION ALL SELECT 'firms_bankrupt', COUNT(*)         FROM marts.distress_label WHERE is_bankrupt
-UNION ALL SELECT 'min_year', MIN(report_year)::text FROM raw.annual_reports
-UNION ALL SELECT 'max_year', MAX(report_year)::text FROM raw.annual_reports
-ORDER BY metric;</code></pre></div>
+UNION ALL SELECT 'firms_distressed', COUNT(*)            FROM marts.distress_label WHERE is_distressed
+UNION ALL SELECT 'firms_bankrupt', COUNT(*)              FROM marts.distress_label WHERE is_bankrupt
+UNION ALL SELECT 'min_year', MIN(report_year)::text      FROM raw.annual_reports
+UNION ALL SELECT 'max_year', MAX(report_year)::text      FROM raw.annual_reports
+ORDER BY metric;
+-- Observed : 375,886 companies, 7 years of reports (2019-2025),
+-- a single tax-arrears snapshot (2026-08-10).
+
+-- 1.2 --- Breakdown by legal form + status ---------------------------------
+SELECT legal_form, status_text, COUNT(*) AS n
+FROM raw.companies
+GROUP BY legal_form, status_text
+ORDER BY n DESC
+LIMIT 20;
+
+-- 1.3 --- Sector breakdown (EMTAK section), latest year ---------------------
+SELECT emtak_section, COUNT(DISTINCT reg_code) AS n_companies
+FROM marts.ratios
+WHERE report_year = (SELECT MAX(report_year) FROM marts.ratios)
+GROUP BY emtak_section
+ORDER BY n_companies DESC;
+
+-- 1.4 --- "Reports per company" coverage (who has how many years) -----------
+SELECT n_reports, COUNT(*) AS n_companies
+FROM (
+  SELECT reg_code, COUNT(*) AS n_reports
+  FROM raw.annual_reports
+  GROUP BY reg_code
+) t
+GROUP BY n_reports
+ORDER BY n_reports;
+
+-- 1.5 --- Year-of-report density --------------------------------------------
+SELECT report_year,
+       COUNT(DISTINCT reg_code) AS n_companies,
+       COUNT(*)                 AS n_reports
+FROM raw.annual_reports
+GROUP BY report_year
+ORDER BY report_year;</code></pre></div>
     </div>
     <div class="mb-20">
       <div class="mb-4">
@@ -111,7 +148,7 @@ ORDER BY metric;</code></pre></div>
         <span class="inline-block px-3 py-1 bg-brand-muted text-gallery-text/50 text-[10px] font-bold uppercase tracking-widest ml-2">Step 2</span>
       </div>
       <h3 class="text-3xl md:text-4xl mb-2">Financial Ratios <span class="italic font-serif-accent normal-case text-brand-orange">· rebuild, then benchmark</span></h3>
-      <p class="text-lg font-light opacity-70 mb-8 max-w-3xl">The heart of the credit job: reconstruct the ratios by hand from the balance sheet (with NULLIF guards against divide-by-zero), then position a company against its sector's P10 / P50 / P90. A liquidity ratio under the sector's 10th percentile is a real signal, not a number.</p>
+      <p class="text-lg font-light opacity-70 mb-8 max-w-3xl">The heart of the credit job: reconstruct the ratios by hand from the balance sheet (with NULLIF guards against divide-by-zero), then position a company against its sector&#x27;s P10 / P50 / P90. A liquidity ratio under the sector&#x27;s 10th percentile is a real signal, not a number.</p>
       <div class="mb-6"><span class="inline-block px-3 py-1 bg-white/10 text-[9px] font-bold uppercase tracking-widest mr-2 mt-2">Margin / ROA / solvency</span><span class="inline-block px-3 py-1 bg-white/10 text-[9px] font-bold uppercase tracking-widest mr-2 mt-2">YoY growth via LAG</span><span class="inline-block px-3 py-1 bg-white/10 text-[9px] font-bold uppercase tracking-widest mr-2 mt-2">Sector benchmark P10/P50/P90</span></div>
       <div class="border border-gallery-text/10"><pre class="overflow-x-auto"><code class="language-sql">-- =========================================================================
 -- 02 — FINANCIAL RATIOS : rebuild the ratios in SQL + position a firm
@@ -131,20 +168,20 @@ SELECT
         / NULLIF(assets,0), 2)                            AS leverage_pct
 FROM raw.annual_reports
 WHERE NOT COALESCE(consolidated, false)   -- exclude consolidated accounts
-  AND assets > 0
+  AND assets &gt; 0
   AND report_year = 2024
 ORDER BY reg_code
 LIMIT 30;
 
 -- 2.2 --- Revenue growth year-over-year (LAG = a window) --------------------
--- LAG() grabs the previous row's value within the partition (here by company,
--- ordered by year) : the building block of any "evolution" feature.
+-- LAG() grabs the previous row&#x27;s value within the partition (here by company,
+-- ordered by year) : the building block of any &quot;evolution&quot; feature.
 WITH r AS (
   SELECT reg_code, report_year, revenue,
          LAG(revenue) OVER (PARTITION BY reg_code
                             ORDER BY report_year) AS rev_prev
   FROM raw.annual_reports
-  WHERE NOT COALESCE(consolidated, false) AND revenue > 0
+  WHERE NOT COALESCE(consolidated, false) AND revenue &gt; 0
 )
 SELECT reg_code, report_year, revenue, rev_prev,
        ROUND(100.0 * (revenue - rev_prev) / NULLIF(rev_prev,0), 1) AS growth_pct
@@ -153,16 +190,18 @@ WHERE rev_prev IS NOT NULL
 ORDER BY reg_code, report_year;
 
 -- 2.3 --- Position one company vs its sector (benchmark) --------------------
+-- Compare the firm&#x27;s ratios to the sector+year P10 / P50 / P90 benchmarks.
+-- Signal : a liquidity ratio UNDER the P10 = elevated risk.
 SELECT
   r.reg_code, r.report_year, r.emtak_section,
   r.liquidity        AS my_liquidity,
-  b.liquidite_p10, b.liquidite_p50, b.liquidite_p90,
+  b.liquidity_p10, b.liquidity_p50, b.liquidity_p90,
   CASE
-    WHEN r.liquidity < b.liquidite_p10 THEN 'BELOW P10 (elevated risk)'
-    WHEN r.liquidity < b.liquidite_p50 THEN 'below median'
-    ELSE                                'above median'
+    WHEN r.liquidity &lt; b.liquidity_p10 THEN &#x27;BELOW P10 (elevated risk)&#x27;
+    WHEN r.liquidity &lt; b.liquidity_p50 THEN &#x27;below median&#x27;
+    ELSE                                &#x27;above median&#x27;
   END AS liquidity_position,
-  r.solvency, b.solvabilite_p50,
+  r.solvency, b.solvency_p50,
   r.roa, b.roa_p50
 FROM marts.ratios r
 JOIN marts.benchmarks_emtak b
@@ -186,7 +225,7 @@ WHERE r.reg_code = 10051907;   -- TODO : replace with a real Estonian reg_code</
 
 -- 3.1 --- Distress rate by creation-year cohort -----------------------------
 -- [CAVEAT TO NAME OUT LOUD] Older cohorts have had more years to become
--- distressed, so they're more exposed and mechanically higher. That vintage
+-- distressed, so they&#x27;re more exposed and mechanically higher. That vintage
 -- effect must be mentioned.
 SELECT
   EXTRACT(YEAR FROM c.first_registration_date)::int AS cohort_year,
@@ -211,7 +250,7 @@ FROM marts.ratios r
 JOIN marts.distress_label d ON d.reg_code = r.reg_code
 WHERE r.report_year = (SELECT MAX(report_year) FROM marts.ratios)
 GROUP BY r.emtak_section
-HAVING COUNT(DISTINCT r.reg_code) > 50            -- ignore tiny samples
+HAVING COUNT(DISTINCT r.reg_code) &gt; 50            -- ignore tiny samples
 ORDER BY distress_rate_pct DESC;
 
 -- 3.3 --- Risk by legal form --------------------------------------------------
@@ -223,17 +262,17 @@ SELECT
         / NULLIF(COUNT(*),0), 2) AS rate_pct
 FROM marts.distress_label d
 GROUP BY d.legal_form
-HAVING COUNT(*) > 20
+HAVING COUNT(*) &gt; 20
 ORDER BY rate_pct DESC;
 
 -- 3.4 --- Risk by size band (revenue). latest year ----------------------------
 SELECT
   CASE
-    WHEN r.revenue IS NULL        THEN 'unknown'
-    WHEN r.revenue < 100000       THEN 'micro (<100k)'
-    WHEN r.revenue < 2000000      THEN 'small (100k-2M)'
-    WHEN r.revenue < 10000000     THEN 'medium (2M-10M)'
-    ELSE                          'large (>10M)'
+    WHEN r.revenue IS NULL        THEN &#x27;unknown&#x27;
+    WHEN r.revenue &lt; 100000       THEN &#x27;micro (&lt;100k)&#x27;
+    WHEN r.revenue &lt; 2000000      THEN &#x27;small (100k-2M)&#x27;
+    WHEN r.revenue &lt; 10000000     THEN &#x27;medium (2M-10M)&#x27;
+    ELSE                          &#x27;large (&gt;10M)&#x27;
   END AS size_band,
   COUNT(DISTINCT r.reg_code)                                  AS n,
   COUNT(DISTINCT r.reg_code) FILTER (WHERE d.is_distressed)     AS n_distressed,
@@ -245,7 +284,9 @@ WHERE r.report_year = (SELECT MAX(report_year) FROM marts.ratios)
 GROUP BY size_band
 ORDER BY rate_pct DESC;
 
--- 3.5 --- The tax-debt -> distress bridge -------------------------------------
+-- 3.5 --- The tax-debt -&gt; distress bridge -------------------------------------
+-- The information value of the MTA arrears : how often does a company with
+-- tax debt end up distressed?
 SELECT
   has_tax_debt,
   COUNT(*)                      AS n,
@@ -284,7 +325,9 @@ WITH feat AS (
     r.reg_code, r.report_year, r.emtak_section, r.revenue,
     r.net_margin, r.op_margin, r.roa, r.solvency, r.liquidity,
     r.debt_to_assets, r.revenue_growth,
+    -- governance proxy : filing delay (days between close and filing)
     (r.filing_date - r.period_end) AS filing_delay_days,
+    -- LAG : the same ratios, one year earlier (change is a strong signal)
     LAG(r.net_margin) OVER (PARTITION BY r.reg_code
                              ORDER BY r.report_year) AS net_margin_prev,
     LAG(r.liquidity)   OVER (PARTITION BY r.reg_code
@@ -293,7 +336,9 @@ WITH feat AS (
                              ORDER BY r.report_year) AS roa_prev,
     LAG(r.debt_to_assets) OVER (PARTITION BY r.reg_code
                              ORDER BY r.report_year) AS leverage_prev,
-    b.liquidite_p10, b.liquidite_p50,
+    -- sector benchmark (to capture relative positioning)
+    b.liquidity_p10, b.liquidity_p50,
+    -- target (default proxy)
     d.is_distressed
   FROM marts.ratios r
   LEFT JOIN marts.benchmarks_emtak b
@@ -303,18 +348,20 @@ WITH feat AS (
 )
 SELECT
   *,
-  (net_margin < net_margin_prev)         AS margin_declining,
-  (liquidity < liquidity_prev)            AS liquidity_declining,
-  (roa < roa_prev)                        AS profitability_declining,
-  (debt_to_assets > leverage_prev)       AS leverage_rising,
-  (liquidity < liquidite_p10)             AS below_benchmark_liquidity
+  -- Leading indicators (deteriorations) — the features that predict ----------
+  (net_margin &lt; net_margin_prev)         AS margin_declining,
+  (liquidity &lt; liquidity_prev)            AS liquidity_declining,
+  (roa &lt; roa_prev)                        AS profitability_declining,
+  (debt_to_assets &gt; leverage_prev)       AS leverage_rising,
+  (liquidity &lt; liquidity_p10)             AS below_benchmark_liquidity
 FROM feat
 WHERE report_year = (SELECT MAX(report_year) FROM marts.ratios);  -- latest year
 
 -- 4.2 --- Consecutive loss years (persistence of losses) ----------------------
+-- Spot companies that string losses together : a risk signal.
 WITH pertes AS (
   SELECT reg_code, report_year, net_profit,
-         (net_profit < 0)                              AS in_loss,
+         (net_profit &lt; 0)                              AS in_loss,
          LAG(net_profit) OVER (PARTITION BY reg_code
                                ORDER BY report_year)   AS np_prev
   FROM raw.annual_reports
@@ -322,6 +369,7 @@ WITH pertes AS (
 ),
 series AS (
   SELECT reg_code, report_year, in_loss,
+         -- break the run whenever it returns to profit -&gt; segments of losses
          SUM(CASE WHEN in_loss THEN 0 ELSE 1 END)
            OVER (PARTITION BY reg_code ORDER BY report_year) AS grp
   FROM pertes
@@ -333,7 +381,7 @@ GROUP BY reg_code, grp
 ORDER BY consecutive_loss_years DESC
 LIMIT 30;
 
--- 4.3 --- Table ready to export to Python ("target" column renamed) -----------
+-- 4.3 --- Table ready to export to Python (&quot;target&quot; column renamed) -----------
 -- Copy the result of 4.1 into a CSV / dataframe = the PD model input
 -- (target column : is_distressed)</code></pre></div>
     </div>
@@ -348,7 +396,7 @@ LIMIT 30;
       <div class="border border-gallery-text/10"><pre class="overflow-x-auto"><code class="language-sql">-- =========================================================================
 -- 05 — SCORING : an Altman-Z style credit score in SQL, then validated
 -- A simple, explainable score — tested against the target to see whether it
--- actually separates distressed firms. The SQL -> ML bridge.
+-- actually separates distressed firms. The SQL -&gt; ML bridge.
 -- =========================================================================
 
 -- 5.1 --- Altman-Z adapted to the present balance sheet ----------------------
@@ -366,7 +414,7 @@ WITH z AS (
          revenue                                         AS sales,
          assets                                          AS assets
   FROM raw.annual_reports
-  WHERE NOT COALESCE(consolidated, false) AND assets > 0
+  WHERE NOT COALESCE(consolidated, false) AND assets &gt; 0
 )
 SELECT
   reg_code, report_year,
@@ -374,10 +422,10 @@ SELECT
         + 0.6*(eq/liabilities) + 1.0*(sales/assets), 2) AS z_score,
   CASE
     WHEN 1.2*(wc/assets) + 1.4*(re/assets) + 3.3*(ebit/assets)
-          + 0.6*(eq/liabilities) + 1.0*(sales/assets) > 2.99 THEN 'green'
+          + 0.6*(eq/liabilities) + 1.0*(sales/assets) &gt; 2.99 THEN &#x27;green&#x27;
     WHEN 1.2*(wc/assets) + 1.4*(re/assets) + 3.3*(ebit/assets)
-          + 0.6*(eq/liabilities) + 1.0*(sales/assets) >= 1.81 THEN 'grey'
-    ELSE 'red'
+          + 0.6*(eq/liabilities) + 1.0*(sales/assets) &gt;= 1.81 THEN &#x27;grey&#x27;
+    ELSE &#x27;red&#x27;
   END AS z_zone
 FROM z
 WHERE report_year = (SELECT MAX(report_year) FROM raw.annual_reports);
@@ -392,7 +440,7 @@ WITH z AS (
     + 0.6*(a.equity/(a.current_liabilities + a.non_current_liabilities))
     + 1.0*(a.revenue/a.assets) AS z_score
   FROM raw.annual_reports a
-  WHERE NOT COALESCE(a.consolidated, false) AND a.assets > 0
+  WHERE NOT COALESCE(a.consolidated, false) AND a.assets &gt; 0
     AND a.report_year = (SELECT MAX(report_year) FROM raw.annual_reports)
 )
 SELECT d.is_distressed, COUNT(*) AS n,
@@ -403,6 +451,9 @@ JOIN marts.distress_label d ON d.reg_code = z.reg_code
 GROUP BY d.is_distressed;
 
 -- 5.3 --- Confusion matrix of the score vs the target (simple threshold) ------
+-- Convert the score to a binary prediction (threshold z&lt;1.81 = &quot;default&quot;),
+-- compare to the true target -&gt; TN / FP / FN / TP. The root of every PD
+-- model evaluation (AUC, precision, sensitivity).
 WITH z AS (
   SELECT a.reg_code,
     1.2*((a.current_assets - a.current_liabilities)/a.assets)
@@ -411,18 +462,18 @@ WITH z AS (
     + 0.6*(a.equity/(a.current_liabilities + a.non_current_liabilities))
     + 1.0*(a.revenue/a.assets) AS z_score
   FROM raw.annual_reports a
-  WHERE NOT COALESCE(a.consolidated, false) AND a.assets > 0
+  WHERE NOT COALESCE(a.consolidated, false) AND a.assets &gt; 0
     AND a.report_year = (SELECT MAX(report_year) FROM raw.annual_reports)
 )
 SELECT
-  (z.z_score < 1.81) AS pred_default,
+  (z.z_score &lt; 1.81) AS pred_default,
   d.is_distressed     AS actual_default,
   COUNT(*)          AS n
 FROM z
 JOIN marts.distress_label d ON d.reg_code = z.reg_code
 GROUP BY 1, 2
 ORDER BY 1, 2;
--- Interpretation : (pred=F, actual=T) = false negatives -> the score missed defaults.</code></pre></div>
+-- Interpretation : (pred=F, actual=T) = false negatives -&gt; the score missed defaults.</code></pre></div>
     </div>
     <div class="mb-20">
       <div class="mb-4">
@@ -430,7 +481,7 @@ ORDER BY 1, 2;
         <span class="inline-block px-3 py-1 bg-brand-muted text-gallery-text/50 text-[10px] font-bold uppercase tracking-widest ml-2">Step 6</span>
       </div>
       <h3 class="text-3xl md:text-4xl mb-2">Time Intelligence <span class="italic font-serif-accent normal-case text-brand-orange">· the advanced window functions</span></h3>
-      <p class="text-lg font-light opacity-70 mb-8 max-w-3xl">The patterns that appear everywhere in risk analytics: a 3-year rolling mean to smooth noise, RANK / PERCENT_RANK inside a sector to see who's the most indebted of their branch, FIRST_VALUE vs LAST_VALUE to detect deterioration, and the classic run-length for 3+ consecutive loss years.</p>
+      <p class="text-lg font-light opacity-70 mb-8 max-w-3xl">The patterns that appear everywhere in risk analytics: a 3-year rolling mean to smooth noise, RANK / PERCENT_RANK inside a sector to see who&#x27;s the most indebted of their branch, FIRST_VALUE vs LAST_VALUE to detect deterioration, and the classic run-length for 3+ consecutive loss years.</p>
       <div class="mb-6"><span class="inline-block px-3 py-1 bg-white/10 text-[9px] font-bold uppercase tracking-widest mr-2 mt-2">Rolling 3-year mean</span><span class="inline-block px-3 py-1 bg-white/10 text-[9px] font-bold uppercase tracking-widest mr-2 mt-2">RANK / PERCENT_RANK by sector</span><span class="inline-block px-3 py-1 bg-white/10 text-[9px] font-bold uppercase tracking-widest mr-2 mt-2">First vs last value</span></div>
       <div class="border border-gallery-text/10"><pre class="overflow-x-auto"><code class="language-sql">-- =========================================================================
 -- 06 — WINDOW / TIME INTELLIGENCE : the advanced windows
@@ -438,11 +489,13 @@ ORDER BY 1, 2;
 -- =========================================================================
 
 -- 6.1 --- 3-year rolling mean of net margin -----------------------------------
+-- &quot;ROWS BETWEEN n PRECEDING AND CURRENT ROW&quot; : a moving average that smooths
+-- noise to reveal the underlying trend.
 WITH r AS (
   SELECT reg_code, report_year, revenue, net_profit,
          ROUND(100.0 * net_profit / NULLIF(revenue,0), 2) AS margin
   FROM raw.annual_reports
-  WHERE NOT COALESCE(consolidated, false) AND revenue > 0
+  WHERE NOT COALESCE(consolidated, false) AND revenue &gt; 0
 )
 SELECT reg_code, report_year, margin,
        ROUND(AVG(margin) OVER (PARTITION BY reg_code ORDER BY report_year
@@ -452,6 +505,7 @@ FROM r
 ORDER BY reg_code, report_year;
 
 -- 6.2 --- Rank and percentile of leverage WITHIN the sector ------------------
+-- RANK / PERCENT_RANK by sector : who is the most indebted of their branch?
 SELECT reg_code, emtak_section, debt_to_assets,
        RANK()       OVER (PARTITION BY emtak_section
                           ORDER BY debt_to_assets DESC) AS leverage_rank,
@@ -462,6 +516,8 @@ WHERE report_year = (SELECT MAX(report_year) FROM marts.ratios)
 ORDER BY emtak_section, leverage_rank;
 
 -- 6.3 --- Deterioration : latest report vs first report -----------------------
+-- FIRST_VALUE vs LAST_VALUE : measure whether the firm has degraded since its
+-- first available report.
 WITH r AS (
   SELECT reg_code, report_year, roa, solvency, liquidity
   FROM marts.ratios
@@ -480,8 +536,9 @@ WHERE report_year = (SELECT MAX(report_year) FROM marts.ratios)
 ORDER BY roa_delta;
 
 -- 6.4 --- Companies with 3+ consecutive negative years ------------------------
+-- The classic &quot;run&quot; : detect long sequences of losses.
 WITH pertes AS (
-  SELECT reg_code, report_year, (net_profit < 0) AS in_loss
+  SELECT reg_code, report_year, (net_profit &lt; 0) AS in_loss
   FROM raw.annual_reports
   WHERE NOT COALESCE(consolidated, false)
 ),
@@ -495,7 +552,7 @@ SELECT reg_code, COUNT(*) AS consecutive_loss_years
 FROM series
 WHERE in_loss
 GROUP BY reg_code, grp
-HAVING COUNT(*) >= 3
+HAVING COUNT(*) &gt;= 3
 ORDER BY consecutive_loss_years DESC;</code></pre></div>
     </div>
       </div>
@@ -507,13 +564,13 @@ ORDER BY consecutive_loss_years DESC;</code></pre></div>
       <div>
         <h2 class="text-4xl md:text-5xl mb-10">Methodology &amp;<br/><span class="font-serif-accent italic normal-case text-brand-orange">Limits</span></h2>
         <h3 class="text-xl mb-3">The problem</h3>
-        <p class="mb-8 text-gallery-text/70">Anticipate payment default on 375,000+ Estonian companies. Target = distress proxy, not bankruptcy — the latter is a 0.18% event, rare and already too late.</p>
+        <p class="mb-8 text-gallery-text/70">Forecast the risk of payment default on 375,000+ Estonian companies. The target is a distress proxy rather than bankruptcy, because bankruptcy is a 0.18% event.</p>
         <h3 class="text-xl mb-3">The method</h3>
         <p class="text-gallery-text/70">Six SQL passes, each a credit-analyst reflex: profile the data, rebuild ratios, benchmark vs sector, read risk in cohorts, engineer PD features, score &amp; validate. Window functions and LAG model deterioration — the leading indicators of default.</p>
       </div>
       <div>
         <h3 class="text-xl mb-3">What the proxy teaches</h3>
-        <p class="text-gallery-text/70 mb-10">AUC, not accuracy. A model that predicted "nobody defaults" would be 99.8% accurate and useless.</p>
+        <p class="text-gallery-text/70 mb-10">Because default is rare, I evaluate with AUC rather than accuracy — accuracy would be meaningless on a 0.18% event.</p>
         <h3 class="text-xl mb-3">Honest limitations</h3>
         <ul class="list-disc pl-6 space-y-3 text-gallery-text/70 font-light">
           <li>Target is <strong>point-in-time</strong> (Aug 2026 snapshot) — no fine-grained default history.</li>
