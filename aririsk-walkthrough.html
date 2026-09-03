@@ -93,57 +93,17 @@ html { scroll-behavior: smooth; }
       <p class="text-lg font-light opacity-70 mb-8 max-w-3xl">The analyst reflex: check volumes, time bounds, coverage and quality before touching a model. The constraints shape everything — a single tax-arrears snapshot, not a time series. Knowing your data's limits from the start is what separates an analysis from an opinion.</p>
       <div class="mb-6"><span class="inline-block px-3 py-1 bg-white/10 text-[9px] font-bold uppercase tracking-widest mr-2 mt-2">Volumes + time range</span><span class="inline-block px-3 py-1 bg-white/10 text-[9px] font-bold uppercase tracking-widest mr-2 mt-2">Coverage per company</span><span class="inline-block px-3 py-1 bg-white/10 text-[9px] font-bold uppercase tracking-widest mr-2 mt-2">Report density</span></div>
       <div class="border border-gallery-text/10"><pre class="overflow-x-auto"><code class="language-sql">-- =========================================================================
--- 01 — DATA PROFILE : frame the scope before analysing
--- The data-profiler reflex : volumes, bounds, quality, coverage.
+-- 01 — DATA PROFILE : frame the scope
+-- One row per metric (UNION ALL) : the same counts, flat and readable.
 -- =========================================================================
-
--- 1.1 --- Overview : volumes + temporal bounds ----------------------------
-SELECT
-  (SELECT COUNT(*)         FROM raw.companies)                  AS n_companies,
-  (SELECT COUNT(*)         FROM raw.annual_reports)             AS n_reports,
-  (SELECT COUNT(DISTINCT reg_code) FROM raw.annual_reports)     AS firms_with_reports,
-  (SELECT COUNT(*)         FROM marts.distress_label
-     WHERE is_distressed)    AS n_distressed,
-  (SELECT COUNT(*)         FROM marts.distress_label
-     WHERE is_bankrupt)    AS n_bankruptcies,
-  (SELECT MIN(report_year) FROM raw.annual_reports)             AS min_year,
-  (SELECT MAX(report_year) FROM raw.annual_reports)             AS max_year,
-  (SELECT COUNT(DISTINCT snapshot_date) FROM raw.tax_arrears)   AS n_tax_snapshots;
-
--- Observed : 375,886 companies, 7 years of reports (2019-2025),
--- a single tax-arrears snapshot (2026-08-10).
-
--- 1.2 --- Breakdown by legal form + status ---------------------------------
-SELECT legal_form, status_text, COUNT(*) AS n
-FROM raw.companies
-GROUP BY legal_form, status_text
-ORDER BY n DESC
-LIMIT 20;
-
--- 1.3 --- Sector breakdown (EMTAK section), latest year ---------------------
-SELECT emtak_section, COUNT(DISTINCT reg_code) AS n_companies
-FROM marts.ratios
-WHERE report_year = (SELECT MAX(report_year) FROM marts.ratios)
-GROUP BY emtak_section
-ORDER BY n_companies DESC;
-
--- 1.4 --- "Reports per company" coverage (who has how many years) -----------
-SELECT n_reports, COUNT(*) AS n_companies
-FROM (
-  SELECT reg_code, COUNT(*) AS n_reports
-  FROM raw.annual_reports
-  GROUP BY reg_code
-) t
-GROUP BY n_reports
-ORDER BY n_reports;
-
--- 1.5 --- Year-of-report density --------------------------------------------
-SELECT report_year,
-       COUNT(DISTINCT reg_code) AS n_companies,
-       COUNT(*)                 AS n_reports
-FROM raw.annual_reports
-GROUP BY report_year
-ORDER BY report_year;</code></pre></div>
+SELECT 'companies'         AS metric, COUNT(*) AS value FROM raw.companies
+UNION ALL SELECT 'annual_reports', COUNT(*)       FROM raw.annual_reports
+UNION ALL SELECT 'firms_with_reports', COUNT(DISTINCT reg_code) FROM raw.annual_reports
+UNION ALL SELECT 'firms_distressed', COUNT(*)       FROM marts.distress_label WHERE is_distressed
+UNION ALL SELECT 'firms_bankrupt', COUNT(*)         FROM marts.distress_label WHERE is_bankrupt
+UNION ALL SELECT 'min_year', MIN(report_year)::text FROM raw.annual_reports
+UNION ALL SELECT 'max_year', MAX(report_year)::text FROM raw.annual_reports
+ORDER BY metric;</code></pre></div>
     </div>
     <div class="mb-20">
       <div class="mb-4">
@@ -193,8 +153,6 @@ WHERE rev_prev IS NOT NULL
 ORDER BY reg_code, report_year;
 
 -- 2.3 --- Position one company vs its sector (benchmark) --------------------
--- Compare the firm's ratios to the sector+year P10 / P50 / P90 benchmarks.
--- Signal : a liquidity ratio UNDER the P10 = elevated risk.
 SELECT
   r.reg_code, r.report_year, r.emtak_section,
   r.liquidity        AS my_liquidity,
@@ -288,8 +246,6 @@ GROUP BY size_band
 ORDER BY rate_pct DESC;
 
 -- 3.5 --- The tax-debt -> distress bridge -------------------------------------
--- The information value of the MTA arrears : how often does a company with
--- tax debt end up distressed?
 SELECT
   has_tax_debt,
   COUNT(*)                      AS n,
@@ -328,9 +284,7 @@ WITH feat AS (
     r.reg_code, r.report_year, r.emtak_section, r.revenue,
     r.net_margin, r.op_margin, r.roa, r.solvency, r.liquidity,
     r.debt_to_assets, r.revenue_growth,
-    -- governance proxy : filing delay (days between close and filing)
     (r.filing_date - r.period_end) AS filing_delay_days,
-    -- LAG : the same ratios, one year earlier (change is a strong signal)
     LAG(r.net_margin) OVER (PARTITION BY r.reg_code
                              ORDER BY r.report_year) AS net_margin_prev,
     LAG(r.liquidity)   OVER (PARTITION BY r.reg_code
@@ -339,9 +293,7 @@ WITH feat AS (
                              ORDER BY r.report_year) AS roa_prev,
     LAG(r.debt_to_assets) OVER (PARTITION BY r.reg_code
                              ORDER BY r.report_year) AS leverage_prev,
-    -- sector benchmark (to capture relative positioning)
     b.liquidite_p10, b.liquidite_p50,
-    -- target (default proxy)
     d.is_distressed
   FROM marts.ratios r
   LEFT JOIN marts.benchmarks_emtak b
@@ -351,7 +303,6 @@ WITH feat AS (
 )
 SELECT
   *,
-  -- Leading indicators (deteriorations) — the features that predict ----------
   (net_margin < net_margin_prev)         AS margin_declining,
   (liquidity < liquidity_prev)            AS liquidity_declining,
   (roa < roa_prev)                        AS profitability_declining,
@@ -361,7 +312,6 @@ FROM feat
 WHERE report_year = (SELECT MAX(report_year) FROM marts.ratios);  -- latest year
 
 -- 4.2 --- Consecutive loss years (persistence of losses) ----------------------
--- Spot companies that string losses together : a risk signal.
 WITH pertes AS (
   SELECT reg_code, report_year, net_profit,
          (net_profit < 0)                              AS in_loss,
@@ -372,7 +322,6 @@ WITH pertes AS (
 ),
 series AS (
   SELECT reg_code, report_year, in_loss,
-         -- break the run whenever it returns to profit -> segments of losses
          SUM(CASE WHEN in_loss THEN 0 ELSE 1 END)
            OVER (PARTITION BY reg_code ORDER BY report_year) AS grp
   FROM pertes
@@ -454,9 +403,6 @@ JOIN marts.distress_label d ON d.reg_code = z.reg_code
 GROUP BY d.is_distressed;
 
 -- 5.3 --- Confusion matrix of the score vs the target (simple threshold) ------
--- Convert the score to a binary prediction (threshold z<1.81 = "default"),
--- compare to the true target -> TN / FP / FN / TP. The root of every PD
--- model evaluation (AUC, precision, sensitivity).
 WITH z AS (
   SELECT a.reg_code,
     1.2*((a.current_assets - a.current_liabilities)/a.assets)
@@ -492,8 +438,6 @@ ORDER BY 1, 2;
 -- =========================================================================
 
 -- 6.1 --- 3-year rolling mean of net margin -----------------------------------
--- "ROWS BETWEEN n PRECEDING AND CURRENT ROW" : a moving average that smooths
--- noise to reveal the underlying trend.
 WITH r AS (
   SELECT reg_code, report_year, revenue, net_profit,
          ROUND(100.0 * net_profit / NULLIF(revenue,0), 2) AS margin
@@ -508,7 +452,6 @@ FROM r
 ORDER BY reg_code, report_year;
 
 -- 6.2 --- Rank and percentile of leverage WITHIN the sector ------------------
--- RANK / PERCENT_RANK by sector : who is the most indebted of their branch?
 SELECT reg_code, emtak_section, debt_to_assets,
        RANK()       OVER (PARTITION BY emtak_section
                           ORDER BY debt_to_assets DESC) AS leverage_rank,
@@ -519,8 +462,6 @@ WHERE report_year = (SELECT MAX(report_year) FROM marts.ratios)
 ORDER BY emtak_section, leverage_rank;
 
 -- 6.3 --- Deterioration : latest report vs first report -----------------------
--- FIRST_VALUE vs LAST_VALUE : measure whether the firm has degraded since its
--- first available report.
 WITH r AS (
   SELECT reg_code, report_year, roa, solvency, liquidity
   FROM marts.ratios
@@ -539,7 +480,6 @@ WHERE report_year = (SELECT MAX(report_year) FROM marts.ratios)
 ORDER BY roa_delta;
 
 -- 6.4 --- Companies with 3+ consecutive negative years ------------------------
--- The classic "run" : detect long sequences of losses.
 WITH pertes AS (
   SELECT reg_code, report_year, (net_profit < 0) AS in_loss
   FROM raw.annual_reports
