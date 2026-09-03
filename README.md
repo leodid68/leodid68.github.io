@@ -14,6 +14,8 @@ What I care about most is analytics: taking a messy dataset, finding the questio
 **[Banking Fraud Detection: SQL](https://leodid68.github.io/fraud-sql-analytics.html)**  
 480,000 approved transactions across 9 PostgreSQL tables and 7 fraud patterns. Multi-CTE pipelines, window functions and a rule-based risk score, ending in 5 live Looker Studio dashboards on Supabase. One of the clearer results: in this dataset, 92% of card-fraud cases bypassed 3D Secure.
 
+- **[Credit Risk: Early Warning Engine](https://leodid68.github.io/aririsk-walkthrough.html)**, 375,000+ Estonian companies — SQL-first credit scoring (ratios, cohorts, Altman-Z, window functions) plus a probability-of-default model (AUC 0.913).
+
 ### On the side (ML & quant)
 
 When I want something heavier, I build these:
